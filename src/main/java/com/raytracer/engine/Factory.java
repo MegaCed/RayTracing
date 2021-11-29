@@ -11,7 +11,11 @@ public class Factory {
 	 * Creates a Point (a Tuple with w=1).
 	 */
 	public static Tuple point(float x, float y, float z) {
-		return new Tuple(x, y, z, 1);
+		Tuple aTuple =  new Tuple(x, y, z, 1);
+		
+		logger.debug("Creating new Tuple: " + aTuple);
+		
+		return aTuple;
 	}
 	
 	/*

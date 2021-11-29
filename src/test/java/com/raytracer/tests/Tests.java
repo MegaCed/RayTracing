@@ -43,7 +43,7 @@ public class Tests {
 	}
 	
 	/*
-	 * Test if 2 values are in equals (using an Epsilon value).
+	 * Test if 2 values are in equals (using an Epsilon tolerance).
 	 */
 	@Test
 	public void testEqualsEpsilon() {
@@ -56,7 +56,7 @@ public class Tests {
 		
 		assertEquals(true, result, "Values are not equals!");
 		
-		// Create 2 floats with an inacceptable difference
+		// Create 2 floats with an unacceptable difference
 		value1 = 1.0f;
 	    value2 = 1.00002f;
 		

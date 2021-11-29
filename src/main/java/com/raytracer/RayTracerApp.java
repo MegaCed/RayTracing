@@ -10,8 +10,11 @@ public class RayTracerApp {
 	
 	private static Logger logger = LoggerFactory.getLogger(RayTracerApp.class);
 
+	/*
+	 * Make some tests...
+	 */
 	public static void main(String[] args) {
-		System.out.println("Starting App...");
+		logger.debug("Starting App...");
 
 		// Simple point
 		Tuple tuple1 = new Tuple(1.0f, 1.0f, 1.0f, 1.0f);
@@ -21,7 +24,7 @@ public class RayTracerApp {
 		Tuple tuple2 = new Tuple(1.0f, 1.0f, 1.0f, 0.0f);
 		logger.info(tuple2.toString());
 		
-		System.out.println("Done!");
+		logger.info("Done!");
 	}
 
 }
