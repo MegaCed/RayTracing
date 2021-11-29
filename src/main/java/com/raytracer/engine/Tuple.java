@@ -53,7 +53,9 @@ public class Tuple {
 		this.w = w;
 	}
 	
-	// Constructor
+	/*
+	 * Constructor.
+	 */
 	public Tuple(float x, float y, float z, float w) {
 		this.x = x;
 		this.y = y;
@@ -61,21 +63,30 @@ public class Tuple {
 		this.w = w;
 	}
 	
-	// Tells if the Tuple is a point
+	/*
+	 * Tells if the Tuple is a point.
+	 */
 	public boolean isPoint() {
 		return w != 0;
 	}
 	
-	// Tells if the Tuple is a vector
+	/*
+	 * Tells if the Tuple is a vector.
+	 */
 	public boolean isVector() {
 		return w == 0;
 	}
 	
-	// Prints this Tuple
-	public void print() {
+	/*
+	 * Prints this Tuple.
+	 */
+
+	public String toString() {
 		String type = isPoint() ? "point" : "vector";
 		
-		System.out.println("Tuple(x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ") is a " + type);
+		String result = "Tuple(x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ") -> " + type;
+		
+		return result;
 	}
 	
 	
