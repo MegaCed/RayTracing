@@ -83,7 +83,6 @@ public class Tuple {
 
 	public String toString() {
 		String type = isPoint() ? "point" : "vector";
-		
 		String result = "Tuple(x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ") -> " + type;
 		
 		return result;

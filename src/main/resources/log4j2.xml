@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="INFO">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
+        <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.raytracer" level="debug">
-        <AppenderRef ref="Console"/>
+		<!-- avoid duplicated logs with additivity=false -->
+        <Logger name="com.raytracer" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="WARN">
-            <AppenderRef ref="Console"/>
+        <Root level="error">
+            <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>
 </Configuration>

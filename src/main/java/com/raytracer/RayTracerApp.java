@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.Tuple;
 
+/*
+ * Used for miscellaneous testing...
+ */
 public class RayTracerApp {
 	
 	private static Logger logger = LoggerFactory.getLogger(RayTracerApp.class);
@@ -14,7 +17,7 @@ public class RayTracerApp {
 	 * Make some tests...
 	 */
 	public static void main(String[] args) {
-		logger.debug("Starting App...");
+		logger.info("Starting App...");
 
 		// Simple point
 		Tuple tuple1 = new Tuple(1.0f, 1.0f, 1.0f, 1.0f);

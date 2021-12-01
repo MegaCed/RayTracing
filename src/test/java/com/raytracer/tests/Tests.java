@@ -5,18 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.raytracer.engine.Factory;
-import com.raytracer.engine.Operation;
+import com.raytracer.engine.Arithmetic;
 import com.raytracer.engine.Tuple;
 
 public class Tests {
-	
-	/*
-	 * Dummy test.
-	 */
-	@Test
-	public void testDummy() {
-		assertTrue(true);
-	}
 	
 	/*
 	 * Test the creation of a new Point.
@@ -52,7 +44,7 @@ public class Tests {
 		float value2 = 1.000001f;
 		
 		// Compare them
-		boolean result = Operation.equalsEpsilon(value1, value2);
+		boolean result = Arithmetic.equalsEpsilon(value1, value2);
 		
 		assertEquals(true, result, "Values are not equals!");
 		
@@ -61,10 +53,77 @@ public class Tests {
 	    value2 = 1.00002f;
 		
 		// Compare them
-		result = Operation.equalsEpsilon(value1, value2);
+		result = Arithmetic.equalsEpsilon(value1, value2);
 		
 		assertEquals(false, result, "Values are not equals!");
+	}
+	
+	/*
+	 * Test the addition of Tuples.
+	 */
+	@Test
+	public void testAddition() {
+		// Create a Point
+		Tuple aPoint = Factory.point(3, -2, 5);
 		
+		// Create a Vector
+		Tuple aVector = Factory.vector(-2, 3, 1);
+		
+		// Add them
+		Tuple result = Arithmetic.add(aPoint, aVector);
+		
+		assertEquals(1, result.getX(), "X has wrong value!");
+		assertEquals(1, result.getY(), "Y has wrong value!");
+		assertEquals(6, result.getZ(), "Z has wrong value!");
+		assertEquals(true, result.isPoint(), "Result must be a point!");
+	}
+	
+	/*
+	 * Test the subtraction of Tuples.
+	 */
+	@Test
+	public void testSubtraction() {
+		// Create a Point
+		Tuple aPoint = Factory.point(3, 2, 1);
+		
+		// Create a Point
+		Tuple anotherPoint = Factory.point(5, 6, 7);
+		
+		// Subtract them
+		Tuple result = Arithmetic.sub(aPoint, anotherPoint);
+		
+		assertEquals(-2, result.getX(), "X has wrong value!");
+		assertEquals(-4, result.getY(), "Y has wrong value!");
+		assertEquals(-6, result.getZ(), "Z has wrong value!");
+		assertEquals(true, result.isVector(), "Result must be a vector!");
+		
+		// Create a Point
+		aPoint = Factory.point(3, 2, 1);
+		
+		// Create a Vector
+		Tuple aVector = Factory.vector(5, 6, 7);
+		
+		// Subtract a Vector from a Point
+		result = Arithmetic.sub(aPoint, aVector);
+		
+		assertEquals(-2, result.getX(), "X has wrong value!");
+		assertEquals(-4, result.getY(), "Y has wrong value!");
+		assertEquals(-6, result.getZ(), "Z has wrong value!");
+		assertEquals(true, result.isPoint(), "Result must be a point!");
+		
+		// Create a Vector
+		aVector = Factory.vector(3, 2, 1);
+		
+		// Create another Vector
+		Tuple anotherVector = Factory.vector(5, 6, 7);
+		
+		// Subtract a Vector from a Vector
+		result = Arithmetic.sub(aVector, anotherVector);
+		
+		assertEquals(-2, result.getX(), "X has wrong value!");
+		assertEquals(-4, result.getY(), "Y has wrong value!");
+		assertEquals(-6, result.getZ(), "Z has wrong value!");
+		assertEquals(true, result.isVector(), "Result must be a vector!");
 	}
 
 }
