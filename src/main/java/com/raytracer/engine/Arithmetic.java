@@ -44,6 +44,10 @@ public class Arithmetic {
 	
 	/*
 	 * Subtracts 2 Tuples.
+	 * Point - Point = Vector (w=0)
+	 * Point - Vector = Point (w=1)
+	 * Vector - Vector = Vector (w=0)
+	 * Vector - Point = nonsense!
 	 */
 	public static Tuple sub(Tuple tuple1, Tuple tuple2) {
 		Float x = tuple1.getX() - tuple2.getX();
@@ -62,10 +66,41 @@ public class Arithmetic {
 	
 	/*
 	 * Negating a Tuple.
+	 * To retrieve the opposite of a vector...
 	 */
 	public static Tuple neg(Tuple aTuple) {
-		// TODO
-		return null;
+		Float x = aTuple.getX() * -1;
+		Float y = aTuple.getY() * -1;
+		Float z = aTuple.getZ() * -1;
+		Float w = aTuple.getW() * -1;
+		
+		aTuple.setX(x);
+		aTuple.setY(y);
+		aTuple.setZ(z);
+		aTuple.setW(w);
+		
+		logger.debug("Result of negation: " + aTuple);
+		
+		return aTuple;
+	}
+	
+	/*
+	 * Multiply a Tuple by a scalar (or a fraction).
+	 */
+	public static Tuple mul(Tuple aTuple, Float scalar) {
+		Float x = aTuple.getX() * scalar;
+		Float y = aTuple.getY() * scalar;
+		Float z = aTuple.getZ() * scalar;
+		Float w = aTuple.getW() * scalar;
+		
+		aTuple.setX(x);
+		aTuple.setY(y);
+		aTuple.setZ(z);
+		aTuple.setW(w);
+		
+		logger.debug("Result of multiplication: " + aTuple);
+		
+		return aTuple;
 	}
 	
 }

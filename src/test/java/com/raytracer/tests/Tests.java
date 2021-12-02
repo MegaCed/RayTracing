@@ -125,5 +125,52 @@ public class Tests {
 		assertEquals(-6, result.getZ(), "Z has wrong value!");
 		assertEquals(true, result.isVector(), "Result must be a vector!");
 	}
+	
+	/*
+	 * Test the negation of a Tuple.
+	 */
+	@Test
+	public void testNegation() {
+		// Create a Tuple
+		Tuple aTuple = new Tuple(1, -2, 3, -4);
+		
+		// Negate this Tuple
+		Arithmetic.neg(aTuple);
+		
+		assertEquals(-1, aTuple.getX(), "X has wrong value!");
+		assertEquals(2, aTuple.getY(), "Y has wrong value!");
+		assertEquals(-3, aTuple.getZ(), "Z has wrong value!");
+		assertEquals(4, aTuple.getW(), "W has wrong value!");
+	}
+	
+	/*
+	 * Test the multiplication of a Tuple.
+	 */
+	@Test
+	public void testMultiplication() {
+		// Create a Tuple
+		Tuple aTuple = new Tuple(1, -2, 3, -4);
+		Float scalar = 3.5f;
+		
+		// Negate this Tuple
+		Arithmetic.mul(aTuple, scalar);
+		
+		assertEquals(3.5f, aTuple.getX(), "X has wrong value!");
+		assertEquals(-7f, aTuple.getY(), "Y has wrong value!");
+		assertEquals(10.5f, aTuple.getZ(), "Z has wrong value!");
+		assertEquals(-14f, aTuple.getW(), "W has wrong value!");
+		
+		// Create a Tuple
+		aTuple = new Tuple(1, -2, 3, -4);
+		scalar = 0.5f;
+		
+		// Negate this Tuple
+		Arithmetic.mul(aTuple, scalar);
+		
+		assertEquals(0.5f, aTuple.getX(), "X has wrong value!");
+		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
+		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
+		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+	}
 
 }
