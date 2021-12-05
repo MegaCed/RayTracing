@@ -3,6 +3,8 @@ package com.raytracer.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.Arithmetic;
@@ -10,11 +12,16 @@ import com.raytracer.engine.Tuple;
 
 public class Tests {
 	
+	private static Logger logger = LoggerFactory.getLogger(Tests.class);
+	
 	/*
 	 * Test the creation of a new Point.
 	 */
 	@Test
 	public void testIsPoint() {
+		logger.info("Testing points...");
+		logger.info("-----");
+		
 		// Create a tuple
 		Tuple aPoint = Factory.point(1, 1, 1);
 		
@@ -27,6 +34,9 @@ public class Tests {
 	 */
 	@Test
 	public void testIsVector() {
+		logger.info("Testing vectors...");
+		logger.info("-----");
+		
 		// Create a tuple
 		Tuple aPoint = Factory.vector(1, 1, 1);
 		
@@ -39,6 +49,9 @@ public class Tests {
 	 */
 	@Test
 	public void testEqualsEpsilon() {
+		logger.info("Testing equality...");
+		logger.info("-----");
+		
 		// Create 2 floats with an acceptable difference
 		float value1 = 1.0f;
 		float value2 = 1.000001f;
@@ -63,6 +76,9 @@ public class Tests {
 	 */
 	@Test
 	public void testAddition() {
+		logger.info("Testing addition...");
+		logger.info("-----");
+		
 		// Create a Point
 		Tuple aPoint = Factory.point(3, -2, 5);
 		
@@ -83,6 +99,9 @@ public class Tests {
 	 */
 	@Test
 	public void testSubtraction() {
+		logger.info("Testing subtraction...");
+		logger.info("-----");
+		
 		// Create a Point
 		Tuple aPoint = Factory.point(3, 2, 1);
 		
@@ -131,6 +150,9 @@ public class Tests {
 	 */
 	@Test
 	public void testNegation() {
+		logger.info("Testing negation...");
+		logger.info("-----");
+		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
 		
@@ -148,11 +170,14 @@ public class Tests {
 	 */
 	@Test
 	public void testMultiplication() {
+		logger.info("Testing multiplication...");
+		logger.info("-----");
+		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
-		Float scalar = 3.5f;
+		float scalar = 3.5f;
 		
-		// Negate this Tuple
+		// Multiply this Tuple
 		Arithmetic.mul(aTuple, scalar);
 		
 		assertEquals(3.5f, aTuple.getX(), "X has wrong value!");
@@ -164,13 +189,135 @@ public class Tests {
 		aTuple = new Tuple(1, -2, 3, -4);
 		scalar = 0.5f;
 		
-		// Negate this Tuple
+		// Multiply this Tuple
 		Arithmetic.mul(aTuple, scalar);
 		
 		assertEquals(0.5f, aTuple.getX(), "X has wrong value!");
 		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
 		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
 		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+	}
+	
+	/*
+	 * Test the division of a Tuple.
+	 */
+	@Test
+	public void testDivision() {
+		logger.info("Testing division...");
+		logger.info("-----");
+		
+		// Create a Tuple
+		Tuple aTuple = new Tuple(1, -2, 3, -4);
+		float scalar = 2f;
+		
+		// Divide this Tuple
+		Arithmetic.div(aTuple, scalar);
+		
+		assertEquals(0.5f, aTuple.getX(), "X has wrong value!");
+		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
+		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
+		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+	}
+	
+	/*
+	 * Test the magnitude of a Tuple.
+	 */
+	@Test
+	public void testMagnitude() {
+		logger.info("Testing magnitude...");
+		logger.info("-----");
+		
+		// Create a Vector
+		Tuple aVector = Factory.vector(1, 0, 0);
+		
+		// Get the magnitude of this Vector
+		float result = Arithmetic.magnitude(aVector);
+		
+		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		
+		// Create a Vector
+		aVector = Factory.vector(0, 1, 0);
+		
+		// Get the magnitude of this Vector
+		result = Arithmetic.magnitude(aVector);
+		
+		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		
+		// Create a Vector
+		aVector = Factory.vector(0, 0, 1);
+		
+		// Get the magnitude of this Vector
+		result = Arithmetic.magnitude(aVector);
+		
+		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		
+		// Create a Vector
+		aVector = Factory.vector(1, 2, 3);
+		
+		// Get the magnitude of this Vector
+		result = Arithmetic.magnitude(aVector);
+		
+		// Compare the result (using Epsilon)
+		boolean equalsEpsilon = Arithmetic.equalsEpsilon(result, (float)Math.sqrt(14));
+		assertEquals(true, equalsEpsilon, "Wrong magnitude for the Vector!");
+		
+		// Create a Vector
+		aVector = Factory.vector(-1, -2, -3);
+		
+		// Get the magnitude of this Vector
+		result = Arithmetic.magnitude(aVector);
+		
+		// Compare the result (using Epsilon)
+		equalsEpsilon = Arithmetic.equalsEpsilon(result, (float)Math.sqrt(14));
+		assertEquals(true, equalsEpsilon, "Wrong magnitude for the Vector!");
+	}
+	
+	/*
+	 * Test the normalization of a Tuple.
+	 */
+	@Test
+	public void testNormalization() {
+		logger.info("Testing normalization...");
+		logger.info("-----");
+		
+		// Create a Vector
+		Tuple aVector = Factory.vector(4, 0, 0);
+		
+		// Normalize this Vector
+		Tuple result = Arithmetic.normalize(aVector);
+		
+		assertEquals(1f, result.getX(), "X has wrong value!");
+		assertEquals(0, result.getY(), "Y has wrong value!");
+		assertEquals(0, result.getZ(), "Z has wrong value!");
+		
+		// Create a Vector
+		aVector = Factory.vector(1, 2, 3);
+		
+		// Normalize this Vector
+		result = Arithmetic.normalize(aVector);
+		
+		// Compare the result (using Epsilon)
+		boolean xEpsilon = Arithmetic.equalsEpsilon(result.getX(), 1 / (float)Math.sqrt(14));
+		boolean yEpsilon = Arithmetic.equalsEpsilon(result.getY(), 2 / (float)Math.sqrt(14));
+		boolean zEpsilon = Arithmetic.equalsEpsilon(result.getZ(), 3 / (float)Math.sqrt(14));
+		
+		assertEquals(true, xEpsilon, "X has wrong value!");
+		assertEquals(true, yEpsilon, "Y has wrong value!");
+		assertEquals(true, zEpsilon, "Z has wrong value!");
+		
+		// Test the magnitude of a normalized Vector
+		
+		// Create a Vector
+		aVector = Factory.vector(1, 2, 3);
+		
+		// Normalize this Vector
+		result = Arithmetic.normalize(aVector);
+		
+		// Get the magnitude of this Vector
+		float magnitude = Arithmetic.magnitude(result);
+		boolean magnitudeEpsilon = Arithmetic.equalsEpsilon(magnitude, 1);
+		
+		assertEquals(true, magnitudeEpsilon, "Wrong magnitude for the normalized Vector!");
 	}
 
 }
