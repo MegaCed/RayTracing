@@ -80,13 +80,11 @@ public class Tuple {
 	/*
 	 * Prints this Tuple.
 	 */
-
 	public String toString() {
-		String type = isPoint() ? "point" : "vector";
-		String result = "Tuple(x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ") -> " + type;
+		String type = isPoint() ? "Point" : "Vector";
+		String result = type + " (x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ")";
 		
 		return result;
 	}
-	
 	
 }

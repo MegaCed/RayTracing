@@ -15,8 +15,16 @@ public class Arithmetic {
 	
 	/*
 	 * Test for equality, using Epsilon as acceptable error.
+	 * 
+	 * When you need to test two floating point numbers for equivalence, compare their difference. 
+	 * If the absolute value of their difference is less than some value (called EPSILON), you can 
+	 * consider them equal.
 	 */
 	public static boolean equalsEpsilon(float value1, float value2) {
+		logger.debug("Comparing 2 values with an Epsilon of: " + String.format("%f", EPSILON));
+		logger.debug("1st value: " + value1);
+		logger.debug("2nd value: " + value2);
+		
 		if (Math.abs(value1 - value2) < EPSILON) {
 			return true;
 		}
@@ -25,9 +33,18 @@ public class Arithmetic {
 	}
 	
 	/*
-	 * Adds 2 Tuples.
+	 * Addition.
+	 * 
+	 * Imagine that you have a point and a vector, and you want to know where you would be if you 
+	 * followed the vector from that point. The answer comes via adding the two tuples together.
+	 * 
 	 */
 	public static Tuple add(Tuple tuple1, Tuple tuple2) {
+		logger.debug("Adding 2 Tuples...");
+		logger.debug("1st Tuple: " + tuple1);
+		logger.debug("2nd Tuple: " + tuple2);
+		
+		// You make a new tuple by adding the corresponding components of each of the operands
 		float x = tuple1.getX() + tuple2.getX();
 		float y = tuple1.getY() + tuple2.getY();
 		float z = tuple1.getZ() + tuple2.getZ();
@@ -43,13 +60,20 @@ public class Arithmetic {
 	}
 	
 	/*
-	 * Subtracts 2 Tuples.
-	 * Point - Point = Vector (w=0)
-	 * Point - Vector = Point (w=1)
+	 * Subtraction.
+	 * 
+	 * It come in handy when you need to find the vector that points to your light source.
+	 *
+	 * Point  - Point  = Vector (w=0)
+	 * Point  - Vector = Point (w=1)
 	 * Vector - Vector = Vector (w=0)
-	 * Vector - Point = nonsense!
+	 * Vector - Point  = nonsense!
 	 */
 	public static Tuple sub(Tuple tuple1, Tuple tuple2) {
+		logger.debug("Subtracting 2 Tuples...");
+		logger.debug("1st Tuple: " + tuple1);
+		logger.debug("2nd Tuple: " + tuple2);
+		
 		float x = tuple1.getX() - tuple2.getX();
 		float y = tuple1.getY() - tuple2.getY();
 		float z = tuple1.getZ() - tuple2.getZ();
@@ -65,12 +89,16 @@ public class Arithmetic {
 	}
 	
 	/*
-	 * Negating a Tuple.
-	 * To retrieve the opposite of a vector...
+	 * Negating.
+	 * 
+	 * Sometimes you’ll want to know what the opposite of some vector is. That is to say, given a 
+	 * vector that points from a surface toward a light source, what vector points from the light 
+	 * source back to the surface?
 	 */
 	public static Tuple neg(Tuple aTuple) {
 		logger.debug("Negating Tuple: " + aTuple);
 		
+		// Negate each component of the tuple
 		float x = aTuple.getX() * -1;
 		float y = aTuple.getY() * -1;
 		float z = aTuple.getZ() * -1;
@@ -81,15 +109,22 @@ public class Arithmetic {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Result of negation: " + aTuple);
+		logger.debug("Negated Tuple: " + aTuple);
 		
 		return aTuple;
 	}
 	
 	/*
-	 * Multiply a Tuple by a scalar (or a fraction).
+	 * Scalar multiplication.
+	 * 
+	 * Let’s say you have some vector and you want to know what point lies 3.5 times farther in that 
+	 * direction (When you’re finding where a ray intersects a sphere).
+	 * So you lay that vector end-to-end 3.5 times to see just how far the point is from the start.
 	 */
 	public static Tuple mul(Tuple aTuple, Float scalar) {
+		logger.debug("Multiply Tuple: " + aTuple + " by " + scalar);
+		
+		// Multiply each component of the tuple by the scalar
 		float x = aTuple.getX() * scalar;
 		float y = aTuple.getY() * scalar;
 		float z = aTuple.getZ() * scalar;
@@ -100,16 +135,21 @@ public class Arithmetic {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Multiply Tuple: " + aTuple + " by " + scalar);
 		logger.debug("Result of multiplication: " + aTuple);
 		
 		return aTuple;
 	}
 	
 	/*
-	 * Divide a Tuple by a scalar.
+	 * Division.
+	 * 
+	 * You can always implement division with multiplication, but sometimes it’s simpler to describe 
+	 * an operation as division.
 	 */
 	public static Tuple div(Tuple aTuple, Float scalar) {
+		logger.debug("Dividing Tuple: " + aTuple + " by " + scalar);
+		
+		// Divide each component of the tuple by the scalar
 		float x = aTuple.getX() / scalar;
 		float y = aTuple.getY() / scalar;
 		float z = aTuple.getZ() / scalar;
@@ -120,17 +160,21 @@ public class Arithmetic {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Dividing Tuple: " + aTuple + " by " + scalar);
 		logger.debug("Result of division: " + aTuple);
 		
 		return aTuple;
 	}
 	
 	/*
-	 * Retrieve the magnitude of a Vector.
-	 * (The distance from one end to another.)
+	 * Magnitude.
+	 * 
+	 * The distance represented by a vector is called its magnitude, or length. It’s how far you 
+	 * would travel in a straight line if you were to walk from one end of the vector to the other.
 	 */
 	public static float magnitude(Tuple aVector) {
+		logger.debug("Retrieving magnitude of vector: " + aVector);
+		
+		// Pythagoras’ theorem taught us how to compute this, with some squares and a square root
 		float x2 = (float) Math.pow(aVector.getX(), 2);
 		float y2 = (float) Math.pow(aVector.getY(), 2);
 		float z2 = (float) Math.pow(aVector.getZ(), 2);
@@ -138,20 +182,27 @@ public class Arithmetic {
 		
 		float result = (float) Math.sqrt(x2+y2+z2+w2);
 		
-		logger.debug("Magnitude of the vector: " + aVector  + " = " + result);
+		logger.debug("Magnitude: " + result);
 				
 		return result;
 	}
 	
 	/*
-	 * Normalize a Vector.
-	 * You normalize a Tuple by dividing each of its components by its magnitude.
+	 * Normalization.
 	 * 
+	 * Normalization is the process of taking an arbitrary vector and converting it into a unit 
+	 * vector. It will keep your calculations anchored relative to a common scale (the unit vector).
+	 * 
+	 * If you were to skip normalizing your ray vectors or your surface normals, your calculations 
+	 * would be scaled differently for every ray you cast, and your scenes would look terrible.
 	 */
 	public static Tuple normalize(Tuple aTuple) {
+		logger.debug("Normalizing Tuple: " + aTuple);
+		
 		// Retrieve the magnitude of the Tuple
 		float magnitude = magnitude(aTuple);
 		
+		// You normalize a Tuple by dividing each of its components by its magnitude
 		float x = aTuple.getX() / magnitude;
 		float y = aTuple.getY() / magnitude;
 		float z = aTuple.getZ() / magnitude;
@@ -159,10 +210,72 @@ public class Arithmetic {
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug("Normalizing Tuple: " + aTuple);
-		logger.debug("Result of normalization: " + result);
+		logger.debug("Normalized Tuple: " + result);
 		
 		return result;
+	}
+	
+	/*
+	 * Dot product.
+	 * 
+	 * When dealing with vectors, a dot product (also called a scalar product, or inner product) is 
+	 * going to turn up when you start intersecting rays with objects, as well as when you compute 
+	 * the shading on a surface. The dot product takes two vectors and returns a scalar value.
+	 * 
+	 * The dot product can feel pretty abstract, but here’s one quick way to internalize it: the 
+	 * smaller the dot product, the larger the angle between the vectors. For example, given two 
+	 * unit vectors, a dot product of 1 means the vectors are identical, and a dot product of -1 
+	 * means they point in opposite directions.
+	 */
+	public static float dot(Tuple vector1, Tuple vector2) {
+		logger.debug("Dot product of 2 Vectors...");
+		logger.debug("1st Vector: " + vector1);
+		logger.debug("2nd Vector: " + vector2);
+		
+		
+		// The dot product is computed as the sum of the products of the corresponding components 
+		// of each vector
+		float x = vector1.getX() * vector2.getX();
+		float y = vector1.getY() * vector2.getY();
+		float z = vector1.getZ() * vector2.getZ();
+		float w = vector1.getW() * vector2.getW();
+		
+		float result = x + y + z + w;
+		
+		logger.debug("Dot product: " + result);
+		
+		return result;
+	}
+	
+	/*
+	 * Cross product.
+	 * 
+	 * The cross product is another vector operation, but unlike the dot product, it returns another 
+	 * vector instead of a scalar.
+	 * 
+	 * Note that this is specifically testing vectors, not tuples. This is because the 
+	 * four-dimensional cross product is significantly more complicated than the three-dimensional 
+	 * cross product, and the ray tracer really only needs the three-dimensional version anyway.
+	 * 
+	 * You’ll use this primarily when working with view transformations, but it will also pop up 
+	 * when you start rendering triangles.
+	 * 
+	 */
+	public static Tuple cross(Tuple vector1, Tuple vector2) {
+		logger.debug("Cross product of 2 Vectors...");
+		logger.debug("1st Vector: " + vector1);
+		logger.debug("2nd Vector: " + vector2);
+		
+		float x = (vector1.getY() * vector2.getZ()) - (vector1.getZ() * vector2.getY());
+		float y = (vector1.getZ() * vector2.getX()) - (vector1.getX() * vector2.getZ());
+		float z = (vector1.getX() * vector2.getY()) - (vector1.getY() * vector2.getX());
+		
+		// You get a new vector that is perpendicular to both of the original vectors.
+		Tuple result = Factory.vector(x, y, z);
+		
+		logger.debug("Cross product: " + result);
+		
+		return result;		
 	}
 	
 }

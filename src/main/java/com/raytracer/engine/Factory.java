@@ -14,22 +14,22 @@ public class Factory {
 	 * Creates a Point (a Tuple with w=1).
 	 */
 	public static Tuple point(float x, float y, float z) {
-		Tuple aTuple =  new Tuple(x, y, z, 1);
+		Tuple aPoint =  new Tuple(x, y, z, 1);
 		
-		logger.debug("Creating new Point: " + aTuple);
+		logger.debug("Creating new Tuple: " + aPoint);
 		
-		return aTuple;
+		return aPoint;
 	}
 	
 	/*
 	 *  Creates a Vector (a Tuple with w=0).
 	 */
 	public static Tuple vector(float x, float y, float z) {
-		Tuple aTuple = new Tuple(x, y, z, 0);
+		Tuple aVector = new Tuple(x, y, z, 0);
 		
-		logger.debug("Creating new Vector: " + aTuple);
+		logger.debug("Creating new Tuple: " + aVector);
 		
-		return aTuple;
+		return aVector;
 	}
 		
 }

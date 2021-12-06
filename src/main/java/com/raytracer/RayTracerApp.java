@@ -3,7 +3,11 @@ package com.raytracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.Arithmetic;
+import com.raytracer.engine.Environment;
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.Projectile;
+import com.raytracer.engine.Simulator;
 import com.raytracer.engine.Tuple;
 
 /*
@@ -19,15 +23,38 @@ public class RayTracerApp {
 	public static void main(String[] args) {
 		logger.info("Starting App...");
 
-		// Simple point
-		Tuple tuple1 = new Tuple(1.0f, 1.0f, 1.0f, 1.0f);
-		logger.info(tuple1.toString());
-		
-		// Simple vector
-		Tuple tuple2 = new Tuple(1.0f, 1.0f, 1.0f, 0.0f);
-		logger.info(tuple2.toString());
+		// Play with a catapult
+		catapult();
 		
 		logger.info("Done!");
+	}
+	
+	// Simulated a catapult.
+	private static void catapult() {
+		// Now, initialize a projectile and an environment. Use whatever values you want, but these might get you started:
+		// - Projectile starts one unit above the origin (Y=1)
+		// - Velocity is normalized to 1 unit/tick (X=1, Y=1)
+		Tuple position = Factory.point(0, 1, 0);
+		Tuple velocity = Arithmetic.normalize(Factory.vector(1, 1, 0));
+		Projectile aProjectile = new Projectile(position, velocity);
+		
+		// - Gravity -0.1 unit/tick
+		// - And wind is -0.01 unit/tick.
+		Tuple gravity = Factory.vector(0, -0.1f, 0);
+		Tuple wind = Factory.vector(-0.01f, 0, 0);
+		Environment anEnvironment = new Environment(gravity, wind);
+		
+		// Then, run tick repeatedly until the projectile’s y position is less than or equal to 0. 
+		// Report the projectile’s position after each tick, and the number of ticks it takes for 
+		// the projectile to hit the ground.
+		while (aProjectile.getPosition().getY() > 0) {
+			aProjectile = Simulator.tick(anEnvironment, aProjectile);
+			
+			logger.info("---> " + aProjectile);
+		}
+		
+		// Try multiplying the projectile’s initial velocity by larger and larger numbers to see how 
+		// much farther the projectile goes!
 	}
 
 }

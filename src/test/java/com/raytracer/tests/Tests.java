@@ -2,14 +2,18 @@ package com.raytracer.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.MethodOrderer;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.Arithmetic;
 import com.raytracer.engine.Tuple;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Tests {
 	
 	private static Logger logger = LoggerFactory.getLogger(Tests.class);
@@ -18,7 +22,9 @@ public class Tests {
 	 * Test the creation of a new Point.
 	 */
 	@Test
+	@Order(1)
 	public void testIsPoint() {
+		logger.info("-----");
 		logger.info("Testing points...");
 		logger.info("-----");
 		
@@ -33,7 +39,9 @@ public class Tests {
 	 * Test the creation of a new Vector.
 	 */
 	@Test
+	@Order(2)
 	public void testIsVector() {
+		logger.info("-----");
 		logger.info("Testing vectors...");
 		logger.info("-----");
 		
@@ -48,7 +56,9 @@ public class Tests {
 	 * Test if 2 values are in equals (using an Epsilon tolerance).
 	 */
 	@Test
+	@Order(3)
 	public void testEqualsEpsilon() {
+		logger.info("-----");
 		logger.info("Testing equality...");
 		logger.info("-----");
 		
@@ -75,7 +85,9 @@ public class Tests {
 	 * Test the addition of Tuples.
 	 */
 	@Test
+	@Order(4)
 	public void testAddition() {
+		logger.info("-----");
 		logger.info("Testing addition...");
 		logger.info("-----");
 		
@@ -98,7 +110,9 @@ public class Tests {
 	 * Test the subtraction of Tuples.
 	 */
 	@Test
+	@Order(5)
 	public void testSubtraction() {
+		logger.info("-----");
 		logger.info("Testing subtraction...");
 		logger.info("-----");
 		
@@ -149,7 +163,9 @@ public class Tests {
 	 * Test the negation of a Tuple.
 	 */
 	@Test
+	@Order(6)
 	public void testNegation() {
+		logger.info("-----");
 		logger.info("Testing negation...");
 		logger.info("-----");
 		
@@ -169,7 +185,9 @@ public class Tests {
 	 * Test the multiplication of a Tuple.
 	 */
 	@Test
+	@Order(7)
 	public void testMultiplication() {
+		logger.info("-----");
 		logger.info("Testing multiplication...");
 		logger.info("-----");
 		
@@ -202,7 +220,9 @@ public class Tests {
 	 * Test the division of a Tuple.
 	 */
 	@Test
+	@Order(8)
 	public void testDivision() {
+		logger.info("-----");
 		logger.info("Testing division...");
 		logger.info("-----");
 		
@@ -223,7 +243,9 @@ public class Tests {
 	 * Test the magnitude of a Tuple.
 	 */
 	@Test
+	@Order(9)
 	public void testMagnitude() {
+		logger.info("-----");
 		logger.info("Testing magnitude...");
 		logger.info("-----");
 		
@@ -276,7 +298,9 @@ public class Tests {
 	 * Test the normalization of a Tuple.
 	 */
 	@Test
+	@Order(10)
 	public void testNormalization() {
+		logger.info("-----");
 		logger.info("Testing normalization...");
 		logger.info("-----");
 		
@@ -305,7 +329,7 @@ public class Tests {
 		assertEquals(true, yEpsilon, "Y has wrong value!");
 		assertEquals(true, zEpsilon, "Z has wrong value!");
 		
-		// Test the magnitude of a normalized Vector
+		// Confirm that the length of a normalized vector is 1
 		
 		// Create a Vector
 		aVector = Factory.vector(1, 2, 3);
@@ -315,9 +339,64 @@ public class Tests {
 		
 		// Get the magnitude of this Vector
 		float magnitude = Arithmetic.magnitude(result);
-		boolean magnitudeEpsilon = Arithmetic.equalsEpsilon(magnitude, 1);
 		
+		// Compare the result (using Epsilon)
+		boolean magnitudeEpsilon = Arithmetic.equalsEpsilon(magnitude, 1);
 		assertEquals(true, magnitudeEpsilon, "Wrong magnitude for the normalized Vector!");
+	}
+	
+	/*
+	 * Test the dot product of 2 vectors.
+	 */
+	@Test
+	@Order(11)
+	public void testDotProduct() {
+		logger.info("-----");
+		logger.info("Testing dot product...");
+		logger.info("-----");
+		
+		// Create a Vector
+		Tuple vector1 = Factory.vector(1, 2, 3);
+		Tuple vector2 = Factory.vector(2, 3, 4);
+		
+		// Get dot product
+		float result = Arithmetic.dot(vector1, vector2);
+		
+		assertEquals(20, result, "Wrong dot product!");
+		
+	}
+	
+	/*
+	 * Test the cross product of 2 vectors.
+	 */
+	@Test
+	@Order(12)
+	public void testCrosstProduct() {
+		logger.info("-----");
+		logger.info("Testing cross product...");
+		logger.info("-----");
+		
+		// Create 2 Vectors
+		Tuple vector1 = Factory.vector(1, 2, 3);
+		Tuple vector2 = Factory.vector(2, 3, 4);
+		
+		// Get cross product
+		Tuple result = Arithmetic.cross(vector1, vector2);
+		
+		assertEquals(-1, result.getX(), "X has wrong value!");
+		assertEquals(2, result.getY(), "Y has wrong value!");
+		assertEquals(-1, result.getZ(), "Z has wrong value!");
+		
+		// Note that if you change the order of the operands, you change the direction of the 
+		// resulting vector. Keep this in mind as you use the cross product: order matters!
+		
+		// Get cross product
+		result = Arithmetic.cross(vector2, vector1);
+		
+		assertEquals(1, result.getX(), "X has wrong value!");
+		assertEquals(-2, result.getY(), "Y has wrong value!");
+		assertEquals(1, result.getZ(), "Z has wrong value!");
+		
 	}
 
 }
