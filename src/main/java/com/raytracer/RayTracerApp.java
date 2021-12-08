@@ -1,9 +1,12 @@
 package com.raytracer;
 
+import java.text.DecimalFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.raytracer.engine.Arithmetic;
+import com.raytracer.engine.TupleOperation;
+import com.raytracer.engine.Color;
 import com.raytracer.engine.Environment;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.Projectile;
@@ -24,18 +27,23 @@ public class RayTracerApp {
 		logger.info("Starting App...");
 
 		// Play with a catapult
-		catapult();
+		//catapult();
+		
+		// Test Colors
+		playWithColors();
 		
 		logger.info("Done!");
 	}
 	
-	// Simulated a catapult.
+	/*
+	 * Simulates a catapult.
+	 */
 	private static void catapult() {
 		// Now, initialize a projectile and an environment. Use whatever values you want, but these might get you started:
 		// - Projectile starts one unit above the origin (Y=1)
 		// - Velocity is normalized to 1 unit/tick (X=1, Y=1)
 		Tuple position = Factory.point(0, 1, 0);
-		Tuple velocity = Arithmetic.normalize(Factory.vector(1, 1, 0));
+		Tuple velocity = TupleOperation.normalize(Factory.vector(1, 1, 0));
 		Projectile aProjectile = new Projectile(position, velocity);
 		
 		// - Gravity -0.1 unit/tick
@@ -55,6 +63,21 @@ public class RayTracerApp {
 		
 		// Try multiplying the projectile’s initial velocity by larger and larger numbers to see how 
 		// much farther the projectile goes!
+	}
+	
+	/*
+	 * Plays with Colors...
+	 */
+	public static void playWithColors() {
+		Color aColor = Factory.color(0f, 0.5f, 1f);
+		
+		logger.info("aColor: [" + aColor.print() + "]");
+		
+		// TODO: remove this!
+		DecimalFormat df = new DecimalFormat("###");
+		String formatted = df.format(12.456345); 
+
+		logger.info("[" + formatted + "]");
 	}
 
 }

@@ -11,12 +11,14 @@ public class Simulator {
 	 * Whatever. We’ll just call them “ticks”).
 	 */
 	public static Projectile tick(Environment environment, Projectile projectile) {
-		// Compute new position
-		Tuple position = Arithmetic.add(projectile.getPosition(), projectile.getVelocity());
+		// Update the projectile's new position
+		// By adding its velocity to its position
+		Tuple position = TupleOperation.add(projectile.getPosition(), projectile.getVelocity());
 		
-		// Compute new velocity
-		Tuple movement = Arithmetic.add(environment.getGravity(), environment.getWind());
-		Tuple velocity = Arithmetic.add(projectile.getVelocity(), movement);
+		// Update the projectile's new velocity
+		// By adding wind and gravity to its actual velocity
+		Tuple movement = TupleOperation.add(environment.getGravity(), environment.getWind());
+		Tuple velocity = TupleOperation.add(projectile.getVelocity(), movement);
 				
 		// Returns the new Projectile
 		return new Projectile(position, velocity);

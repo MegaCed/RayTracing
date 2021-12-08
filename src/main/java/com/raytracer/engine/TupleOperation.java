@@ -4,11 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /*
- * Perform some Operations (comparisons, operations, ...) on number and Tuples.
+ * Perform some Operations (comparisons, operations, ...) on numbers and Tuples.
  */
-public class Arithmetic {
+public class TupleOperation {
 	
-	private static Logger logger = LoggerFactory.getLogger(Factory.class);
+	private static Logger logger = LoggerFactory.getLogger(TupleOperation.class);
 
 	// Acceptable error
 	private static final float EPSILON = 0.00001f;

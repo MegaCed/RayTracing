@@ -1,6 +1,8 @@
 package com.raytracer.engine;
 
 /*
+ * A tuple is just an ordered list of things, like numbers.
+ * 
  * A Tuple can represent either:
  * - a point
  * - a vector

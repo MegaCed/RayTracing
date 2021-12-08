@@ -22,7 +22,7 @@ public class Factory {
 	}
 	
 	/*
-	 *  Creates a Vector (a Tuple with w=0).
+	 * Creates a Vector (a Tuple with w=0).
 	 */
 	public static Tuple vector(float x, float y, float z) {
 		Tuple aVector = new Tuple(x, y, z, 0);
@@ -30,6 +30,17 @@ public class Factory {
 		logger.debug("Creating new Tuple: " + aVector);
 		
 		return aVector;
+	}
+	
+	/*
+	 * Created a Color.
+	 */
+	public static Color color(float red, float green, float blue) {
+		Color aColor = new Color(red, green, blue);
+		
+		logger.debug("Creating new Color: " + aColor);
+		
+		return aColor;
 	}
 		
 }
