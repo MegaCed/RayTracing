@@ -5,13 +5,13 @@ import java.text.DecimalFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.raytracer.engine.TupleOperation;
-import com.raytracer.engine.Color;
-import com.raytracer.engine.Environment;
 import com.raytracer.engine.Factory;
-import com.raytracer.engine.Projectile;
-import com.raytracer.engine.Simulator;
-import com.raytracer.engine.Tuple;
+import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Environment;
+import com.raytracer.engine.misc.Projectile;
+import com.raytracer.engine.misc.Simulator;
+import com.raytracer.engine.operation.TupleOperations;
 
 /*
  * Used for miscellaneous testing...
@@ -43,7 +43,8 @@ public class RayTracerApp {
 		// - Projectile starts one unit above the origin (Y=1)
 		// - Velocity is normalized to 1 unit/tick (X=1, Y=1)
 		Tuple position = Factory.point(0, 1, 0);
-		Tuple velocity = TupleOperation.normalize(Factory.vector(1, 1, 0));
+		Tuple velocity = Factory.vector(1, 1, 0);
+		TupleOperations.normalize(velocity);
 		Projectile aProjectile = new Projectile(position, velocity);
 		
 		// - Gravity -0.1 unit/tick

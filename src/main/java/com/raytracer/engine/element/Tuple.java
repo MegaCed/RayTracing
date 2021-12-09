@@ -1,4 +1,4 @@
-package com.raytracer.engine;
+package com.raytracer.engine.element;
 
 /*
  * A tuple is just an ordered list of things, like numbers.

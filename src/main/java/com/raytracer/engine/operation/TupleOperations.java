@@ -1,36 +1,17 @@
-package com.raytracer.engine;
+package com.raytracer.engine.operation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/*
- * Perform some Operations (comparisons, operations, ...) on numbers and Tuples.
- */
-public class TupleOperation {
-	
-	private static Logger logger = LoggerFactory.getLogger(TupleOperation.class);
+import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Tuple;
 
-	// Acceptable error
-	private static final float EPSILON = 0.00001f;
+/*
+ * Perform some Operations (comparisons, operations, ...) on Tuples.
+ */
+public class TupleOperations {
 	
-	/*
-	 * Test for equality, using Epsilon as acceptable error.
-	 * 
-	 * When you need to test two floating point numbers for equivalence, compare their difference. 
-	 * If the absolute value of their difference is less than some value (called EPSILON), you can 
-	 * consider them equal.
-	 */
-	public static boolean equalsEpsilon(float value1, float value2) {
-		logger.debug("Comparing 2 values with an Epsilon of: " + String.format("%f", EPSILON));
-		logger.debug("1st value: " + value1);
-		logger.debug("2nd value: " + value2);
-		
-		if (Math.abs(value1 - value2) < EPSILON) {
-			return true;
-		}
-		
-		return false;
-	}
+	private static Logger logger = LoggerFactory.getLogger(TupleOperations.class);
 	
 	/*
 	 * Addition.
@@ -95,7 +76,7 @@ public class TupleOperation {
 	 * vector that points from a surface toward a light source, what vector points from the light 
 	 * source back to the surface?
 	 */
-	public static Tuple neg(Tuple aTuple) {
+	public static void neg(Tuple aTuple) {
 		logger.debug("Negating Tuple: " + aTuple);
 		
 		// Negate each component of the tuple
@@ -110,8 +91,6 @@ public class TupleOperation {
 		aTuple.setW(w);
 		
 		logger.debug("Negated Tuple: " + aTuple);
-		
-		return aTuple;
 	}
 	
 	/*
@@ -121,10 +100,10 @@ public class TupleOperation {
 	 * direction (When you’re finding where a ray intersects a sphere).
 	 * So you lay that vector end-to-end 3.5 times to see just how far the point is from the start.
 	 */
-	public static Tuple mul(Tuple aTuple, Float scalar) {
+	public static void mul(Tuple aTuple, Float scalar) {
 		logger.debug("Multiply Tuple: " + aTuple + " by " + scalar);
 		
-		// Multiply each component of the tuple by the scalar
+		// Multiply each component of the Tuple by the scalar
 		float x = aTuple.getX() * scalar;
 		float y = aTuple.getY() * scalar;
 		float z = aTuple.getZ() * scalar;
@@ -136,8 +115,6 @@ public class TupleOperation {
 		aTuple.setW(w);
 		
 		logger.debug("Result of multiplication: " + aTuple);
-		
-		return aTuple;
 	}
 	
 	/*
@@ -146,7 +123,7 @@ public class TupleOperation {
 	 * You can always implement division with multiplication, but sometimes it’s simpler to describe 
 	 * an operation as division.
 	 */
-	public static Tuple div(Tuple aTuple, Float scalar) {
+	public static void div(Tuple aTuple, Float scalar) {
 		logger.debug("Dividing Tuple: " + aTuple + " by " + scalar);
 		
 		// Divide each component of the tuple by the scalar
@@ -161,8 +138,6 @@ public class TupleOperation {
 		aTuple.setW(w);
 		
 		logger.debug("Result of division: " + aTuple);
-		
-		return aTuple;
 	}
 	
 	/*
@@ -196,7 +171,7 @@ public class TupleOperation {
 	 * If you were to skip normalizing your ray vectors or your surface normals, your calculations 
 	 * would be scaled differently for every ray you cast, and your scenes would look terrible.
 	 */
-	public static Tuple normalize(Tuple aTuple) {
+	public static void normalize(Tuple aTuple) {
 		logger.debug("Normalizing Tuple: " + aTuple);
 		
 		// Retrieve the magnitude of the Tuple
@@ -208,11 +183,12 @@ public class TupleOperation {
 		float z = aTuple.getZ() / magnitude;
 		float w = aTuple.getW() / magnitude;
 		
-		Tuple result = new Tuple(x, y, z, w);
+		aTuple.setX(x);
+		aTuple.setY(y);
+		aTuple.setZ(z);
+		aTuple.setW(w);
 		
-		logger.debug("Normalized Tuple: " + result);
-		
-		return result;
+		logger.debug("Normalized Tuple: " + aTuple);
 	}
 	
 	/*

@@ -3,12 +3,17 @@ package com.raytracer.engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Tuple;
+
 /*
  * Creates objects used by the application.
  */
 public class Factory {
 
 	private static Logger logger = LoggerFactory.getLogger(Factory.class);
+	
+	// TODO: make it a Singleton!?
 	
 	/*
 	 * Creates a Point (a Tuple with w=1).

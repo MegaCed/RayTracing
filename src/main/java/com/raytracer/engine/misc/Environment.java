@@ -1,4 +1,6 @@
-package com.raytracer.engine;
+package com.raytracer.engine.misc;
+
+import com.raytracer.engine.element.Tuple;
 
 /*
  * An Environment has:

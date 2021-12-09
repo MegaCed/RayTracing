@@ -1,4 +1,4 @@
-package com.raytracer.engine;
+package com.raytracer.engine.element;
 
 /*
  * Each pixel on your computer monitor is a composite of three colors: red, green, and blue. If you 
@@ -69,6 +69,7 @@ public class Color {
 	 * Returns a formated String for this Color.
 	 * (USed to print it in a file.)
 	 */
+	// TODO: really keep this?
 	public String print() {
 		String result = String.format("%3f", red) + " " + String.format("%3f", green) + " " + String.format("%3f", blue) + " ";
 		

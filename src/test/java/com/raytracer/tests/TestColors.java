@@ -9,11 +9,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.raytracer.engine.Color;
-import com.raytracer.engine.ColorOperation;
 import com.raytracer.engine.Factory;
-import com.raytracer.engine.Tuple;
-import com.raytracer.engine.TupleOperation;
+import com.raytracer.engine.element.Color;
+import com.raytracer.engine.operation.ColorOperations;
+import com.raytracer.engine.operation.MiscOperations;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestColors {
@@ -27,7 +26,7 @@ public class TestColors {
 	@Order(1)
 	public void testCreateColor() {
 		logger.info("-----");
-		logger.info("Testing colors...");
+		logger.info("Testing Colors...");
 		logger.info("-----");
 		
 		// Create a Color
@@ -55,12 +54,86 @@ public class TestColors {
 		Color anotherColor = Factory.color(0.7f, 0.1f, 0.25f);
 		
 		// Add them
-		Color result = ColorOperation.add(aColor, anotherColor);
+		Color result = ColorOperations.add(aColor, anotherColor);
 		
-		// Compare them
-		boolean redEquality = TupleOperation.equalsEpsilon(result.getRed(), 1.6f);
-		boolean greenEquality = TupleOperation.equalsEpsilon(result.getGreen(), 0.7f);
-		boolean blueEquality = TupleOperation.equalsEpsilon(result.getBlue(), 1.0f);
+		// Compare result
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 1.6f);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.7f);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 1.0f);
+		
+		assertEquals(true, redEquality, "Red has wrong value!");
+		assertEquals(true, greenEquality, "Green has wrong value!");
+		assertEquals(true, blueEquality, "Blue has wrong value!");
+	}
+	
+	/*
+	 * Test the subtraction of Colors.
+	 */
+	@Test
+	@Order(3)
+	public void testSubtraction() {
+		logger.info("-----");
+		logger.info("Testing subtraction...");
+		logger.info("-----");
+		
+		// Create a Color
+		Color aColor = Factory.color(0.9f, 0.6f, 0.75f);
+		
+		// Create a Color
+		Color anotherColor = Factory.color(0.7f, 0.1f, 0.25f);
+		
+		// Add them
+		Color result = ColorOperations.sub(aColor, anotherColor);
+		
+		// Compare result
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.2f);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.5f);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.5f);
+		
+		assertEquals(true, redEquality, "Red has wrong value!");
+		assertEquals(true, greenEquality, "Green has wrong value!");
+		assertEquals(true, blueEquality, "Blue has wrong value!");
+	}
+	
+	/*
+	 * Test the multiplication of a Color.
+	 */
+	@Test
+	@Order(4)
+	public void testMultiplication() {
+		logger.info("-----");
+		logger.info("Testing multiplication...");
+		logger.info("-----");
+		
+		// Create a Tuple
+		Color aColor = new Color(0.2f, 0.3f, 0.4f);
+		float scalar = 2f;
+		
+		// Multiply this Color
+		ColorOperations.mul(aColor, scalar);
+		
+		// Compare result
+		boolean redEquality = MiscOperations.equalsEpsilon(aColor.getRed(), 0.4f);
+		boolean greenEquality = MiscOperations.equalsEpsilon(aColor.getGreen(), 0.6f);
+		boolean blueEquality = MiscOperations.equalsEpsilon(aColor.getBlue(), 0.8f);
+		
+		assertEquals(true, redEquality, "Red has wrong value!");
+		assertEquals(true, greenEquality, "Green has wrong value!");
+		assertEquals(true, blueEquality, "Blue has wrong value!");
+		
+		// Create a Color
+		aColor = Factory.color(1f, 0.2f, 0.4f);
+		
+		// Create a Color
+		Color anotherColor = Factory.color(0.9f, 1f, 0.1f);
+		
+		// Multiply them
+		Color result = ColorOperations.mul(aColor, anotherColor);
+		
+		// Compare result
+		redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.9f);
+		greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.2f);
+		blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.04f);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
