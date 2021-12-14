@@ -72,7 +72,7 @@ public class RayTracerApp {
 	public static void playWithColors() {
 		Color aColor = Factory.color(0f, 0.5f, 1f);
 		
-		logger.info("aColor: [" + aColor.print() + "]");
+		logger.info("aColor: [" + aColor.toString() + "]");
 		
 		// TODO: remove this!
 		DecimalFormat df = new DecimalFormat("###");

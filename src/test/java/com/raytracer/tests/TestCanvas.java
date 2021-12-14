@@ -9,8 +9,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.PortablePixmap;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestCanvas {
@@ -24,11 +26,11 @@ public class TestCanvas {
 	@Order(1)
 	public void testCreateCanvas() {
 		logger.info("-----");
-		logger.info("Testing Canvas...");
+		logger.info("Testing Canvas creation...");
 		logger.info("-----");
 		
 		// Create a Canvas
-		Canvas aCanvas = new Canvas(10, 20);
+		Canvas aCanvas = Factory.canvas(10, 20);
 		
 		assertEquals(10, aCanvas.getWidth(), "Wrong width!");
 		assertEquals(20, aCanvas.getHeight(), "Wrong height!");
@@ -36,13 +38,130 @@ public class TestCanvas {
 		// Every pixel in the canvas should be initialized to black (color(0, 0, 0)
 		for (int x = 0; x < aCanvas.getWidth(); x++) {
 			for (int y = 0; y < aCanvas.getHeight(); y++) {
-				Color pixelColor = aCanvas.getColorAt(x, y);
+				Color pixelColor = aCanvas.pixelAt(x, y);
 				
 				assertEquals(0, pixelColor.getRed(), "Wrong red value!");
 				assertEquals(0, pixelColor.getGreen(), "Wrong regreend value!");
 				assertEquals(0, pixelColor.getBlue(), "Wrong blue value!");
 			}
 		}
+	}
+	
+	/*
+	 * Test the modification of a Canvas.
+	 */
+	@Test
+	@Order(2)
+	public void testUpdateCanvas() {
+		logger.info("-----");
+		logger.info("Testing Canvas update...");
+		logger.info("-----");
+		
+		// Canvas properties
+		int width = 10;
+		int height = 20;
+		
+		// Pixel properties
+		int x = 2;
+		int y = 3;
+		
+		// Create a Canvas
+		Canvas aCanvas = Factory.canvas(width, height);
+		
+		// Create a color
+		Color red = Factory.color(1, 0, 0);
+		
+		// Update the Canvas
+		aCanvas.writePixel(x, y, red);
+		
+		// Retrieve the Color
+		Color pixelColor = aCanvas.pixelAt(x, y);
+		
+		assertEquals(1, pixelColor.getRed(), "Wrong red value!");
+		assertEquals(0, pixelColor.getGreen(), "Wrong regreend value!");
+		assertEquals(0, pixelColor.getBlue(), "Wrong blue value!");
+	}
+	
+	/*
+	 * Test the creation of a PPM file.
+	 */
+	@Test
+	@Order(3)
+	public void testPPM() {
+		logger.info("-----");
+		logger.info("Testing PPM files...");
+		logger.info("-----");
+		
+		// Canvas properties
+		int width = 5;
+		int height = 3;
+		
+		// Create a Canvas
+		Canvas aCanvas = Factory.canvas(width, height);
+		
+		// Create some colors
+		Color color1 = Factory.color(1.5f, 0, 0);
+		Color color2 = Factory.color(0, 0.5f, 0);
+		Color color3 = Factory.color(-0.5f, 0, 1);
+		
+		// Update the Canvas
+		aCanvas.writePixel(0, 0, color1);
+		aCanvas.writePixel(2, 1, color2);
+		aCanvas.writePixel(4, 2, color3);
+		
+		// Create a PPM
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		
+		// Check the header
+		String header = "P3\n"
+				+ "5 3\n"
+				+ "255\n";
+		
+		assertEquals(header, ppmFile.getHeader(), "Wrong PPM header!");
+		
+		String data = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \n"
+				+ "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0 \n"
+				+ "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 \n";
+		
+		assertEquals(data, ppmFile.getData(), "Wrong PPM data!");
+	}
+	
+	/*
+	 * Test big PPM files creation.
+	 */
+	@Test
+	@Order(4)
+	public void testBigPPM() {
+		logger.info("-----");
+		logger.info("Testing big PPM files...");
+		logger.info("-----");
+		
+		// Canvas properties
+		int width = 10;
+		int height = 2;
+		
+		// Create a Canvas
+		Canvas aCanvas = Factory.canvas(width, height);
+		
+		// Create a color
+		Color aColor = Factory.color(1, 0.8f, 0.6f);
+		
+		// Initialize the Canvas
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				aCanvas.writePixel(x, y, aColor);
+			}
+		}
+		
+		// Create a PPM
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		
+		String data = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n"
+				+ " 153 255 204 153 255 204 153 255 204 153 255 204 153 \n"
+				+ "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n"
+				+ " 153 255 204 153 255 204 153 255 204 153 255 204 153 \n";
+		
+		assertEquals(data, ppmFile.getData(), "Wrong PPM data!");
 	}
 
 }

@@ -3,6 +3,7 @@ package com.raytracer.engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Tuple;
 
@@ -38,7 +39,7 @@ public class Factory {
 	}
 	
 	/*
-	 * Created a Color.
+	 * Creates a Color.
 	 */
 	public static Color color(float red, float green, float blue) {
 		Color aColor = new Color(red, green, blue);
@@ -46,6 +47,17 @@ public class Factory {
 		logger.debug("Creating new Color: " + aColor);
 		
 		return aColor;
+	}
+	
+	/*
+	 * Creates a Canvas.
+	 */
+	public static Canvas canvas(int width, int height) {
+		Canvas aCanvas = new Canvas(width, height);
+		
+		logger.debug("Creating new Canvas: " + aCanvas);
+		
+		return aCanvas;
 	}
 		
 }
