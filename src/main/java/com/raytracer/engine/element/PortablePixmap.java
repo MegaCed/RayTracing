@@ -1,5 +1,9 @@
 package com.raytracer.engine.element;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /*
  * the Portable Pixmap (PPM) format from the Netpbm project.
  * This version (called “plain” PPM) is straight text.
@@ -190,6 +194,24 @@ public class PortablePixmap {
 		    
 		    // Recursively split the rest of the line
 		    return firstPart + END_OF_LINE + splitLine(aString.substring(splitIndex, aString.length()), maximumLength);
+		}
+	}
+	
+	/*
+	 * Writes this PPM to a file.
+	 */
+	public void writeToFile(String fileName) {
+		try {
+			StringBuffer contents = new StringBuffer();
+			contents.append(getHeader());
+			contents.append(getData());
+			
+		    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+		    writer.write(contents.toString());
+		    
+		    writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

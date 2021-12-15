@@ -48,14 +48,24 @@ public class Canvas {
 	 * Set a pixel with a given Color.
 	 */
 	public void writePixel(int x, int y, Color aColor) {
-		this.pixels[y][x] = aColor;
+		// It’s going to be really, really easy to accidentally plot a point that is outside the 
+		// bounds of your canvas. Make sure you handle this case, either by having the canvas ignore 
+		// points outside its bounds or by preventing your program from plotting such points in the 
+		// first place.
+		if (x <= width && y <= height) {
+			this.pixels[y][x] = aColor;
+		}
 	}
 	
 	/*
 	 * Retrieve the Color of a given pixel.
 	 */
 	public Color pixelAt(int x, int y) {
-		return this.pixels[y][x];
+		if (x <= width && y <= height) {
+			return this.pixels[y][x];			
+		} else {
+			return null;
+		}
 	}
 	
 	/*
@@ -63,7 +73,6 @@ public class Canvas {
 	 */
 	public PortablePixmap canvasToPPM() {
 		PortablePixmap ppm = new PortablePixmap(getWidth(), getHeight(), pixels);
-		
 		return ppm;
 	}
 	
@@ -72,7 +81,6 @@ public class Canvas {
 	 */
 	public String toString() {
 		String result = "Canvas (width=" + width + ", height=" + height + ")";
-		
 		return result;
 	}
 	

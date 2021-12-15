@@ -23,38 +23,6 @@ public class Tuple {
 	// W = 1 -> Point
 	private float w;
 
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getZ() {
-		return z;
-	}
-
-	public void setZ(float z) {
-		this.z = z;
-	}
-
-	public float getW() {
-		return w;
-	}
-
-	public void setW(float w) {
-		this.w = w;
-	}
-	
 	/*
 	 * Constructor.
 	 */
@@ -87,6 +55,38 @@ public class Tuple {
 		String result = type + " (x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ")";
 		
 		return result;
+	}
+	
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public float getZ() {
+		return z;
+	}
+
+	public void setZ(float z) {
+		this.z = z;
+	}
+
+	public float getW() {
+		return w;
+	}
+
+	public void setW(float w) {
+		this.w = w;
 	}
 	
 }

@@ -32,6 +32,15 @@ public class Color {
 		this.blue = blue;
 	}
 
+	/*
+	 * Prints this Tuple.
+	 */
+	public String toString() {
+		String result = "Color (red=" + red + ", green=" + green + ", blue=" + blue + ")";
+		
+		return result;
+	}
+	
 	public float getRed() {
 		return red;
 	}
@@ -54,15 +63,6 @@ public class Color {
 
 	public void setBlue(float blue) {
 		this.blue = blue;
-	}
-	
-	/*
-	 * Prints this Tuple.
-	 */
-	public String toString() {
-		String result = "Color (red=" + red + ", green=" + green + ", blue=" + blue + ")";
-		
-		return result;
 	}
 
 }
