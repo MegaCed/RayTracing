@@ -35,7 +35,7 @@ public class RayTracerApp {
 		//catapult();
 		
 		// Play with a visual catapult
-		CatapultWithUI();
+		//CatapultWithUI();
 		
 		logger.info("Done!");
 	}
@@ -48,7 +48,8 @@ public class RayTracerApp {
 	}
 	
 	/*
-	 * Simulates a catapult.
+	 * Try playing with this little program, firing virtual projectiles and seeing how far they go. 
+	 * It’ll let you exercise the vector and point routines you’ve written.
 	 */
 	private static void catapult() {
 		// Now, initialize a projectile and an environment. Use whatever values you want, but these might get you started:
@@ -79,7 +80,10 @@ public class RayTracerApp {
 	}
 	
 	/*
-	 * Catapult with a UI.
+	 * For this challenge, you’ll once again compute the trajectory of a projectile, just as before, 
+	 * but this time you’ll plot its course on your brand-new canvas.
+	 * After each tick, take the coordinates of the projectile and color the corresponding pixel on 
+	 * the canvas. When the loop finishes, save your canvas to disk and view the result.
 	 */
 	private static void CatapultWithUI() {
 		Canvas aCanvas = Factory.canvas(900, 500);

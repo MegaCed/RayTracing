@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.raytracer.engine.misc.Constants;
+
 /*
  * the Portable Pixmap (PPM) format from the Netpbm project.
  * This version (called “plain” PPM) is straight text.
@@ -21,12 +23,6 @@ public class PortablePixmap {
 	
 	// Most image programs tend to accept PPM images with lines longer than that
 	public static final int MAXIMUM_LINE_LENGTH = 70;
-	
-	// End of line character
-	public static final String END_OF_LINE = "\n";
-	
-	// Each value should be separated from its neighbors by a space
-	public static final String SPACE = " ";
 	
 	// The size of the header (in # of lines)
 	public static final int HEADER_OFFSET = 3;
@@ -76,7 +72,7 @@ public class PortablePixmap {
 		this.contents[0] = MAGIC_NUMBER;
 		
 		// 2nd line
-		this.contents[1] = width + SPACE + height;
+		this.contents[1] = width + Constants.SPACE + height;
 		
 		// 3rd line
 		this.contents[2] = "" + MAXIMUM_COLOR_VALUE;
@@ -89,7 +85,7 @@ public class PortablePixmap {
 		StringBuffer result = new StringBuffer();
 		
 		for (int line = 0; line < HEADER_OFFSET; line++) {
-			result.append(contents[line]).append(END_OF_LINE);
+			result.append(contents[line]).append(Constants.END_OF_LINE);
 		}
 		
 		return result.toString();
@@ -119,14 +115,14 @@ public class PortablePixmap {
 				int blueScaled = scale(blue, MAXIMUM_COLOR_VALUE);
 				
 				// Pretty print this pixel
-				String pixel = redScaled + SPACE + greenScaled + SPACE + blueScaled + SPACE;
+				String pixel = redScaled + Constants.SPACE + greenScaled + Constants.SPACE + blueScaled + Constants.SPACE;
 				
 				line.append(pixel);
 			}
 			
 			// Terminate line. Some image programs won’t process PPM files correctly unless the 
 			// files are terminated by a newline character.
-			line.append(END_OF_LINE);
+			line.append(Constants.END_OF_LINE);
 			
 			// Write it to the PPM data
 			this.contents[lineNumber + HEADER_OFFSET] = line.toString();
@@ -173,7 +169,7 @@ public class PortablePixmap {
 	 * Recursively split the line for the given length.
 	 */
 	private String splitLine(String aString, int maximumLength) {
-		if ((aString.length() <= maximumLength) || (SPACE.equals(aString))) {
+		if ((aString.length() <= maximumLength) || (Constants.SPACE.equals(aString))) {
 			// The line is short enough
 			return aString;
 		} else {
@@ -188,12 +184,12 @@ public class PortablePixmap {
 				
 				// Get the character at the index
 				aCharacter = Character.toString(aString.charAt(splitIndex));
-			} while (!SPACE.equals(aCharacter));	
+			} while (!Constants.SPACE.equals(aCharacter));	
 			
 		    String firstPart = aString.substring(0, splitIndex);
 		    
 		    // Recursively split the rest of the line
-		    return firstPart + END_OF_LINE + splitLine(aString.substring(splitIndex, aString.length()), maximumLength);
+		    return firstPart + Constants.END_OF_LINE + splitLine(aString.substring(splitIndex, aString.length()), maximumLength);
 		}
 	}
 	
@@ -221,7 +217,7 @@ public class PortablePixmap {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 		
-		result.append("PPM File: ").append(END_OF_LINE);
+		result.append("PPM File: ").append(Constants.END_OF_LINE);
 		result.append(getHeader());
 		result.append(getData());
 		

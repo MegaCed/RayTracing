@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
 
 /*
@@ -58,6 +59,17 @@ public class Factory {
 		logger.debug("Creating new Canvas: " + aCanvas);
 		
 		return aCanvas;
+	}
+	
+	/*
+	 * Creates a Matrix.
+	 */
+	public static Matrix matrix(float[][] elements) {
+		Matrix aMatrix = new Matrix(elements);
+		
+		logger.debug("Creating new Matrix: " + aMatrix);
+		
+		return aMatrix;
 	}
 		
 }
