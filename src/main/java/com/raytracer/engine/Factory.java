@@ -71,5 +71,30 @@ public class Factory {
 		
 		return aMatrix;
 	}
+	
+	/*
+	 * Returns the 'Identity' Matrix.
+	 * 
+	 * You know that you can multiply any number by 1 and get the original number.
+	 * The number 1 is called the multiplicative identity for that reason. Well, the identity matrix 
+	 * is like the number 1, but for matrices. If you multiply any matrix or tuple by the identity 
+	 * matrix, you get back the matrix or tuple you started with.
+	 */
+	public static Matrix identityMatrix() {
+		// The identity matrix is all zeros, except for those elements along the diagonal, which are 
+		// each set to 1
+		float[][] elements = {
+				{1, 0, 0, 0},
+				{0, 1, 0, 0},
+				{0, 0, 1, 0},
+				{0, 0, 0, 1}
+		};
+		
+		Matrix aMatrix = new Matrix(elements);
+		
+		logger.debug("Returning Identity Matrix: " + aMatrix);
+		
+		return aMatrix;
+	}
 		
 }

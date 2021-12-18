@@ -34,6 +34,17 @@ public class Tuple {
 	}
 	
 	/*
+	 * Constructor.
+	 * Creates a Tuple from an array.
+	 */
+	public Tuple(float[] elements) {
+		this.x = elements[0];
+		this.y = elements[1];
+		this.z = elements[2];
+		this.w = elements[3];
+	}
+	
+	/*
 	 * Tells if the Tuple is a point.
 	 */
 	public boolean isPoint() {
@@ -55,6 +66,21 @@ public class Tuple {
 		String result = type + " (x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ")";
 		
 		return result;
+	}
+	
+	/*
+	 * Returns this Tuple as an array.
+	 * A Tuple can be seen as an array of 4 floats.
+	 */
+	public float[] asArray() {
+		float[] array = new float[4];
+		
+		array[0] = x;
+		array[1] = y;
+		array[2] = z;
+		array[3] = w;
+		
+		return array;
 	}
 	
 	public float getX() {
