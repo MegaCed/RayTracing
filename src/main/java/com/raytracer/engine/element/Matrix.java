@@ -1,7 +1,5 @@
 package com.raytracer.engine.element;
 
-import java.text.DecimalFormat;
-
 import com.raytracer.engine.misc.Constants;
 
 /*
@@ -54,19 +52,7 @@ public class Matrix {
 	 * Prints this Matrix.
 	 */
 	public String toString() {
-		int ySize = getRows();
-		int xSize = getColumns();
-		
-		StringBuffer result = new StringBuffer();
-		result.append("Matrix (X=" + xSize + ", Y=" + ySize + ")" + Constants.END_OF_LINE);
-		for (int row = 0; row < ySize; row++) {
-			for (int col = 0; col < xSize; col++) {
-				result.append(Constants.MATRIX_SEPARATOR + elements[row][col]);
-			}
-			result.append(Constants.MATRIX_SEPARATOR + Constants.END_OF_LINE);
-		}
-		
-		return result.toString();
+		return toString(Constants.MATRIX_NUMBER_LENGTH, Constants.MATRIX_NUMBER_PRECISION);
 	}
 
 	/*

@@ -3,10 +3,8 @@ package com.raytracer.engine.operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
-import com.raytracer.engine.misc.Constants;
 
 /*
  * Performs various operations on matrices.
@@ -45,7 +43,6 @@ public class MatrixOperations {
 		}
 		
 		logger.debug("Matrices are identical!");
-		
 		return true;
 	}
 	
@@ -64,28 +61,13 @@ public class MatrixOperations {
 		logger.debug("Multiplying 2 matrices...");
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
-		
-		// Supposing identical sizes
-		int size = matrix1.getRows();
-		
-		// Array of results
-		float[][] elements = new float[size][size];
-		
-		// Matrix multiplication computes the dot product of every row-column combination in the two 
-		// matrices!
-		for (int row = 0; row < size; row++) {
-			for (int col = 0; col < size; col++) {
-				float value = 0;
-				
-				for (int x = 0; x < size; x++) {
-					value += matrix1.getElement(row, x) * matrix2.getElement(x, col);
-				}
-				
-				elements[row][col] = value;
-			}
-		}
 
+		// Multiply the 2 arrays of elements
+		float[][] elements = mul(matrix1.getElements(), matrix2.getElements());
+		
 		Matrix result = new Matrix(elements);
+		
+		logger.debug("Result of multiplication: " + result);
 		return result;
 	}
 	
@@ -99,27 +81,79 @@ public class MatrixOperations {
 		logger.debug("Multiplying a Matrix by a Tuple...");
 		logger.debug("Matrix: " + aMatrix);
 		logger.debug("Tuple: " + aTuple);
+
+		// Multiply the 2 arrays of elements
+		float[][] elements = mul(aMatrix.getElements(), aTuple.asArray());
+
+		Tuple result = new Tuple(elements);
 		
-		int size = aMatrix.getRows();
+		logger.debug("Result of multiplication: " + result);
+		return result;
+	}
+	
+	/*
+	 * Common method for multiplying arrays.
+	 */
+	private static float[][] mul(float[][] array1, float[][] array2) {
+		// # of lines is always the same for the 2 arrays
+		int lines = array1.length;
+		
+		// # of columns can be different, because the 2nd array could be a Tuple
+		int columns = array2[0].length;
 		
 		// Array of results
-		float[] result = new float[size];
+		float[][] elements = new float[lines][columns];
 		
-		// Transform the Tuple to an array
-		float[] tupleElements = aTuple.asArray();
-		
-		for (int row = 0; row < size; row++) {
-			float value = 0;
-			
-			for (int x = 0; x < size; x++) {
-				value += aMatrix.getElement(row, x) * tupleElements[x];
+		for (int row = 0; row < lines; row++) {
+			for (int col = 0; col < columns; col++) {
+				float value = 0;
+				
+				// Matrix multiplication computes the dot product of every row-column combination in 
+				// the two matrices!
+				for (int x = 0; x < lines; x++) {
+					// elements[row][col] = 
+					// array1[row][0] * array2[0][col] +
+					// array1[row][1] * array2[1][col] +
+					// array1[row][2] * array2[2][col] +
+					// array1[row][3] * array2[3][col]
+					value += array1[row][x] * array2[x][col];
+				}
+				
+				elements[row][col] = value;
 			}
-			
-			result[row] = value;
 		}
 
-		Tuple resultTuple = new Tuple(result);
-		return resultTuple;
+		return elements;
+	}
+	
+	/*
+	 * When you transpose a matrix, you turn its rows into columns and its columns into rows.
+	 * 
+	 * Matrix transposition will come in handy when you get to Light and Shading. You’ll use it when 
+	 * translating certain vectors (called normal vectors) between object space and world space.
+	 */
+	public static Matrix transpose(Matrix aMatrix) {
+		logger.debug("Transposing Matrix...");
+		logger.debug("Matrix: " + aMatrix);
+		
+		int rows = aMatrix.getRows();
+		int columns = aMatrix.getColumns();
+		
+		// Array of results
+		float[][] elements = new float[rows][columns];
+		
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < columns; col++) {
+				// Transposing a matrix turns the first row into the first column, the second row 
+				// into the second column, and so forth.
+				elements[col][row] = aMatrix.getElement(row, col);
+			}
+		}
+		
+		Matrix result = new Matrix(elements);
+		
+		logger.debug("Result of transposition: " + result);
+		return result;
 	}
 	
 }

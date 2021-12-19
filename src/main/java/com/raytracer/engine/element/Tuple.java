@@ -37,18 +37,18 @@ public class Tuple {
 	 * Constructor.
 	 * Creates a Tuple from an array.
 	 */
-	public Tuple(float[] elements) {
-		this.x = elements[0];
-		this.y = elements[1];
-		this.z = elements[2];
-		this.w = elements[3];
+	public Tuple(float[][] elements) {
+		this.x = elements[0][0];
+		this.y = elements[1][0];
+		this.z = elements[2][0];
+		this.w = elements[3][0];
 	}
 	
 	/*
 	 * Tells if the Tuple is a point.
 	 */
 	public boolean isPoint() {
-		return w != 0;
+		return w == 1;
 	}
 	
 	/*
@@ -62,23 +62,32 @@ public class Tuple {
 	 * Prints this Tuple.
 	 */
 	public String toString() {
-		String type = isPoint() ? "Point" : "Vector";
-		String result = type + " (x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ")";
+		String type = null;
 		
+		if (isPoint()) {
+			type = "Point";
+		} else if (isVector()) {
+			type = "Vector";
+		} else {
+			type = "Tuple";
+		}
+		
+		String result = type + " (x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + ")";
 		return result;
 	}
 	
 	/*
 	 * Returns this Tuple as an array.
 	 * A Tuple can be seen as an array of 4 floats.
+	 * Threat the tuple as a really skinny (one column!) matrix.
 	 */
-	public float[] asArray() {
-		float[] array = new float[4];
+	public float[][] asArray() {
+		float[][] array = new float[4][1];
 		
-		array[0] = x;
-		array[1] = y;
-		array[2] = z;
-		array[3] = w;
+		array[0][0] = x;
+		array[1][0] = y;
+		array[2][0] = z;
+		array[3][0] = w;
 		
 		return array;
 	}

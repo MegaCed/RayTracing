@@ -249,4 +249,46 @@ public class TestMatrices {
 		assertEquals(4, resultTuple.getW(), "Wrong value!");
 	}
 	
+	/*
+	 * Transposing a Matrix.
+	 */
+	@Test
+	@Order(6)
+	public void testTransposeMatrix() {
+		logger.info("-----");
+		logger.info("Transposing Matrix...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{0, 9, 3, 0},
+				{9, 8, 0, 8},
+				{1, 8, 5, 3},
+				{0, 0, 5, 8}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Transpose it
+		Matrix result = MatrixOperations.transpose(aMatrix);
+		
+		assertEquals(0, result.getElement(0,0), "Wrong value!");
+		assertEquals(8, result.getElement(1,1), "Wrong value!");
+		assertEquals(5, result.getElement(2,2), "Wrong value!");
+		assertEquals(8, result.getElement(3,3), "Wrong value!");
+		
+		// And interestingly, the transpose of the identity matrix always gives you the identity 
+		// matrix.
+		Matrix identityMatrix = Factory.identityMatrix();
+		
+		// Transpose it
+		result = MatrixOperations.transpose(identityMatrix);
+		
+		assertEquals(1, result.getElement(0,0), "Wrong value!");
+		assertEquals(1, result.getElement(1,1), "Wrong value!");
+		assertEquals(1, result.getElement(2,2), "Wrong value!");
+		assertEquals(1, result.getElement(3,3), "Wrong value!");
+	}
+	
 }
