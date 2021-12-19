@@ -25,8 +25,7 @@ public class TestMatrices {
 	@Test
 	@Order(1)
 	public void testCreateMatrix() {
-		logger.info("-----");
-		logger.info("Testing Matrix...");
+		logger.info("----- Testing Matrix...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -75,6 +74,8 @@ public class TestMatrices {
 		assertEquals(-3, aMatrix.getElement(0,0), "Wrong value!");
 		assertEquals(-2, aMatrix.getElement(1,1), "Wrong value!");
 		assertEquals(1, aMatrix.getElement(2,2), "Wrong value!");
+		
+		logger.info("-----");
 	}
 	
 	/*
@@ -83,8 +84,7 @@ public class TestMatrices {
 	@Test
 	@Order(2)
 	public void testCompareMatrix() {
-		logger.info("-----");
-		logger.info("Comparing Matrices...");
+		logger.info("----- Comparing Matrices...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -128,6 +128,8 @@ public class TestMatrices {
 		equality = MatrixOperations.equals(matrix1, matrix3);
 		
 		assertEquals(false, equality, "Matrices are equals!");
+		
+		logger.info("-----");
 	}
 
 	
@@ -137,8 +139,7 @@ public class TestMatrices {
 	@Test
 	@Order(3)
 	public void testMultiplyMatrices() {
-		logger.info("-----");
-		logger.info("Multiplying Matrices...");
+		logger.info("----- Multiplying Matrices...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -170,6 +171,8 @@ public class TestMatrices {
 		assertEquals(54, result.getElement(1,1), "Wrong value!");
 		assertEquals(110, result.getElement(2,2), "Wrong value!");
 		assertEquals(42, result.getElement(3,3), "Wrong value!");
+		
+		logger.info("-----");
 	}
 	
 	/*
@@ -178,8 +181,7 @@ public class TestMatrices {
 	@Test
 	@Order(4)
 	public void testMultiplyMatrixAndTuple() {
-		logger.info("-----");
-		logger.info("Multiplying Matrix and Tuple...");
+		logger.info("----- Multiplying Matrix and Tuple...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -203,6 +205,8 @@ public class TestMatrices {
 		assertEquals(24, result.getY(), "Wrong value!");
 		assertEquals(33, result.getZ(), "Wrong value!");
 		assertEquals(1, result.getW(), "Wrong value!");
+		
+		logger.info("-----");
 	}
 	
 	/*
@@ -211,8 +215,7 @@ public class TestMatrices {
 	@Test
 	@Order(5)
 	public void testIdentityMatrix() {
-		logger.info("-----");
-		logger.info("Multiplying Identity Matrix...");
+		logger.info("----- Multiplying Identity Matrix...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -247,6 +250,8 @@ public class TestMatrices {
 		assertEquals(2, resultTuple.getY(), "Wrong value!");
 		assertEquals(3, resultTuple.getZ(), "Wrong value!");
 		assertEquals(4, resultTuple.getW(), "Wrong value!");
+		
+		logger.info("-----");
 	}
 	
 	/*
@@ -255,8 +260,7 @@ public class TestMatrices {
 	@Test
 	@Order(6)
 	public void testTransposeMatrix() {
-		logger.info("-----");
-		logger.info("Transposing Matrix...");
+		logger.info("----- Transposing Matrix...");
 		logger.info("-----");
 		
 		// Create the elements
@@ -289,6 +293,82 @@ public class TestMatrices {
 		assertEquals(1, result.getElement(1,1), "Wrong value!");
 		assertEquals(1, result.getElement(2,2), "Wrong value!");
 		assertEquals(1, result.getElement(3,3), "Wrong value!");
+		
+		logger.info("-----");
+	}
+	
+	/*
+	 * Finding the Determinant of a Matrix.
+	 */
+	@Test
+	@Order(7)
+	public void testMatrixDeterminant() {
+		logger.info("----- Matrix Determinant...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{1, 5},
+				{-3, 2}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Transpose it
+		float result = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(17, result, "Wrong result!");
+	}
+	
+	/*
+	 * Extracting submatrix.
+	 */
+	@Test
+	@Order(8)
+	public void testSubMatrix() {
+		logger.info("----- Finding submatrix...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{1, 5, 0},
+				{-3, 2, 7},
+				{0, 6, -3}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Extract submatrix
+		Matrix result = MatrixOperations.submatrix(aMatrix, 0, 2);
+		
+		// Returns a copy of the given matrix with the given row and column removed
+		assertEquals(2, result.getRows(), "Wrong number of rows!");
+		assertEquals(2, result.getColumns(), "Wrong number od columns!");
+		assertEquals(-3, result.getElement(0,0), "Wrong value!");
+		assertEquals(6, result.getElement(1,1), "Wrong value!");
+		
+		// Create the elements
+		float[][] values2 = {
+				{-6, 1, 1, 6},
+				{-8, 5, 8, 6},
+				{-1, 0, 8, 2},
+				{-7, 1, -1, 1}
+		};
+		
+		// Create a Matrix
+		aMatrix = Factory.matrix(values2);
+		
+		// Extract submatrix
+		result = MatrixOperations.submatrix(aMatrix, 2, 1);
+		
+		// Returns a copy of the given matrix with the given row and column removed
+		assertEquals(3, result.getRows(), "Wrong number of rows!");
+		assertEquals(3, result.getColumns(), "Wrong number od columns!");
+		assertEquals(-6, result.getElement(0,0), "Wrong value!");
+		assertEquals(8, result.getElement(1,1), "Wrong value!");
+		assertEquals(1, result.getElement(2,2), "Wrong value!");
 	}
 	
 }

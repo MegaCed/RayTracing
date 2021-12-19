@@ -65,6 +65,7 @@ public class Matrix {
 		
 		StringBuffer result = new StringBuffer();
 		result.append("Matrix (X=" + xSize + ", Y=" + ySize + ")" + Constants.END_OF_LINE);
+		
 		for (int row = 0; row < ySize; row++) {
 			for (int col = 0; col < xSize; col++) {
 				// Format the number

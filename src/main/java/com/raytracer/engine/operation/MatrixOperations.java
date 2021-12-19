@@ -20,7 +20,7 @@ public class MatrixOperations {
 	 * matrices a lot.
 	 */
 	public static boolean equals(Matrix matrix1, Matrix matrix2) {
-		logger.debug("Comparing 2 matrices...");
+		logger.debug("-> Comparing 2 matrices...");
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
 		
@@ -42,13 +42,11 @@ public class MatrixOperations {
 			}
 		}
 		
-		logger.debug("Matrices are identical!");
+		logger.debug("--> Matrices are identical!");
 		return true;
 	}
 	
 	/*
-	 * Multiplying matrices.
-	 * 
 	 * Multiplication is the tool you’ll use to perform transformations like scaling, rotation, and 
 	 * translation. It’s certainly possible to apply them one at a time, sequentially, but in 
 	 * practice you’ll often want to apply several transformations at once. Multiplying them 
@@ -58,7 +56,7 @@ public class MatrixOperations {
 	 * together in a specific way.
 	 */
 	public static Matrix mul(Matrix matrix1, Matrix matrix2) {
-		logger.debug("Multiplying 2 matrices...");
+		logger.debug("-> Multiplying 2 matrices...");
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
 
@@ -67,7 +65,7 @@ public class MatrixOperations {
 		
 		Matrix result = new Matrix(elements);
 		
-		logger.debug("Result of multiplication: " + result);
+		logger.debug("--> Result of multiplication: " + result);
 		return result;
 	}
 	
@@ -78,7 +76,7 @@ public class MatrixOperations {
 	 * The trick begins by treating the tuple as a really skinny (one column!) matrix.
 	 */
 	public static Tuple mul(Matrix aMatrix, Tuple aTuple) {
-		logger.debug("Multiplying a Matrix by a Tuple...");
+		logger.debug("-> Multiplying a Matrix by a Tuple...");
 		logger.debug("Matrix: " + aMatrix);
 		logger.debug("Tuple: " + aTuple);
 
@@ -87,7 +85,7 @@ public class MatrixOperations {
 
 		Tuple result = new Tuple(elements);
 		
-		logger.debug("Result of multiplication: " + result);
+		logger.debug("--> Result of multiplication: " + result);
 		return result;
 	}
 	
@@ -133,7 +131,7 @@ public class MatrixOperations {
 	 * translating certain vectors (called normal vectors) between object space and world space.
 	 */
 	public static Matrix transpose(Matrix aMatrix) {
-		logger.debug("Transposing Matrix...");
+		logger.debug("-> Transposing Matrix...");
 		logger.debug("Matrix: " + aMatrix);
 		
 		int rows = aMatrix.getRows();
@@ -152,7 +150,69 @@ public class MatrixOperations {
 		
 		Matrix result = new Matrix(elements);
 		
-		logger.debug("Result of transposition: " + result);
+		logger.debug("--> Result of transposition: " + result);
+		return result;
+	}
+	
+	/*
+	 * The determinant is a number that is derived from the elements of a matrix.
+	 * 
+	 * The name comes from the use of matrices to solve systems of equations, where it’s used to 
+	 * determine whether or not the system has a solution. If the determinant is zero, then the 
+	 * corresponding system of equations has no solution.
+	 */
+	public static float determinant(Matrix aMatrix) {
+		logger.debug("-> Determining  Matrix Determinant...");
+		logger.debug("Matrix: " + aMatrix);
+		
+		// Determinant | a b | = ad - bc
+		//             | c d |
+		float determinant = 
+				(aMatrix.getElement(0, 0) * aMatrix.getElement(1, 1))
+				- (aMatrix.getElement(0, 1) * aMatrix.getElement(1, 0));
+		
+		
+		logger.debug("--> Determinant: " + determinant);
+		return determinant;
+	}
+	
+	/*
+	 * A submatrix is what is left when you delete a single row and column from a matrix. 
+	 * 
+	 * Because you’re always removing one row and one column, it effectively reduces the size of the 
+	 * matrix by one. The submatrix of a 4x4 matrix is 3x3, and the submatrix of a 3x3 matrix is 
+	 * 2x2.
+	 */
+	public static Matrix submatrix(Matrix aMatrix, int rowToDelete, int columnToDelete) {
+		logger.debug("-> Extracting submatrix...");
+		logger.debug("Matrix: " + aMatrix);
+		
+		int rowsCount = aMatrix.getRows();
+		int columnsCount = aMatrix.getColumns();
+		
+		// Reduced array of results
+		float[][] elements = new float[rowsCount-1][columnsCount-1];
+		
+		// Fill the new array excluding forbidden row & column
+		for (int row = 0, subRow = 0; row < rowsCount; row++) {
+			if (row != rowToDelete) {
+				for (int col = 0, subCol = 0; col < columnsCount; col++) {
+					if (col != columnToDelete) {
+						elements[subRow][subCol] = aMatrix.getElement(row, col);
+						
+						// Increment submatrix column index
+						subCol++;
+					}
+				}
+				
+				// Increment submatrix row index
+				subRow++;
+			}
+		}
+		
+		Matrix result = new Matrix(elements);
+		
+		logger.debug("--> Resulting submatrix: " + result);
 		return result;
 	}
 	

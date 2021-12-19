@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Color;
-import com.raytracer.engine.element.Tuple;
 
 /*
  * Colors, as you’ll see, tend to interact with each other. Whether it’s a green light reflecting on 
