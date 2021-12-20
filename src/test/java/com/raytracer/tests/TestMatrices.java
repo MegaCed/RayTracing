@@ -371,4 +371,59 @@ public class TestMatrices {
 		assertEquals(1, result.getElement(2,2), "Wrong value!");
 	}
 	
+	/*
+	 * Finding a Minor.
+	 */
+	@Test
+	@Order(9)
+	public void testMinor() {
+		logger.info("----- Matrix Minor...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{3, 5, 0},
+				{2, -1, -7},
+				{6, -1, 5}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Find Minor
+		float result = MatrixOperations.minor(aMatrix, 1, 0);
+		
+		assertEquals(25, result, "Wrong value!");
+	}
+	
+	/*
+	 * Finding a Cofactor.
+	 */
+	@Test
+	@Order(10)
+	public void testCofactor() {
+		logger.info("----- Matrix Cofactor...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{3, 5, 0},
+				{2, -1, -7},
+				{6, -1, 5}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Find Cofactor
+		float result = MatrixOperations.cofactor(aMatrix, 0, 0);
+		
+		assertEquals(-12, result, "Wrong value!");
+		
+		// Find Cofactor
+		result = MatrixOperations.cofactor(aMatrix, 1, 0);
+		
+		assertEquals(-25, result, "Wrong value!");
+	}
+	
 }

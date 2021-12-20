@@ -186,6 +186,7 @@ public class MatrixOperations {
 	public static Matrix submatrix(Matrix aMatrix, int rowToDelete, int columnToDelete) {
 		logger.debug("-> Extracting submatrix...");
 		logger.debug("Matrix: " + aMatrix);
+		logger.debug("Row to delete: " + rowToDelete + " -- Column to delete: " + columnToDelete);
 		
 		int rowsCount = aMatrix.getRows();
 		int columnsCount = aMatrix.getColumns();
@@ -214,6 +215,62 @@ public class MatrixOperations {
 		
 		logger.debug("--> Resulting submatrix: " + result);
 		return result;
+	}
+	
+	/*
+	 * The minor of an element at row i and column j is the determinant of the submatrix at (i,j).
+	 * 
+	 * You find the submatrix at the given location, and then compute the determinant of that 
+	 * submatrix. The answer is the minor.
+	 * (You have to admit: “minor” is easier to say than “determinant of the submatrix.”)
+	 */
+	public static float minor(Matrix aMatrix, int row, int col) {
+		logger.debug("-> Finding Matrix Minor...");
+		logger.debug("Matrix: " + aMatrix);
+		logger.debug("Row: " + row + " -- Column: " + col);
+		
+		// 1. Find the submatrix
+		Matrix submatrix = submatrix(aMatrix, row, col);
+		
+		// 2. Find the determinant of the submatrix
+		float minor = determinant(submatrix);
+		
+		logger.debug("--> Minor: " + minor);
+		return minor;
+	}
+	
+	/*
+	 * Cofactors are minors that have (possibly) had their sign changed.
+	 * 
+	 * First you compute the minor at the given row and column. Then you consider that row and 
+	 * column to determine whether or not to negate the result.
+	 * 
+	 * The following figure is helpful:
+	 * |+ - +|
+	 * |- + -|
+	 * |+ - +|
+	 * If the row and column identifies a spot with a +, then the minor’s sign doesn’t change. 
+	 * If the row and column identifies a spot with a -, then you negate the minor.
+	 */
+	public static float cofactor(Matrix aMatrix, int row, int col) {
+		logger.debug("-> Finding Matrix Cofactor...");
+		logger.debug("Matrix: " + aMatrix);
+		logger.debug("Row: " + row + " -- Column: " + col);
+		
+		// 1. Find the Minor
+		float minor = minor(aMatrix, row, col);
+		
+		// If row + column is an odd number, then you negate the minor. Otherwise, you just return 
+		// the minor as is
+		float cofactor = minor;
+		if (((int)cofactor & 1) != 0) {
+			// You can use the modulus operator, but that can be slow.
+			// The low bit will always be set on an odd number.
+			cofactor = -cofactor;
+		}
+		
+		logger.debug("--> Cofactor: " + cofactor);
+		return cofactor;
 	}
 	
 }
