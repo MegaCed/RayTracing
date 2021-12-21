@@ -165,14 +165,62 @@ public class MatrixOperations {
 		logger.debug("-> Determining  Matrix Determinant...");
 		logger.debug("Matrix: " + aMatrix);
 		
+		float determinant = 0;
+		
+		if (aMatrix.getRows() == 2) {
+			// 2x2 Matrix
+			determinant = determinantSmallMatrix(aMatrix);
+		} else if (aMatrix.getRows() > 2) {
+			// 3x3 or 4x4 Matrix
+			determinant = determinantBigMatrix(aMatrix);
+		}
+		
+		logger.debug("--> Determinant: " + determinant);
+		if (determinant == 0) {
+			logger.debug("Matrix is NOT invertible");
+		} else {
+			logger.debug("Matrix IS invertible");
+		}
+		
+		return determinant;
+	}
+	
+	/*
+	 * Find the Determinant of small matrices (2x2).
+	 */
+	private static float determinantSmallMatrix(Matrix aMatrix) {
+		logger.debug("-> Determinant for small matrices...");
+		
 		// Determinant | a b | = ad - bc
 		//             | c d |
 		float determinant = 
 				(aMatrix.getElement(0, 0) * aMatrix.getElement(1, 1))
 				- (aMatrix.getElement(0, 1) * aMatrix.getElement(1, 0));
 		
+		return determinant;
+	}
+	
+	/*
+	 * Finding the determinant of matrices larger than 2x2 works recursively.
+	 * To find the determinant, look at any one of the rows or columns. It really doesn’t matter
+	 * which
+	 * Then, for each of those elements, you’ll multiply the element by its cofactor, and add the 
+	 * products together
+	 * And that’s the determinant!
+	 */
+	private static float determinantBigMatrix(Matrix aMatrix) {
+		logger.debug("-> Determinant for big matrices...");
 		
-		logger.debug("--> Determinant: " + determinant);
+		float determinant = 0;
+		
+		// You only need to look at a single row or column, so let’s choose the first row
+		int firstRow = 0;
+		
+		for (int col=0; col<aMatrix.getColumns(); col++) {
+			// Then, multiply each element by its cofactor, and add the results.
+			determinant += aMatrix.getElement(firstRow, col) * cofactor(aMatrix, firstRow, col);
+		}
+		
 		return determinant;
 	}
 	
@@ -259,11 +307,11 @@ public class MatrixOperations {
 		
 		// 1. Find the Minor
 		float minor = minor(aMatrix, row, col);
-		
-		// If row + column is an odd number, then you negate the minor. Otherwise, you just return 
-		// the minor as is
 		float cofactor = minor;
-		if (((int)cofactor & 1) != 0) {
+		
+		// If row + column is an odd number, then you negate the minor.
+		// Otherwise, you just return the minor as is
+		if (((row + col) & 1) != 0) {
 			// You can use the modulus operator, but that can be slow.
 			// The low bit will always be set on an odd number.
 			cofactor = -cofactor;
@@ -271,6 +319,42 @@ public class MatrixOperations {
 		
 		logger.debug("--> Cofactor: " + cofactor);
 		return cofactor;
+	}
+	
+	/*
+	 * inversion is the operation that allows you to reverse the effect of multiplying by a matrix. 
+	 * It’ll be crucial to the transformation of shapes in your ray tracer, allowing you to move 
+	 * shapes around, make them bigger or smaller, rotate them, and more.
+	 * 
+	 * One of the tricky things about matrix inversion is that not every matrix is invertible.
+	 * 
+	 * 1. you create a matrix that consists of the cofactors of each of the original elements
+	 * 2. then, transpose that cofactor matrix
+	 * 3. Finally, divide each of the resulting elements by the determinant of the original matrix
+	 */
+	public static Matrix inverse(Matrix aMatrix) {
+		// Fail if the Matrix is not invertible
+		float determinant = determinant(aMatrix);
+		if (determinant == 0) {
+			// An exception would be better...
+			return null;
+		}
+		
+		// New matrix of same size
+		float[][] elements = new float[aMatrix.getRows()][aMatrix.getColumns()];
+		
+		for (int row=0; row<aMatrix.getRows(); row++) {
+			for (int col=0; col<aMatrix.getColumns(); col++) {
+				float cofactor = cofactor(aMatrix, row, col);
+				
+				// Note that "col, row" here, instead of "row, col" accomplishes the transpose 
+				// operation!
+				elements[col][row] = cofactor / determinant;
+			}
+		}
+		
+		Matrix inverse = new Matrix(elements);
+		return inverse;
 	}
 	
 }

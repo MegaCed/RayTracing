@@ -13,6 +13,7 @@ import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.operation.MatrixOperations;
+import com.raytracer.engine.operation.MiscOperations;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestMatrices {
@@ -315,10 +316,10 @@ public class TestMatrices {
 		// Create a Matrix
 		Matrix aMatrix = Factory.matrix(values);
 		
-		// Transpose it
-		float result = MatrixOperations.determinant(aMatrix);
+		// Find determinant
+		float determinant = MatrixOperations.determinant(aMatrix);
 		
-		assertEquals(17, result, "Wrong result!");
+		assertEquals(17, determinant, "Wrong result!");
 	}
 	
 	/*
@@ -424,6 +425,139 @@ public class TestMatrices {
 		result = MatrixOperations.cofactor(aMatrix, 1, 0);
 		
 		assertEquals(-25, result, "Wrong value!");
+	}
+	
+	/*
+	 * Finding the Determinant of larger Matrices.
+	 */
+	@Test
+	@Order(11)
+	public void testLargeMatrixDeterminant() {
+		logger.info("----- Matrix Determinant of larger matrices...");
+		logger.info("-----");
+		
+		// Create the elements (3x3)
+		float[][] values3x3 = {
+				{1, 2, 6},
+				{-5, 8, -4},
+				{2, 6, 4}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values3x3);
+		
+		// Find determinant
+		float determinant = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(-196, determinant, "Wrong result!");
+		
+		// Create the elements (4x4)
+		float[][] values4x4 = {
+				{-2, -8, 3, 5},
+				{-3, 1, 7, 3},
+				{1, 2, -9, 6},
+				{-6, 7, 7, -9}
+		};
+		
+		// Create a Matrix
+		aMatrix = Factory.matrix(values4x4);
+		
+		// Find determinant
+		determinant = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(-4071, determinant, "Wrong result!");
+	}
+	
+	/*
+	 * Testing an invertible matrix for invertibility.
+	 */
+	@Test
+	@Order(12)
+	public void testInvertibility() {
+		logger.info("----- Matrix invertibility...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{6, 4, 4, 4},
+				{5, 5, 7, 6},
+				{4, -9, 3, -7},
+				{9, 1, 7, -6}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Testing an invertible matrix for invertibility
+		float determinant = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(-2120, determinant, "Wrong value!");
+		
+		// Create the elements
+		float[][] values2 = {
+				{-4, 2, -2, 3},
+				{9, 6, 2, 6},
+				{0, -5, 1, -5},
+				{0, 0, 0, 0}
+		};
+		
+		// Create a Matrix
+		aMatrix = Factory.matrix(values2);
+		
+		// Testing a noninvertible matrix for invertibility
+		determinant = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(0, determinant, "Wrong value!");
+	}
+	
+	/*
+	 * Calculating the inverse of a matrix.
+	 */
+	@Test
+	@Order(13)
+	public void testInverse() {
+		logger.info("----- Matrix inversion...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] values = {
+				{-5, 2, 6, -8},
+				{1, -5, 1, 8},
+				{7, 7, -6, -7},
+				{1, -3, 7, 4}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Check Determinant
+		float determinant = MatrixOperations.determinant(aMatrix);
+		
+		assertEquals(532, determinant, "Wrong determinant!");
+		
+		// Check Cofactor
+		float cofactor = MatrixOperations.cofactor(aMatrix, 2, 3);
+		
+		assertEquals(-160, cofactor, "Wrong cofactor!");
+		
+		// Check Cofactor
+		cofactor = MatrixOperations.cofactor(aMatrix, 3, 2);
+		
+		assertEquals(105, cofactor, "Wrong cofactor!");
+		
+		// Calculate inverse
+		Matrix inverse = MatrixOperations.inverse(aMatrix);
+		
+		// Compare result
+		boolean row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), 0.21805f);
+		boolean row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), -1.45677f);
+		boolean row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.05263f);
+		boolean row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.30639f);
+		
+		assertEquals(true, row0col0, "Wrong value!");
+		assertEquals(true, row1col1, "Wrong value!");
+		assertEquals(true, row2col2, "Wrong value!");
+		assertEquals(true, row3col3, "Wrong value!");
 	}
 	
 }
