@@ -558,6 +558,102 @@ public class TestMatrices {
 		assertEquals(true, row1col1, "Wrong value!");
 		assertEquals(true, row2col2, "Wrong value!");
 		assertEquals(true, row3col3, "Wrong value!");
+		
+		// Create the elements
+		float[][] values2 = {
+				{8, -5, 9, 2},
+				{7, 5, 6, 1},
+				{-6, 0, 9, 6},
+				{-3, 0, -9, -4}
+		};
+		
+		// Create another Matrix
+		aMatrix = Factory.matrix(values2);
+		
+		// Calculate inverse
+		inverse = MatrixOperations.inverse(aMatrix);
+		
+		// Compare result
+		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.15385f);
+		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.12308f);
+		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), 0.43590f);
+		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), -1.92308f);
+		
+		assertEquals(true, row0col0, "Wrong value!");
+		assertEquals(true, row1col1, "Wrong value!");
+		assertEquals(true, row2col2, "Wrong value!");
+		assertEquals(true, row3col3, "Wrong value!");
+		
+		// Create the elements
+		float[][] values3 = {
+				{9, 3, 0, 9},
+				{-5, -2, -6, -3},
+				{-4, 9, 6, 4},
+				{-7, 6, 6, 2}
+		};
+		
+		// Create another Matrix
+		aMatrix = Factory.matrix(values3);
+		
+		// Calculate inverse
+		inverse = MatrixOperations.inverse(aMatrix);
+		
+		// Compare result
+		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.04074f);
+		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.03333f);
+		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.10926f);
+		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.33333f);
+		
+		assertEquals(true, row0col0, "Wrong value!");
+		assertEquals(true, row1col1, "Wrong value!");
+		assertEquals(true, row2col2, "Wrong value!");
+		assertEquals(true, row3col3, "Wrong value!");
+	}
+	
+	/*
+	 * Multiplying a product by its inverse.
+	 */
+	@Test
+	@Order(14)
+	public void testMultiplyInverse() {
+		logger.info("----- Matrix multiplication & inversion...");
+		logger.info("-----");
+		
+		// Create the elements
+		float[][] valuesA = {
+				{3, -9, 7, 3},
+				{3, -8, 2, -9},
+				{-4, 4, 4, 1},
+				{-6, 5, -1, 1}
+		};
+		
+		// Create a Matrix
+		Matrix matrixA = Factory.matrix(valuesA);
+		
+		// Create the elements
+		float[][] valuesB = {
+				{3, -9, 7, 3},
+				{3, -8, 2, -9},
+				{-4, 4, 4, 1},
+				{-6, 5, -1, 1}
+		};
+		
+		// Create another Matrix
+		Matrix matrixB = Factory.matrix(valuesB);
+		
+		// C = A * B
+		Matrix matrixC = MatrixOperations.mul(matrixA, matrixB);
+		
+		// Inverse matrix
+		Matrix matrixBinv = MatrixOperations.inverse(matrixB);
+		
+		// C * inverse(B) = A
+		Matrix result = MatrixOperations.mul(matrixC, matrixBinv);
+		
+		// Compare them
+		boolean equality = MatrixOperations.equals(matrixA, result);
+		
+		assertEquals(true, equality, "A != inverse(B)");
 	}
 	
 }

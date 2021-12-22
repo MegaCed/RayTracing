@@ -8,6 +8,7 @@ import com.raytracer.engine.element.Tuple;
 
 /*
  * Performs various operations on matrices.
+ * One of the pillars of linear algebra.
  */
 public class MatrixOperations {
 

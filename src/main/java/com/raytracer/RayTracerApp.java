@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.PortablePixmap;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Environment;
 import com.raytracer.engine.misc.Projectile;
 import com.raytracer.engine.misc.Simulator;
+import com.raytracer.engine.operation.MatrixOperations;
 import com.raytracer.engine.operation.TupleOperations;
 
 /*
@@ -35,7 +37,10 @@ public class RayTracerApp {
 		//catapult();
 		
 		// Play with a visual catapult
-		//CatapultWithUI();
+		//catapultWithUI();
+		
+		// Some questions related to matrices
+		matricesQuestions();
 		
 		logger.info("Done!");
 	}
@@ -48,6 +53,8 @@ public class RayTracerApp {
 	}
 	
 	/*
+	 * Chapter 1: Tuples.
+	 * 
 	 * Try playing with this little program, firing virtual projectiles and seeing how far they go. 
 	 * It’ll let you exercise the vector and point routines you’ve written.
 	 */
@@ -80,12 +87,14 @@ public class RayTracerApp {
 	}
 	
 	/*
+	 * Chapter 2: Canvas.
+	 * 
 	 * For this challenge, you’ll once again compute the trajectory of a projectile, just as before, 
 	 * but this time you’ll plot its course on your brand-new canvas.
 	 * After each tick, take the coordinates of the projectile and color the corresponding pixel on 
 	 * the canvas. When the loop finishes, save your canvas to disk and view the result.
 	 */
-	private static void CatapultWithUI() {
+	private static void catapultWithUI() {
 		Canvas aCanvas = Factory.canvas(900, 500);
 		Color red = Factory.color(1, 0, 0);
 		
@@ -121,6 +130,94 @@ public class RayTracerApp {
 		// After your loop finishes, be sure to save your canvas to a file!
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
 		ppmFile.writeToFile("//home//cedric//Projets//Ray Tracing//catapult.ppm");
+	}
+	
+	/*
+	 * Chapter 3: Matrices.
+	 */
+	private static void matricesQuestions() {
+		question1();
+		
+		question2();
+		
+		question3();
+		
+		question4();
+	}
+	
+	/*
+	 * 1. What happens when you invert the identity matrix?
+	 */
+	private static void question1() {
+		Matrix identityMatrix = Factory.identityMatrix();
+		
+		Matrix identityInverse = MatrixOperations.inverse(identityMatrix);
+		
+		logger.info("Identity Matrix inversed ---> " + identityInverse.toString());
+	}
+	
+	/*
+	 * 2. What do you get when you multiply a matrix by its inverse?
+	 */
+	private static void question2() {
+		float[][] values = {
+				{6, 4, 4, 4},
+				{5, 5, 7, 6},
+				{4, -9, 3, -7},
+				{9, 1, 7, -6}
+		};
+
+		Matrix aMatrix = new Matrix(values);
+
+		Matrix inverse = MatrixOperations.inverse(aMatrix);
+
+		Matrix result = MatrixOperations.mul(aMatrix, inverse);
+
+		logger.info("Multiplied inversed ---> " + result.toString());
+	}
+	
+	/*
+	 * 3. Is there any difference between the inverse of the transpose of a matrix, and the 
+	 * transpose of the inverse?
+	 */
+	private static void question3() {
+		float[][] values = {
+				{6, 4, 4, 4},
+				{5, 5, 7, 6},
+				{4, -9, 3, -7},
+				{9, 1, 7, -6}
+		};
+
+		Matrix aMatrix = new Matrix(values);
+		
+		Matrix transposed = MatrixOperations.transpose(aMatrix);
+		
+		Matrix inverseTransposed = MatrixOperations.inverse(transposed);
+		
+		Matrix inverse = MatrixOperations.inverse(aMatrix);
+		
+		Matrix transposedInversed = MatrixOperations.transpose(inverse);
+		
+		logger.info("inverseTransposed ---> " + inverseTransposed.toString());
+		logger.info("transposedInversed ---> " + transposedInversed.toString());
+	}
+	
+	/*
+	 * 4. Remember how multiplying the identity matrix by a tuple gives you the tuple, unchanged?
+	 * Now, try changing any single element of the identity matrix to a different number, and then 
+	 * multiplying it by a tuple. What happens to the tuple?
+	 */
+	private static void question4() {
+		Matrix identityMatrix = Factory.identityMatrix();
+		
+		identityMatrix.setElement(3, 1, 1);
+		
+		Tuple aTuple = new Tuple(1, 2, 3, 1);
+		
+		Tuple result = MatrixOperations.mul(identityMatrix, aTuple);
+		
+		logger.info("Identity Matrix ---> " + identityMatrix.toString());
+		logger.info("Tuple ---> " + result.toString());
 	}
 	
 }

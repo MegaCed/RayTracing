@@ -47,6 +47,15 @@ public class Matrix {
 		// TODO: Throw exception instead??
 		return 0;
 	}
+	
+	/*
+	 * Set an element at a specific location.
+	 */
+	public void setElement(float element, int y, int x) {
+		if (x <= getColumns() && y < getRows()) {
+			elements[y][x] = element;
+		}
+	}
 
 	/*
 	 * Prints this Matrix.
@@ -73,7 +82,13 @@ public class Matrix {
 				
 				result.append(Constants.MATRIX_SEPARATOR + value);
 			}
-			result.append(Constants.MATRIX_SEPARATOR + Constants.END_OF_LINE);
+			
+			result.append(Constants.MATRIX_SEPARATOR);
+			
+			// Add an end of line, except for the very last line
+			if (row != ySize-1) {
+				result.append(Constants.END_OF_LINE);
+			}
 		}
 		
 		return result.toString();
