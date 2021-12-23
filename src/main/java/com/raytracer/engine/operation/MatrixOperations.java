@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 
 /*
  * Performs various operations on matrices.
@@ -21,7 +22,7 @@ public class MatrixOperations {
 	 * matrices a lot.
 	 */
 	public static boolean equals(Matrix matrix1, Matrix matrix2) {
-		logger.debug("-> Comparing 2 matrices...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Comparing 2 matrices...");
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
 		
@@ -38,12 +39,13 @@ public class MatrixOperations {
 				float element2 = matrix2.getElement(row, col);
 						
 				if (!MiscOperations.equalsEpsilon(element1, element2)) {
+					logger.debug(Constants.SEPARATOR_RESULT + "Matrices are different!");
 					return false;
 				}
 			}
 		}
 		
-		logger.debug("--> Matrices are identical!");
+		logger.debug(Constants.SEPARATOR_RESULT + "Matrices are identical!");
 		return true;
 	}
 	
@@ -57,7 +59,7 @@ public class MatrixOperations {
 	 * together in a specific way.
 	 */
 	public static Matrix mul(Matrix matrix1, Matrix matrix2) {
-		logger.debug("-> Multiplying 2 matrices...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Multiplying 2 matrices...");
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
 
@@ -66,7 +68,7 @@ public class MatrixOperations {
 		
 		Matrix result = new Matrix(elements);
 		
-		logger.debug("--> Result of multiplication: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
 		return result;
 	}
 	
@@ -77,7 +79,7 @@ public class MatrixOperations {
 	 * The trick begins by treating the tuple as a really skinny (one column!) matrix.
 	 */
 	public static Tuple mul(Matrix aMatrix, Tuple aTuple) {
-		logger.debug("-> Multiplying a Matrix by a Tuple...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Multiplying a Matrix by a Tuple...");
 		logger.debug("Matrix: " + aMatrix);
 		logger.debug("Tuple: " + aTuple);
 
@@ -86,7 +88,7 @@ public class MatrixOperations {
 
 		Tuple result = new Tuple(elements);
 		
-		logger.debug("--> Result of multiplication: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
 		return result;
 	}
 	
@@ -132,7 +134,7 @@ public class MatrixOperations {
 	 * translating certain vectors (called normal vectors) between object space and world space.
 	 */
 	public static Matrix transpose(Matrix aMatrix) {
-		logger.debug("-> Transposing Matrix...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Transposing Matrix...");
 		logger.debug("Matrix: " + aMatrix);
 		
 		int rows = aMatrix.getRows();
@@ -151,7 +153,7 @@ public class MatrixOperations {
 		
 		Matrix result = new Matrix(elements);
 		
-		logger.debug("--> Result of transposition: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of transposition = " + result);
 		return result;
 	}
 	
@@ -163,7 +165,7 @@ public class MatrixOperations {
 	 * corresponding system of equations has no solution.
 	 */
 	public static float determinant(Matrix aMatrix) {
-		logger.debug("-> Determining  Matrix Determinant...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Determining  Matrix Determinant...");
 		logger.debug("Matrix: " + aMatrix);
 		
 		float determinant = 0;
@@ -176,13 +178,13 @@ public class MatrixOperations {
 			determinant = determinantBigMatrix(aMatrix);
 		}
 		
-		logger.debug("--> Determinant: " + determinant);
 		if (determinant == 0) {
 			logger.debug("Matrix is NOT invertible");
 		} else {
 			logger.debug("Matrix IS invertible");
 		}
 		
+		logger.debug(Constants.SEPARATOR_RESULT + "Determinant = " + determinant);
 		return determinant;
 	}
 	
@@ -190,7 +192,7 @@ public class MatrixOperations {
 	 * Find the Determinant of small matrices (2x2).
 	 */
 	private static float determinantSmallMatrix(Matrix aMatrix) {
-		logger.debug("-> Determinant for small matrices...");
+		logger.debug("(Determinant for small matrices)");
 		
 		// Determinant | a b | = ad - bc
 		//             | c d |
@@ -210,7 +212,7 @@ public class MatrixOperations {
 	 * And that’s the determinant!
 	 */
 	private static float determinantBigMatrix(Matrix aMatrix) {
-		logger.debug("-> Determinant for big matrices...");
+		logger.debug("(Determinant for big matrices)");
 		
 		float determinant = 0;
 		
@@ -233,9 +235,9 @@ public class MatrixOperations {
 	 * 2x2.
 	 */
 	public static Matrix submatrix(Matrix aMatrix, int rowToDelete, int columnToDelete) {
-		logger.debug("-> Extracting submatrix...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Extracting submatrix...");
 		logger.debug("Matrix: " + aMatrix);
-		logger.debug("Row to delete: " + rowToDelete + " -- Column to delete: " + columnToDelete);
+		logger.debug("Row to delete: " + rowToDelete + " - Column to delete: " + columnToDelete);
 		
 		int rowsCount = aMatrix.getRows();
 		int columnsCount = aMatrix.getColumns();
@@ -262,7 +264,7 @@ public class MatrixOperations {
 		
 		Matrix result = new Matrix(elements);
 		
-		logger.debug("--> Resulting submatrix: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Submatrix = " + result);
 		return result;
 	}
 	
@@ -274,9 +276,9 @@ public class MatrixOperations {
 	 * (You have to admit: “minor” is easier to say than “determinant of the submatrix.”)
 	 */
 	public static float minor(Matrix aMatrix, int row, int col) {
-		logger.debug("-> Finding Matrix Minor...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Finding Matrix Minor...");
 		logger.debug("Matrix: " + aMatrix);
-		logger.debug("Row: " + row + " -- Column: " + col);
+		logger.debug("Row: " + row + " - Column: " + col);
 		
 		// 1. Find the submatrix
 		Matrix submatrix = submatrix(aMatrix, row, col);
@@ -284,7 +286,7 @@ public class MatrixOperations {
 		// 2. Find the determinant of the submatrix
 		float minor = determinant(submatrix);
 		
-		logger.debug("--> Minor: " + minor);
+		logger.debug(Constants.SEPARATOR_RESULT + "Minor = " + minor);
 		return minor;
 	}
 	
@@ -302,9 +304,9 @@ public class MatrixOperations {
 	 * If the row and column identifies a spot with a -, then you negate the minor.
 	 */
 	public static float cofactor(Matrix aMatrix, int row, int col) {
-		logger.debug("-> Finding Matrix Cofactor...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Finding Matrix Cofactor...");
 		logger.debug("Matrix: " + aMatrix);
-		logger.debug("Row: " + row + " -- Column: " + col);
+		logger.debug("Row: " + row + " - Column: " + col);
 		
 		// 1. Find the Minor
 		float minor = minor(aMatrix, row, col);
@@ -312,13 +314,14 @@ public class MatrixOperations {
 		
 		// If row + column is an odd number, then you negate the minor.
 		// Otherwise, you just return the minor as is
-		if (((row + col) & 1) != 0) {
+		// Also, don't negate '0'
+		if ((((row + col) & 1) != 0) && (cofactor != 0)) {
 			// You can use the modulus operator, but that can be slow.
 			// The low bit will always be set on an odd number.
 			cofactor = -cofactor;
 		}
 		
-		logger.debug("--> Cofactor: " + cofactor);
+		logger.debug(Constants.SEPARATOR_RESULT + "Cofactor = " + cofactor);
 		return cofactor;
 	}
 	
@@ -355,6 +358,8 @@ public class MatrixOperations {
 		}
 		
 		Matrix inverse = new Matrix(elements);
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Matrix inverse = " + inverse);
 		return inverse;
 	}
 	

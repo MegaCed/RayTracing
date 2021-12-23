@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.MiscOperations;
 import com.raytracer.engine.operation.TupleOperations;
 
@@ -26,15 +27,16 @@ public class TestTuples {
 	@Test
 	@Order(1)
 	public void testIsPoint() {
-		logger.info("-----");
-		logger.info("Testing points...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing points...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a tuple
 		Tuple aPoint = Factory.point(1, 1, 1);
 		
 		assertEquals(1, aPoint.getW(), "W must be equals to 1 for a Point!");
 		assertEquals(true, aPoint.isPoint(), "This Tuple is not a Point!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -43,15 +45,16 @@ public class TestTuples {
 	@Test
 	@Order(2)
 	public void testIsVector() {
-		logger.info("-----");
-		logger.info("Testing vectors...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing vectors...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a tuple
 		Tuple aPoint = Factory.vector(1, 1, 1);
 		
 		assertEquals(0, aPoint.getW(), "W must be equals to 0 for a Vector!");
 		assertEquals(true, aPoint.isVector(), "This Tuple is not a Vector!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -60,9 +63,8 @@ public class TestTuples {
 	@Test
 	@Order(3)
 	public void testEqualsEpsilon() {
-		logger.info("-----");
-		logger.info("Testing equality...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing equality...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create 2 floats with an acceptable difference
 		float value1 = 1.0f;
@@ -81,6 +83,8 @@ public class TestTuples {
 		result = MiscOperations.equalsEpsilon(value1, value2);
 		
 		assertEquals(false, result, "Values are not equals!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -89,9 +93,8 @@ public class TestTuples {
 	@Test
 	@Order(4)
 	public void testAddition() {
-		logger.info("-----");
-		logger.info("Testing addition...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing addition...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Point
 		Tuple aPoint = Factory.point(3, -2, 5);
@@ -106,6 +109,8 @@ public class TestTuples {
 		assertEquals(1, result.getY(), "Y has wrong value!");
 		assertEquals(6, result.getZ(), "Z has wrong value!");
 		assertEquals(true, result.isPoint(), "Result must be a point!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -114,9 +119,8 @@ public class TestTuples {
 	@Test
 	@Order(5)
 	public void testSubtraction() {
-		logger.info("-----");
-		logger.info("Testing subtraction...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing subtraction...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Point
 		Tuple aPoint = Factory.point(3, 2, 1);
@@ -159,6 +163,8 @@ public class TestTuples {
 		assertEquals(-4, result.getY(), "Y has wrong value!");
 		assertEquals(-6, result.getZ(), "Z has wrong value!");
 		assertEquals(true, result.isVector(), "Result must be a vector!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -167,9 +173,8 @@ public class TestTuples {
 	@Test
 	@Order(6)
 	public void testNegation() {
-		logger.info("-----");
-		logger.info("Testing negation...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing negation...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
@@ -181,6 +186,8 @@ public class TestTuples {
 		assertEquals(2, aTuple.getY(), "Y has wrong value!");
 		assertEquals(-3, aTuple.getZ(), "Z has wrong value!");
 		assertEquals(4, aTuple.getW(), "W has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -189,9 +196,8 @@ public class TestTuples {
 	@Test
 	@Order(7)
 	public void testMultiplication() {
-		logger.info("-----");
-		logger.info("Testing multiplication...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing multiplication...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
@@ -216,6 +222,8 @@ public class TestTuples {
 		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
 		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
 		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -224,9 +232,8 @@ public class TestTuples {
 	@Test
 	@Order(8)
 	public void testDivision() {
-		logger.info("-----");
-		logger.info("Testing division...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing division...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
@@ -239,6 +246,8 @@ public class TestTuples {
 		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
 		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
 		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -247,9 +256,8 @@ public class TestTuples {
 	@Test
 	@Order(9)
 	public void testMagnitude() {
-		logger.info("-----");
-		logger.info("Testing magnitude...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing magnitude...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Vector
 		Tuple aVector = Factory.vector(1, 0, 0);
@@ -293,7 +301,10 @@ public class TestTuples {
 		
 		// Compare the result (using Epsilon)
 		equalsEpsilon = MiscOperations.equalsEpsilon(result, (float)Math.sqrt(14));
+		
 		assertEquals(true, equalsEpsilon, "Wrong magnitude for the Vector!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -302,9 +313,8 @@ public class TestTuples {
 	@Test
 	@Order(10)
 	public void testNormalization() {
-		logger.info("-----");
-		logger.info("Testing normalization...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing normalization...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Vector
 		Tuple aVector = Factory.vector(4, 0, 0);
@@ -344,7 +354,10 @@ public class TestTuples {
 		
 		// Compare the result (using Epsilon)
 		boolean magnitudeEpsilon = MiscOperations.equalsEpsilon(magnitude, 1);
+		
 		assertEquals(true, magnitudeEpsilon, "Wrong magnitude for the normalized Vector!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -353,9 +366,8 @@ public class TestTuples {
 	@Test
 	@Order(11)
 	public void testDotProduct() {
-		logger.info("-----");
-		logger.info("Testing dot product...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing dot product...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Vector
 		Tuple vector1 = Factory.vector(1, 2, 3);
@@ -366,6 +378,7 @@ public class TestTuples {
 		
 		assertEquals(20, result, "Wrong dot product!");
 		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -374,9 +387,8 @@ public class TestTuples {
 	@Test
 	@Order(12)
 	public void testCrosstProduct() {
-		logger.info("-----");
-		logger.info("Testing cross product...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing cross product...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create 2 Vectors
 		Tuple vector1 = Factory.vector(1, 2, 3);
@@ -399,6 +411,7 @@ public class TestTuples {
 		assertEquals(-2, result.getY(), "Y has wrong value!");
 		assertEquals(1, result.getZ(), "Z has wrong value!");
 		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 
 }

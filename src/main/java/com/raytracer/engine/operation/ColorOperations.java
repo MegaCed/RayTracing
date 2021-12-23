@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.misc.Constants;
 
 /*
  * Colors, as you’ll see, tend to interact with each other. Whether it’s a green light reflecting on 
@@ -21,7 +22,7 @@ public class ColorOperations {
 	 * Adding Colors.
 	 */
 	public static Color add(Color color1, Color color2) {
-		logger.debug("Adding 2 Colors...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Adding 2 Colors...");
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
@@ -31,7 +32,7 @@ public class ColorOperations {
 		
 		Color result = new Color(red, green, blue);
 		
-		logger.debug("Result of addition: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of addition = " + result);
 		
 		return result;
 	}
@@ -40,7 +41,7 @@ public class ColorOperations {
 	 * Subtracting colors.
 	 */
 	public static Color sub(Color color1, Color color2) {
-		logger.debug("Subtracting 2 Colors...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Subtracting 2 Colors...");
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
@@ -50,7 +51,7 @@ public class ColorOperations {
 		
 		Color result = new Color(red, green, blue);
 		
-		logger.debug("Result of subtraction: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of subtraction = " + result);
 		
 		return result;
 	}
@@ -59,7 +60,7 @@ public class ColorOperations {
 	 * Multiplying a color by a scalar.
 	 */
 	public static void mul(Color aColor, Float scalar) {
-		logger.debug("Multiply Color: " + aColor + " by " + scalar);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Color: " + aColor + " by " + scalar);
 		
 		// Multiply each component of the Color by the scalar
 		float red = aColor.getRed() * scalar;
@@ -70,7 +71,7 @@ public class ColorOperations {
 		aColor.setGreen(green);
 		aColor.setBlue(blue);
 		
-		logger.debug("Result of multiplication: " + aColor);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + aColor);
 	}
 	
 	/*
@@ -80,7 +81,7 @@ public class ColorOperations {
 	 * visible color of a yellow-green surface when illuminated by a reddish-purple light.
 	 */
 	public static Color mul(Color color1, Color color2) {
-		logger.debug("Multiplying 2 Colors...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Multiplying 2 Colors...");
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
@@ -93,7 +94,7 @@ public class ColorOperations {
 		// product)
 		Color result = new Color(red, green, blue);
 		
-		logger.debug("Result of multiplication: " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
 		
 		return result;
 	}

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.MatrixOperations;
 import com.raytracer.engine.operation.MiscOperations;
 
@@ -26,8 +27,8 @@ public class TestMatrices {
 	@Test
 	@Order(1)
 	public void testCreateMatrix() {
-		logger.info("----- Testing Matrix...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Creating Matrices");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -48,7 +49,7 @@ public class TestMatrices {
 		assertEquals(13.5f, aMatrix.getElement(3,0), "Wrong value!");
 		assertEquals(15.5f, aMatrix.getElement(3,2), "Wrong value!");
 		
-		// Create the elements
+		// A 2x2 matrix ought to be representable
 		float[][] values2 = {
 				{-3, 5},
 				{1, -2}
@@ -62,7 +63,7 @@ public class TestMatrices {
 		assertEquals(1, aMatrix.getElement(1,0), "Wrong value!");
 		assertEquals(-2, aMatrix.getElement(1,1), "Wrong value!");
 		
-		// Create the elements
+		// A 3x3 matrix ought to be representable
 		float[][] values3 = {
 				{-3, 5, 0},
 				{1, -2, -7},
@@ -76,7 +77,7 @@ public class TestMatrices {
 		assertEquals(-2, aMatrix.getElement(1,1), "Wrong value!");
 		assertEquals(1, aMatrix.getElement(2,2), "Wrong value!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -85,8 +86,8 @@ public class TestMatrices {
 	@Test
 	@Order(2)
 	public void testCompareMatrix() {
-		logger.info("----- Comparing Matrices...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Comparing Matrices");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values1 = {
@@ -110,7 +111,7 @@ public class TestMatrices {
 		// Create another Matrix
 		Matrix matrix2 = Factory.matrix(values2);
 		
-		// Compare them together
+		// Matrix equality with identical matrices
 		boolean equality = MatrixOperations.equals(matrix1, matrix2);
 		
 		assertEquals(true, equality, "Matrices aren't equals!");
@@ -123,14 +124,14 @@ public class TestMatrices {
 				{4, 3, 2, 1}
 		};
 		
-		// Create another Matrix
+		// Matrix equality with different matrices
 		Matrix matrix3 = Factory.matrix(values3);
 		
 		equality = MatrixOperations.equals(matrix1, matrix3);
 		
 		assertEquals(false, equality, "Matrices are equals!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 
 	
@@ -140,8 +141,8 @@ public class TestMatrices {
 	@Test
 	@Order(3)
 	public void testMultiplyMatrices() {
-		logger.info("----- Multiplying Matrices...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Multiplying 2 matrices");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values1 = {
@@ -173,7 +174,7 @@ public class TestMatrices {
 		assertEquals(110, result.getElement(2,2), "Wrong value!");
 		assertEquals(42, result.getElement(3,3), "Wrong value!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -182,8 +183,8 @@ public class TestMatrices {
 	@Test
 	@Order(4)
 	public void testMultiplyMatrixAndTuple() {
-		logger.info("----- Multiplying Matrix and Tuple...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "A matrix multiplied by a tuple");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -207,7 +208,7 @@ public class TestMatrices {
 		assertEquals(33, result.getZ(), "Wrong value!");
 		assertEquals(1, result.getW(), "Wrong value!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -216,8 +217,8 @@ public class TestMatrices {
 	@Test
 	@Order(5)
 	public void testIdentityMatrix() {
-		logger.info("----- Multiplying Identity Matrix...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Multiplying a matrix by the identity matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -252,7 +253,7 @@ public class TestMatrices {
 		assertEquals(3, resultTuple.getZ(), "Wrong value!");
 		assertEquals(4, resultTuple.getW(), "Wrong value!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -261,8 +262,8 @@ public class TestMatrices {
 	@Test
 	@Order(6)
 	public void testTransposeMatrix() {
-		logger.info("----- Transposing Matrix...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Transposing a matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -295,7 +296,7 @@ public class TestMatrices {
 		assertEquals(1, result.getElement(2,2), "Wrong value!");
 		assertEquals(1, result.getElement(3,3), "Wrong value!");
 		
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -304,8 +305,8 @@ public class TestMatrices {
 	@Test
 	@Order(7)
 	public void testMatrixDeterminant() {
-		logger.info("----- Matrix Determinant...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Calculating the determinant of a 2x2 matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -320,6 +321,8 @@ public class TestMatrices {
 		float determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(17, determinant, "Wrong result!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -328,8 +331,8 @@ public class TestMatrices {
 	@Test
 	@Order(8)
 	public void testSubMatrix() {
-		logger.info("----- Finding submatrix...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Finding submatrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -341,7 +344,7 @@ public class TestMatrices {
 		// Create a Matrix
 		Matrix aMatrix = Factory.matrix(values);
 		
-		// Extract submatrix
+		// A submatrix of a 3x3 matrix is a 2x2 matrix
 		Matrix result = MatrixOperations.submatrix(aMatrix, 0, 2);
 		
 		// Returns a copy of the given matrix with the given row and column removed
@@ -361,7 +364,7 @@ public class TestMatrices {
 		// Create a Matrix
 		aMatrix = Factory.matrix(values2);
 		
-		// Extract submatrix
+		// A submatrix of a 4x4 matrix is a 3x3 matrix
 		result = MatrixOperations.submatrix(aMatrix, 2, 1);
 		
 		// Returns a copy of the given matrix with the given row and column removed
@@ -370,6 +373,8 @@ public class TestMatrices {
 		assertEquals(-6, result.getElement(0,0), "Wrong value!");
 		assertEquals(8, result.getElement(1,1), "Wrong value!");
 		assertEquals(1, result.getElement(2,2), "Wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -378,8 +383,41 @@ public class TestMatrices {
 	@Test
 	@Order(9)
 	public void testMinor() {
-		logger.info("----- Matrix Minor...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Calculating a minor of a 3x3 matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create the elements
+		float[][] values = {
+				{3, 5, 0},
+				{2, -1, -7},
+				{6, -1, 5}
+		};
+		
+		// Create a Matrix
+		Matrix aMatrix = Factory.matrix(values);
+		
+		// Find Determinant
+		Matrix submatrix = MatrixOperations.submatrix(aMatrix, 1, 0);
+		float determinant = MatrixOperations.determinant(submatrix);
+		
+		assertEquals(25, determinant, "Wrong determinant!");
+		
+		// Find Minor
+		float minor = MatrixOperations.minor(aMatrix, 1, 0);
+		
+		assertEquals(25, minor, "Wrong minor!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Finding a Cofactor.
+	 */
+	@Test
+	@Order(10)
+	public void testCofactor() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Calculating a cofactor of a 3x3 matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -392,39 +430,26 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values);
 		
 		// Find Minor
-		float result = MatrixOperations.minor(aMatrix, 1, 0);
-		
-		assertEquals(25, result, "Wrong value!");
-	}
-	
-	/*
-	 * Finding a Cofactor.
-	 */
-	@Test
-	@Order(10)
-	public void testCofactor() {
-		logger.info("----- Matrix Cofactor...");
-		logger.info("-----");
-		
-		// Create the elements
-		float[][] values = {
-				{3, 5, 0},
-				{2, -1, -7},
-				{6, -1, 5}
-		};
-		
-		// Create a Matrix
-		Matrix aMatrix = Factory.matrix(values);
+		float minor = MatrixOperations.minor(aMatrix, 0, 0);
+				
+		assertEquals(-12, minor, "Wrong minor!");
 		
 		// Find Cofactor
-		float result = MatrixOperations.cofactor(aMatrix, 0, 0);
+		float cofactor = MatrixOperations.cofactor(aMatrix, 0, 0);
 		
-		assertEquals(-12, result, "Wrong value!");
+		assertEquals(-12, cofactor, "Wrong cofactor!");
+		
+		// Find Minor
+		minor = MatrixOperations.minor(aMatrix, 1, 0);
+				
+		assertEquals(25, minor, "Wrong minor!");
 		
 		// Find Cofactor
-		result = MatrixOperations.cofactor(aMatrix, 1, 0);
+		cofactor = MatrixOperations.cofactor(aMatrix, 1, 0);
 		
-		assertEquals(-25, result, "Wrong value!");
+		assertEquals(-25, cofactor, "Wrong cofactor!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -433,8 +458,8 @@ public class TestMatrices {
 	@Test
 	@Order(11)
 	public void testLargeMatrixDeterminant() {
-		logger.info("----- Matrix Determinant of larger matrices...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Matrix Determinant of larger matrices");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements (3x3)
 		float[][] values3x3 = {
@@ -446,10 +471,19 @@ public class TestMatrices {
 		// Create a Matrix
 		Matrix aMatrix = Factory.matrix(values3x3);
 		
-		// Find determinant
+		// Find cofactors
+		float cofactor1 = MatrixOperations.cofactor(aMatrix, 0, 0);
+		float cofactor2 = MatrixOperations.cofactor(aMatrix, 0, 1);
+		float cofactor3 = MatrixOperations.cofactor(aMatrix, 0, 2);
+		
+		assertEquals(56, cofactor1, "Wrong cofactor!");
+		assertEquals(12, cofactor2, "Wrong cofactor!");
+		assertEquals(-46, cofactor3, "Wrong cofactor!");
+		
+		// Calculating the determinant of a 3x3 matrix
 		float determinant = MatrixOperations.determinant(aMatrix);
 		
-		assertEquals(-196, determinant, "Wrong result!");
+		assertEquals(-196, determinant, "Wrong determinant!");
 		
 		// Create the elements (4x4)
 		float[][] values4x4 = {
@@ -462,10 +496,23 @@ public class TestMatrices {
 		// Create a Matrix
 		aMatrix = Factory.matrix(values4x4);
 		
-		// Find determinant
+		// Find cofactors
+		cofactor1 = MatrixOperations.cofactor(aMatrix, 0, 0);
+		cofactor2 = MatrixOperations.cofactor(aMatrix, 0, 1);
+		cofactor3 = MatrixOperations.cofactor(aMatrix, 0, 2);
+		float cofactor4 = MatrixOperations.cofactor(aMatrix, 0, 3);
+		
+		assertEquals(690, cofactor1, "Wrong cofactor!");
+		assertEquals(447, cofactor2, "Wrong cofactor!");
+		assertEquals(210, cofactor3, "Wrong cofactor!");
+		assertEquals(51, cofactor4, "Wrong cofactor!");
+		
+		// Calculating the determinant of a 4x4 matrix
 		determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(-4071, determinant, "Wrong result!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -474,8 +521,8 @@ public class TestMatrices {
 	@Test
 	@Order(12)
 	public void testInvertibility() {
-		logger.info("----- Matrix invertibility...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Matrix invertibility");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -508,6 +555,8 @@ public class TestMatrices {
 		determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(0, determinant, "Wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -516,8 +565,8 @@ public class TestMatrices {
 	@Test
 	@Order(13)
 	public void testInverse() {
-		logger.info("----- Matrix inversion...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Matrix inversion");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] values = {
@@ -608,6 +657,8 @@ public class TestMatrices {
 		assertEquals(true, row1col1, "Wrong value!");
 		assertEquals(true, row2col2, "Wrong value!");
 		assertEquals(true, row3col3, "Wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -616,8 +667,8 @@ public class TestMatrices {
 	@Test
 	@Order(14)
 	public void testMultiplyInverse() {
-		logger.info("----- Matrix multiplication & inversion...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Matrix multiplication & inversion...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
 		float[][] valuesA = {
@@ -654,6 +705,8 @@ public class TestMatrices {
 		boolean equality = MatrixOperations.equals(matrixA, result);
 		
 		assertEquals(true, equality, "A != inverse(B)");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 }

@@ -3,6 +3,8 @@ package com.raytracer.engine.operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.misc.Constants;
+
 /*
  * Perform some Operations (comparisons, operations, ...) on numbers and various elements.
  */
@@ -22,15 +24,18 @@ public class MiscOperations {
 	 */
 	// TODO: remove this from this class??
 	public static boolean equalsEpsilon(float value1, float value2) {
-		logger.debug("Comparing 2 values with an Epsilon of: " + String.format("%f", EPSILON));
-		logger.debug("1st value: " + value1);
-		logger.debug("2nd value: " + value2);
+		boolean result = false;
 		
 		if (Math.abs(value1 - value2) < EPSILON) {
-			return true;
+			result = true;
 		}
 		
-		return false;
+		logger.debug(Constants.SEPARATOR_OPERATION + "Comparing: " 
+				+ String.format(Constants.NUMBER_BIG, value1) + " & " + String.format(Constants.NUMBER_BIG, value2)
+				+ " (Epsilon = " + String.format("%f", EPSILON) + ") "
+				+ Constants.SEPARATOR_RESULT + result);
+
+		return result;
 	}
 
 }

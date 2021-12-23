@@ -13,6 +13,7 @@ import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.PortablePixmap;
+import com.raytracer.engine.misc.Constants;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestCanvas {
@@ -25,9 +26,8 @@ public class TestCanvas {
 	@Test
 	@Order(1)
 	public void testCreateCanvas() {
-		logger.info("-----");
-		logger.info("Testing Canvas creation...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing Canvas creation...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Canvas
 		Canvas aCanvas = Factory.canvas(10, 20);
@@ -45,6 +45,8 @@ public class TestCanvas {
 				assertEquals(0, pixelColor.getBlue(), "Wrong blue value!");
 			}
 		}
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -53,9 +55,8 @@ public class TestCanvas {
 	@Test
 	@Order(2)
 	public void testUpdateCanvas() {
-		logger.info("-----");
-		logger.info("Testing Canvas update...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing Canvas update...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Canvas properties
 		int width = 10;
@@ -80,6 +81,8 @@ public class TestCanvas {
 		assertEquals(1, pixelColor.getRed(), "Wrong red value!");
 		assertEquals(0, pixelColor.getGreen(), "Wrong regreend value!");
 		assertEquals(0, pixelColor.getBlue(), "Wrong blue value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -88,9 +91,8 @@ public class TestCanvas {
 	@Test
 	@Order(3)
 	public void testPPM() {
-		logger.info("-----");
-		logger.info("Testing PPM files...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing PPM files...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Canvas properties
 		int width = 5;
@@ -124,6 +126,8 @@ public class TestCanvas {
 				+ "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 \n";
 		
 		assertEquals(data, ppmFile.getData(), "Wrong PPM data!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -132,9 +136,8 @@ public class TestCanvas {
 	@Test
 	@Order(4)
 	public void testBigPPM() {
-		logger.info("-----");
-		logger.info("Testing big PPM files...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing big PPM files...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Canvas properties
 		int width = 10;
@@ -162,6 +165,8 @@ public class TestCanvas {
 				+ " 153 255 204 153 255 204 153 255 204 153 255 204 153 \n";
 		
 		assertEquals(data, ppmFile.getData(), "Wrong PPM data!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 
 }

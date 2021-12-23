@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.ColorOperations;
 import com.raytracer.engine.operation.MiscOperations;
 
@@ -25,16 +26,17 @@ public class TestColors {
 	@Test
 	@Order(1)
 	public void testCreateColor() {
-		logger.info("-----");
-		logger.info("Testing Colors...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing Colors...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
 		Color aColor = Factory.color(-0.5f, 0.4f, 1.7f);
 		
 		assertEquals(-0.5f, aColor.getRed(), "Wrong red value!");
 		assertEquals(0.4f, aColor.getGreen(), "Wrong green value!");
-		assertEquals(1.7f, aColor.getBlue(), "Wrong blue value!");		
+		assertEquals(1.7f, aColor.getBlue(), "Wrong blue value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -43,9 +45,8 @@ public class TestColors {
 	@Test
 	@Order(2)
 	public void testAddition() {
-		logger.info("-----");
-		logger.info("Testing addition...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing addition...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
 		Color aColor = Factory.color(0.9f, 0.6f, 0.75f);
@@ -64,6 +65,8 @@ public class TestColors {
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
 		assertEquals(true, blueEquality, "Blue has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -72,9 +75,8 @@ public class TestColors {
 	@Test
 	@Order(3)
 	public void testSubtraction() {
-		logger.info("-----");
-		logger.info("Testing subtraction...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing subtraction...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
 		Color aColor = Factory.color(0.9f, 0.6f, 0.75f);
@@ -93,6 +95,8 @@ public class TestColors {
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
 		assertEquals(true, blueEquality, "Blue has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -101,9 +105,8 @@ public class TestColors {
 	@Test
 	@Order(4)
 	public void testMultiplication() {
-		logger.info("-----");
-		logger.info("Testing multiplication...");
-		logger.info("-----");
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing multiplication...");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Tuple
 		Color aColor = new Color(0.2f, 0.3f, 0.4f);
@@ -138,6 +141,8 @@ public class TestColors {
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
 		assertEquals(true, blueEquality, "Blue has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 
 }

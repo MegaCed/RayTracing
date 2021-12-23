@@ -1,7 +1,5 @@
 package com.raytracer;
 
-import java.text.DecimalFormat;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,6 +152,8 @@ public class RayTracerApp {
 		Matrix identityInverse = MatrixOperations.inverse(identityMatrix);
 		
 		logger.info("Identity Matrix inversed ---> " + identityInverse.toString());
+		
+		// Response: You get the identity matrix!
 	}
 	
 	/*
@@ -174,6 +174,8 @@ public class RayTracerApp {
 		Matrix result = MatrixOperations.mul(aMatrix, inverse);
 
 		logger.info("Multiplied inversed ---> " + result.toString());
+		
+		// Response: You get the identity matrix!
 	}
 	
 	/*
@@ -200,6 +202,8 @@ public class RayTracerApp {
 		
 		logger.info("inverseTransposed ---> " + inverseTransposed.toString());
 		logger.info("transposedInversed ---> " + transposedInversed.toString());
+		
+		// Response: No, same thing.
 	}
 	
 	/*
@@ -210,7 +214,7 @@ public class RayTracerApp {
 	private static void question4() {
 		Matrix identityMatrix = Factory.identityMatrix();
 		
-		identityMatrix.setElement(3, 1, 1);
+		identityMatrix.setElement(3, 0, 0);
 		
 		Tuple aTuple = new Tuple(1, 2, 3, 1);
 		
@@ -218,6 +222,8 @@ public class RayTracerApp {
 		
 		logger.info("Identity Matrix ---> " + identityMatrix.toString());
 		logger.info("Tuple ---> " + result.toString());
+		
+		// Response: The tuple is modified.
 	}
 	
 }

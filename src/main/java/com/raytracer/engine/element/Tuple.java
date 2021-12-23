@@ -80,6 +80,7 @@ public class Tuple {
 	 * Returns this Tuple as an array.
 	 * A Tuple can be seen as an array of 4 floats.
 	 * Threat the tuple as a really skinny (one column!) matrix.
+	 * Four rows. One column.
 	 */
 	public float[][] asArray() {
 		float[][] array = new float[4][1];

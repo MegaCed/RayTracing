@@ -7,6 +7,7 @@ import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 
 /*
  * Creates objects used by the application.
@@ -23,7 +24,7 @@ public class Factory {
 	public static Tuple point(float x, float y, float z) {
 		Tuple aPoint =  new Tuple(x, y, z, 1);
 		
-		logger.debug("Creating new Tuple: " + aPoint);
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Tuple: " + aPoint);
 		
 		return aPoint;
 	}
@@ -34,7 +35,7 @@ public class Factory {
 	public static Tuple vector(float x, float y, float z) {
 		Tuple aVector = new Tuple(x, y, z, 0);
 		
-		logger.debug("Creating new Tuple: " + aVector);
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Tuple: " + aVector);
 		
 		return aVector;
 	}
@@ -45,7 +46,7 @@ public class Factory {
 	public static Color color(float red, float green, float blue) {
 		Color aColor = new Color(red, green, blue);
 		
-		logger.debug("Creating new Color: " + aColor);
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Color: " + aColor);
 		
 		return aColor;
 	}
@@ -56,7 +57,7 @@ public class Factory {
 	public static Canvas canvas(int width, int height) {
 		Canvas aCanvas = new Canvas(width, height);
 		
-		logger.debug("Creating new Canvas: " + aCanvas);
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Canvas: " + aCanvas);
 		
 		return aCanvas;
 	}
@@ -67,7 +68,7 @@ public class Factory {
 	public static Matrix matrix(float[][] elements) {
 		Matrix aMatrix = new Matrix(elements);
 		
-		logger.debug("Creating new Matrix: " + aMatrix);
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Matrix: " + aMatrix);
 		
 		return aMatrix;
 	}
@@ -92,7 +93,7 @@ public class Factory {
 		
 		Matrix aMatrix = new Matrix(elements);
 		
-		logger.debug("Returning Identity Matrix: " + aMatrix);
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Identity Matrix: " + aMatrix);
 		
 		return aMatrix;
 	}

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 
 /*
  * Perform some Operations (comparisons, operations, ...) on Tuples.
@@ -21,7 +22,7 @@ public class TupleOperations {
 	 * 
 	 */
 	public static Tuple add(Tuple tuple1, Tuple tuple2) {
-		logger.debug("Adding 2 Tuples...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Adding 2 Tuples...");
 		logger.debug("1st Tuple: " + tuple1);
 		logger.debug("2nd Tuple: " + tuple2);
 		
@@ -35,8 +36,7 @@ public class TupleOperations {
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug("Result of addition: " + result);
-		
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of addition = " + result);
 		return result;
 	}
 	
@@ -51,7 +51,7 @@ public class TupleOperations {
 	 * Vector - Point  = nonsense!
 	 */
 	public static Tuple sub(Tuple tuple1, Tuple tuple2) {
-		logger.debug("Subtracting 2 Tuples...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Subtracting 2 Tuples...");
 		logger.debug("1st Tuple: " + tuple1);
 		logger.debug("2nd Tuple: " + tuple2);
 		
@@ -64,8 +64,7 @@ public class TupleOperations {
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug("Result of subtraction: " + result);
-		
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of subtraction = " + result);
 		return result;
 	}
 	
@@ -77,7 +76,7 @@ public class TupleOperations {
 	 * source back to the surface?
 	 */
 	public static void neg(Tuple aTuple) {
-		logger.debug("Negating Tuple: " + aTuple);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Negating Tuple: " + aTuple);
 		
 		// Negate each component of the tuple
 		float x = aTuple.getX() * -1;
@@ -90,7 +89,7 @@ public class TupleOperations {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Negated Tuple: " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Negated Tuple = " + aTuple);
 	}
 	
 	/*
@@ -101,7 +100,7 @@ public class TupleOperations {
 	 * So you lay that vector end-to-end 3.5 times to see just how far the point is from the start.
 	 */
 	public static void mul(Tuple aTuple, Float scalar) {
-		logger.debug("Multiply Tuple: " + aTuple + " by " + scalar);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Tuple: " + aTuple + " by " + scalar);
 		
 		// Multiply each component of the Tuple by the scalar
 		float x = aTuple.getX() * scalar;
@@ -114,7 +113,7 @@ public class TupleOperations {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Result of multiplication: " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + aTuple);
 	}
 	
 	/*
@@ -124,7 +123,7 @@ public class TupleOperations {
 	 * an operation as division.
 	 */
 	public static void div(Tuple aTuple, Float scalar) {
-		logger.debug("Dividing Tuple: " + aTuple + " by " + scalar);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Dividing Tuple: " + aTuple + " by " + scalar);
 		
 		// Divide each component of the tuple by the scalar
 		float x = aTuple.getX() / scalar;
@@ -137,7 +136,7 @@ public class TupleOperations {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Result of division: " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of division = " + aTuple);
 	}
 	
 	/*
@@ -147,7 +146,7 @@ public class TupleOperations {
 	 * would travel in a straight line if you were to walk from one end of the vector to the other.
 	 */
 	public static float magnitude(Tuple aVector) {
-		logger.debug("Retrieving magnitude of vector: " + aVector);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Retrieving magnitude of vector: " + aVector);
 		
 		// Pythagoras’ theorem taught us how to compute this, with some squares and a square root
 		float x2 = (float) Math.pow(aVector.getX(), 2);
@@ -157,8 +156,7 @@ public class TupleOperations {
 		
 		float result = (float) Math.sqrt(x2+y2+z2+w2);
 		
-		logger.debug("Magnitude: " + result);
-				
+		logger.debug(Constants.SEPARATOR_RESULT + "Magnitude = " + result);
 		return result;
 	}
 	
@@ -172,7 +170,7 @@ public class TupleOperations {
 	 * would be scaled differently for every ray you cast, and your scenes would look terrible.
 	 */
 	public static void normalize(Tuple aTuple) {
-		logger.debug("Normalizing Tuple: " + aTuple);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Normalizing Tuple: " + aTuple);
 		
 		// Retrieve the magnitude of the Tuple
 		float magnitude = magnitude(aTuple);
@@ -188,7 +186,7 @@ public class TupleOperations {
 		aTuple.setZ(z);
 		aTuple.setW(w);
 		
-		logger.debug("Normalized Tuple: " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Normalized Tuple = " + aTuple);
 	}
 	
 	/*
@@ -204,7 +202,7 @@ public class TupleOperations {
 	 * means they point in opposite directions.
 	 */
 	public static float dot(Tuple vector1, Tuple vector2) {
-		logger.debug("Dot product of 2 Vectors...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Dot product of 2 Vectors...");
 		logger.debug("1st Vector: " + vector1);
 		logger.debug("2nd Vector: " + vector2);
 		
@@ -218,8 +216,7 @@ public class TupleOperations {
 		
 		float result = x + y + z + w;
 		
-		logger.debug("Dot product: " + result);
-		
+		logger.debug(Constants.SEPARATOR_RESULT + "Dot product = " + result);
 		return result;
 	}
 	
@@ -238,7 +235,7 @@ public class TupleOperations {
 	 * 
 	 */
 	public static Tuple cross(Tuple vector1, Tuple vector2) {
-		logger.debug("Cross product of 2 Vectors...");
+		logger.debug(Constants.SEPARATOR_OPERATION + "Cross product of 2 Vectors...");
 		logger.debug("1st Vector: " + vector1);
 		logger.debug("2nd Vector: " + vector2);
 		
@@ -249,8 +246,7 @@ public class TupleOperations {
 		// You get a new vector that is perpendicular to both of the original vectors.
 		Tuple result = Factory.vector(x, y, z);
 		
-		logger.debug("Cross product: " + result);
-		
+		logger.debug(Constants.SEPARATOR_RESULT + "Cross product = " + result);
 		return result;		
 	}
 	
