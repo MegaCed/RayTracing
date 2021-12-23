@@ -250,4 +250,25 @@ public class TupleOperations {
 		return result;		
 	}
 	
+	/*
+	 * Test the equality of 2 Tuples.
+	 */
+	public static boolean equals(Tuple tuple1, Tuple tuple2) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Comparing 2 Tuples...");
+		logger.debug("1st Tuple: " + tuple1);
+		logger.debug("2nd Tuple: " + tuple2);
+		
+		boolean result = false;
+		
+		if (MiscOperations.equalsEpsilon(tuple1.getX(), tuple2.getX())
+				&& MiscOperations.equalsEpsilon(tuple1.getY(), tuple2.getY())
+				&& MiscOperations.equalsEpsilon(tuple1.getZ(), tuple2.getZ())
+				&& MiscOperations.equalsEpsilon(tuple1.getW(), tuple2.getW())) {
+			result = true;
+		}
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Tuples equality = " + result);
+		return result;	
+	}
+	
 }

@@ -94,8 +94,36 @@ public class Factory {
 		Matrix aMatrix = new Matrix(elements);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning Identity Matrix: " + aMatrix);
-		
 		return aMatrix;
+	}
+	
+	/*
+	 * Returns the (4x4) 'translation' Matrix.
+	 * 
+	 * Start with an identity matrix t, and then add the desired x, y, and z values to 
+	 * (respectively) the t03, t13, and t23 elements:
+	 * |1 0 0 x|
+	 * |0 1 0 y|
+	 * |0 0 1 z|
+	 * |0 0 0 1|
+	 * 
+ 	 * Translation is a transformation that moves a point.
+	 * 
+	 * It changes the coordinates of the point by adding to or subtracting from them. For example, 
+	 * if the point had an x coordinate of 3, and you moved it 4 units in x, it would wind up with 
+	 * an x coordinate of 7.
+	 */
+	public static Matrix translationMatrix(float x, float y, float z) {
+		// Get the Identity Matrix
+		Matrix translationMatrix = Factory.identityMatrix();
+		
+		// Set correctly the 3 elements
+		translationMatrix.setElement(x, 0, 3);
+		translationMatrix.setElement(y, 1, 3);
+		translationMatrix.setElement(z, 2, 3);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Translation Matrix: " + translationMatrix);
+		return translationMatrix;
 	}
 		
 }
