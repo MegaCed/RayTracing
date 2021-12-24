@@ -125,5 +125,32 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning Translation Matrix: " + translationMatrix);
 		return translationMatrix;
 	}
+	
+	/*
+	 * Returns a 4x4 'scaling' Matrix.
+	 * 
+	 * To construct a scaling matrix, take an identity matrix t and change the values at t00, t11, 
+	 * and t22 to be (respectively) the x, y, and z scaling values:
+	 * |x 0 0 0|
+	 * |0 y 0 0|
+	 * |0 0 z 0|
+	 * |0 0 0 1|
+	 * 
+	 * When applied to an object centered at the origin, this transformation scales all points on 
+	 * the object, effectively making it larger (if the scale value is greater than 1) or smaller 
+	 * (if the scale value is less than 1).
+	 */
+	public static Matrix scalingMatrix(float x, float y, float z) {
+		// Get the Identity Matrix
+		Matrix scalingMatrix = Factory.identityMatrix();
 		
+		// Set correctly the 3 elements
+		scalingMatrix.setElement(x, 0, 0);
+		scalingMatrix.setElement(y, 1, 1);
+		scalingMatrix.setElement(z, 2, 2);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Scaling Matrix: " + scalingMatrix);
+		return scalingMatrix;
+	}
+	
 }
