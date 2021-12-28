@@ -167,11 +167,10 @@ public class Factory {
 	 * |0 sin r  cos r 0|
 	 * |0     0      0 1|
 	 * 
-	 * Angles will be given in radians.
+	 * Angles will be given in radians:
 	 * - a full circle (360 degrees) consists of 2PI radians
 	 * - a half circle (180 degrees) is PI radians
 	 * - a quarter circle (90 degrees) is PI⁄2 radians
-	 * 
 	 */
 	public static Matrix xRotationMatrix(float radians) {
 		// Get the Identity Matrix
