@@ -153,4 +153,38 @@ public class Factory {
 		return scalingMatrix;
 	}
 	
+	/*
+	 * Returns a 4x4 'X rotation' Matrix.
+	 * 
+	 * Multiplying a tuple by a rotation matrix will rotate that tuple around an axis.
+	 * 
+	 * The rotation will appear to be clockwise around the corresponding axis when viewed along that 
+	 * axis, toward the negative end.
+	 * 
+	 * The transformation matrix for rotating r radians around the x axis is constructed like this:
+	 * |1     0      0 0|
+	 * |0 cos r -sin r 0|
+	 * |0 sin r  cos r 0|
+	 * |0     0      0 1|
+	 * 
+	 * Angles will be given in radians.
+	 * - a full circle (360 degrees) consists of 2PI radians
+	 * - a half circle (180 degrees) is PI radians
+	 * - a quarter circle (90 degrees) is PI⁄2 radians
+	 * 
+	 */
+	public static Matrix xRotationMatrix(float radians) {
+		// Get the Identity Matrix
+		Matrix rotationMatrix = Factory.identityMatrix();
+		
+		// Set correctly the 3 elements
+		rotationMatrix.setElement((float)Math.cos(radians), 1, 1);
+		rotationMatrix.setElement(-(float)Math.sin(radians), 1, 2);
+		rotationMatrix.setElement((float)Math.sin(radians), 2, 1);
+		rotationMatrix.setElement((float)Math.cos(radians), 2, 2);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning X Rotation Matrix: " + rotationMatrix);
+		return rotationMatrix;
+	}
+	
 }

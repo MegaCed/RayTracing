@@ -114,6 +114,8 @@ public class TestTransformations {
 		assertEquals(-2, result.getX(), "Wrong X!");
 		assertEquals(2, result.getY(), "Wrong Y!");
 		assertEquals(2, result.getZ(), "Wrong Z!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 	/*
@@ -142,6 +144,56 @@ public class TestTransformations {
 		assertEquals(-2, result.getX(), "Wrong X!");
 		assertEquals(3, result.getY(), "Wrong Y!");
 		assertEquals(4, result.getZ(), "Wrong Z!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Rotating a point around the x axis.
+	 */
+	@Test
+	@Order(4)
+	public void testXrotation() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing X Rotation Matrix");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Get a Rotation Matrix
+		Matrix halfQuarter = Factory.xRotationMatrix((float)Math.PI / 4);
+		
+		// Get a Point
+		Tuple aPoint = Factory.point(0, 1, 0);
+		
+		// Rotate a tuple some number of radians around the x axis
+		Tuple halfResult = MatrixOperations.mul(halfQuarter, aPoint);
+		
+		Tuple expectedResult = Factory.point(0, (float)Math.sqrt(2)/2, (float)Math.sqrt(2)/2);
+		boolean equality = TupleOperations.equals(halfResult, expectedResult);
+		
+		assertEquals(true, equality, "Wrong half result!");
+		
+		// Get a Rotation Matrix
+		Matrix fullQuarter = Factory.xRotationMatrix((float)Math.PI / 2);
+		
+		// Rotate a tuple some number of radians around the x axis
+		Tuple fullResult = MatrixOperations.mul(fullQuarter, aPoint);
+		
+		expectedResult = Factory.point(0, 0, 1);
+		equality = TupleOperations.equals(fullResult, expectedResult);
+		
+		assertEquals(true, equality, "Wrong full result!");
+		
+		// Show that the inverse of this rotation matrix simply rotates in the opposite direction
+		Matrix inverse = MatrixOperations.inverse(halfQuarter);
+		
+		// Rotate a tuple some number of radians around the x axis
+		Tuple inverseResult = MatrixOperations.mul(inverse, aPoint);
+		
+		expectedResult = Factory.point(0, (float)Math.sqrt(2)/2, -(float)Math.sqrt(2)/2);
+		equality = TupleOperations.equals(inverseResult, expectedResult);
+		
+		assertEquals(true, equality, "Wrong inverse result!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
 	}
 	
 }
