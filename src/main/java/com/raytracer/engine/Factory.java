@@ -176,7 +176,7 @@ public class Factory {
 		// Get the Identity Matrix
 		Matrix rotationMatrix = Factory.identityMatrix();
 		
-		// Set correctly the 3 elements
+		// Set correctly the 4 elements
 		rotationMatrix.setElement((float)Math.cos(radians), 1, 1);
 		rotationMatrix.setElement(-(float)Math.sin(radians), 1, 2);
 		rotationMatrix.setElement((float)Math.sin(radians), 2, 1);
@@ -184,6 +184,93 @@ public class Factory {
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning X Rotation Matrix: " + rotationMatrix);
 		return rotationMatrix;
+	}
+	
+	/*
+	 * The y axis rotation works just like the x axis rotation, only changing the axis.
+	 * 
+	 * The transformation matrix for rotating r radians around the y axis is constructed like this:
+	 * | cos r 0 sin r 0|
+	 * |     0 1     0 0|
+	 * |-sin r 0 cos r 0|
+	 * |     0 0     0 1|
+	 */
+	public static Matrix yRotationMatrix(float radians) {
+		// Get the Identity Matrix
+		Matrix rotationMatrix = Factory.identityMatrix();
+		
+		// Set correctly the 4 elements
+		rotationMatrix.setElement((float)Math.cos(radians), 0, 0);
+		rotationMatrix.setElement((float)Math.sin(radians), 0, 2);
+		rotationMatrix.setElement(-(float)Math.sin(radians), 2, 0);
+		rotationMatrix.setElement((float)Math.cos(radians), 2, 2);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Y Rotation Matrix: " + rotationMatrix);
+		return rotationMatrix;
+	}
+	
+	/*
+	 * The z axis rotation. It works just like the other rotations.
+	 * 
+	 * The transformation matrix itself is this:
+	 * | cos r -sin r 0 0|
+	 * | sin r  cos r 0 0|
+	 * |     0      0 1 0|
+	 * |     0      0 0 1|
+	 */
+	public static Matrix zRotationMatrix(float radians) {
+		// Get the Identity Matrix
+		Matrix rotationMatrix = Factory.identityMatrix();
+		
+		// Set correctly the 4 elements
+		rotationMatrix.setElement((float)Math.cos(radians), 0, 0);
+		rotationMatrix.setElement(-(float)Math.sin(radians), 0, 1);
+		rotationMatrix.setElement((float)Math.sin(radians), 1, 0);
+		rotationMatrix.setElement((float)Math.cos(radians), 1, 1);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Z Rotation Matrix: " + rotationMatrix);
+		return rotationMatrix;
+	}
+	
+	/*
+	 * A shearing (or skew) transformation has the effect of making straight lines slanted.
+	 * 
+	 * When applied to a tuple, a shearing transformation changes each component of the tuple in 
+	 * proportion to the other two components.
+	 * So the x component changes in proportion to y and z, y changes in proportion to x and z, and 
+	 * z changes in proportion to x and y.
+	 * 
+	 * In three dimensions each component may be affected by either of the other two components, so 
+	 * there are a total of six parameters that may be used to define the shear transformation:
+	 * - x in proportion to y
+	 * - x in proportion to z
+	 * - y in proportion to x
+	 * - y in proportion to z
+	 * - z in proportion to x
+	 * - z in proportion to y
+	 * 
+	 * The transformation matrix for a shear transformation is given in the following figure, where 
+	 * (for instance) xy means “x moved in proportion to y,” and represents the amount by which to 
+	 * multiply y before adding it to x:
+	 * |1  xy xz 0|
+	 * |yx  1 yz 0|
+	 * |zx zy  1 0|
+	 * |0   0  0 1|
+	 */
+	public static Matrix shearingMatrix(float xy, float xz, float yx, float yz, float zx, float zy) {
+		// Get the Identity Matrix
+		Matrix shearingMatrix = Factory.identityMatrix();
+		
+		// Set correctly the 4 elements
+		shearingMatrix.setElement(xy, 0, 1);
+		shearingMatrix.setElement(xz, 0, 2);
+		shearingMatrix.setElement(yx, 1, 0);
+		shearingMatrix.setElement(yz, 1, 2);
+		shearingMatrix.setElement(zx, 2, 0);
+		shearingMatrix.setElement(zy, 2, 1);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Shearing Matrix: " + shearingMatrix);
+		return shearingMatrix;
 	}
 	
 }

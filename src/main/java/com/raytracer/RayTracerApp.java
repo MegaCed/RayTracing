@@ -38,7 +38,10 @@ public class RayTracerApp {
 		//catapultWithUI();
 		
 		// Some questions related to matrices
-		matricesQuestions();
+		//matricesQuestions();
+		
+		// Analog clock
+		analogClock();
 		
 		logger.info("Done!");
 	}
@@ -224,6 +227,54 @@ public class RayTracerApp {
 		logger.info("Tuple ---> " + result.toString());
 		
 		// Response: The tuple is modified.
+	}
+	
+	/*
+	 * Chapter 4: Picture an analog clock.
+	 */
+	private static void analogClock() {
+		Canvas aCanvas = Factory.canvas(500, 500);
+		Color red = Factory.color(1, 0, 0);
+		
+		// First, assume the clock is centered at the origin, point(0,0,0). Let the origin be in the 
+		// middle of your canvas
+		Tuple origin = Factory.point(0, 0, 0);
+		
+		
+		// Next, choose an axis to orient the clock. If, for example, it’s oriented along the y axis 
+		// and you’re looking at it face-on, then you’re looking toward the negative end of the y 
+		// axis
+		
+		
+		// Now, rotate the twelve o’clock point around the y axis to find the other hour positions. 
+		// There are 2PI radians in a circle, so each hour is rotated 2PI/12 (or PI/6) radians
+		
+		
+		// Decide how large the clock is to be drawn on your canvas. For example, if your canvas is 
+		// square, you might let the clock’s radius be 3⁄8 the canvas’s width. For each point that 
+		// you compute, multiply the x and z components by this radius, and then move them to the 
+		// center of your canvas by adding the coordinates of the center point. Let x be the x 
+		// coordinate of the pixel, and z be the y coordinate
+		
+		
+		
+		for (int hour = 0; hour < 12; hour++) {
+			Matrix rotation = Factory.yRotationMatrix((float)(hour * (Math.PI / 6)));
+			
+			// TODO
+			
+			
+			
+		}
+		
+		
+		int xAdjusted = aCanvas.getHeight() / 2;
+		int yAdjusted = aCanvas.getWidth() / 2;
+		aCanvas.writePixel(xAdjusted, yAdjusted, red);
+	
+		// Save canvas to a file
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		ppmFile.writeToFile("//home//cedric//Projets//Ray Tracing//clock.ppm");
 	}
 	
 }
