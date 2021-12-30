@@ -113,12 +113,12 @@ public class TestColors {
 		float scalar = 2f;
 		
 		// Multiply this Color
-		ColorOperations.mul(aColor, scalar);
+		Color result = ColorOperations.mul(aColor, scalar);
 		
 		// Compare result
-		boolean redEquality = MiscOperations.equalsEpsilon(aColor.getRed(), 0.4f);
-		boolean greenEquality = MiscOperations.equalsEpsilon(aColor.getGreen(), 0.6f);
-		boolean blueEquality = MiscOperations.equalsEpsilon(aColor.getBlue(), 0.8f);
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.4f);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.6f);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.8f);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
@@ -131,7 +131,7 @@ public class TestColors {
 		Color anotherColor = Factory.color(0.9f, 1f, 0.1f);
 		
 		// Multiply them
-		Color result = ColorOperations.mul(aColor, anotherColor);
+		result = ColorOperations.mul(aColor, anotherColor);
 		
 		// Compare result
 		redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.9f);

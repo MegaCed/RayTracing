@@ -59,7 +59,7 @@ public class ColorOperations {
 	/*
 	 * Multiplying a color by a scalar.
 	 */
-	public static void mul(Color aColor, Float scalar) {
+	public static Color mul(Color aColor, Float scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Color: " + aColor + " by " + scalar);
 		
 		// Multiply each component of the Color by the scalar
@@ -67,11 +67,10 @@ public class ColorOperations {
 		float green = aColor.getGreen() * scalar;
 		float blue = aColor.getBlue() * scalar;
 		
-		aColor.setRed(red);
-		aColor.setGreen(green);
-		aColor.setBlue(blue);
+		Color result = new Color(red, green, blue);
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + aColor);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
+		return result;
 	}
 	
 	/*

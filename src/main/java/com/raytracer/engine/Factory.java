@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 
@@ -271,6 +272,17 @@ public class Factory {
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning Shearing Matrix: " + shearingMatrix);
 		return shearingMatrix;
+	}
+	
+	/*
+	 * Creates a Ray.
+	 */
+	public static Ray ray(Tuple origin, Tuple direction) {
+		Ray aRay = new Ray(origin, direction);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Ray: " + aRay);
+		
+		return aRay;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.raytracer.engine.element;
 
 import com.raytracer.engine.misc.Constants;
+import com.raytracer.engine.operation.MiscOperations;
 
 /*
  * A matrix is a grid of numbers that you can manipulate as a single unit. 
@@ -60,6 +61,7 @@ public class Matrix {
 	/*
 	 * Prints this Matrix.
 	 */
+	@Override
 	public String toString() {
 		return toString(Constants.MATRIX_NUMBER_LENGTH, Constants.MATRIX_NUMBER_PRECISION);
 	}
@@ -92,6 +94,50 @@ public class Matrix {
 		}
 		
 		return result.toString();
+	}
+	
+	/*
+	 * Test the equality of 2 Matrices.
+	 */
+	@Override
+	public boolean equals(Object anObject) {
+		if (this == anObject) {
+			return true;
+		}
+		
+		if (anObject instanceof Matrix) {
+			Matrix anotherMatrix = (Matrix)anObject;
+			
+			// Compare sizes
+			if ((getRows() != anotherMatrix.getRows())
+					|| (getColumns() != anotherMatrix.getColumns())) {
+				return false;
+				
+			}
+			
+			for (int row = 0; row < getRows(); row++) {
+				for (int col = 0; col < getColumns(); col++) {
+					float element1 = getElement(row, col);
+					float element2 = anotherMatrix.getElement(row, col);
+							
+					if (!MiscOperations.equalsEpsilon(element1, element2)) {
+						return false;
+					}
+				}
+			}	
+		}
+		
+		return true;	
+	}
+	
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		
+		// TODO: need to use other values?
+	    int result = getRows() + getColumns() * prime;
+	    
+	    return result;
 	}
 	
 	public float[][] getElements() {

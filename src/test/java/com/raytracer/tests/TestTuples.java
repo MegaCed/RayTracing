@@ -180,12 +180,12 @@ public class TestTuples {
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
 		
 		// Negate this Tuple
-		TupleOperations.neg(aTuple);
+		Tuple result = TupleOperations.neg(aTuple);
 		
-		assertEquals(-1, aTuple.getX(), "X has wrong value!");
-		assertEquals(2, aTuple.getY(), "Y has wrong value!");
-		assertEquals(-3, aTuple.getZ(), "Z has wrong value!");
-		assertEquals(4, aTuple.getW(), "W has wrong value!");
+		assertEquals(-1, result.getX(), "X has wrong value!");
+		assertEquals(2, result.getY(), "Y has wrong value!");
+		assertEquals(-3, result.getZ(), "Z has wrong value!");
+		assertEquals(4, result.getW(), "W has wrong value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -204,24 +204,24 @@ public class TestTuples {
 		float scalar = 3.5f;
 		
 		// Multiply this Tuple
-		TupleOperations.mul(aTuple, scalar);
+		Tuple result = TupleOperations.mul(aTuple, scalar);
 		
-		assertEquals(3.5f, aTuple.getX(), "X has wrong value!");
-		assertEquals(-7f, aTuple.getY(), "Y has wrong value!");
-		assertEquals(10.5f, aTuple.getZ(), "Z has wrong value!");
-		assertEquals(-14f, aTuple.getW(), "W has wrong value!");
+		assertEquals(3.5f, result.getX(), "X has wrong value!");
+		assertEquals(-7f, result.getY(), "Y has wrong value!");
+		assertEquals(10.5f, result.getZ(), "Z has wrong value!");
+		assertEquals(-14f, result.getW(), "W has wrong value!");
 		
 		// Create a Tuple
 		aTuple = new Tuple(1, -2, 3, -4);
 		scalar = 0.5f;
 		
 		// Multiply this Tuple
-		TupleOperations.mul(aTuple, scalar);
+		result = TupleOperations.mul(aTuple, scalar);
 		
-		assertEquals(0.5f, aTuple.getX(), "X has wrong value!");
-		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
-		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
-		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+		assertEquals(0.5f, result.getX(), "X has wrong value!");
+		assertEquals(-1f, result.getY(), "Y has wrong value!");
+		assertEquals(1.5f, result.getZ(), "Z has wrong value!");
+		assertEquals(-2f, result.getW(), "W has wrong value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -240,12 +240,12 @@ public class TestTuples {
 		float scalar = 2f;
 		
 		// Divide this Tuple
-		TupleOperations.div(aTuple, scalar);
+		Tuple result = TupleOperations.div(aTuple, scalar);
 		
-		assertEquals(0.5f, aTuple.getX(), "X has wrong value!");
-		assertEquals(-1f, aTuple.getY(), "Y has wrong value!");
-		assertEquals(1.5f, aTuple.getZ(), "Z has wrong value!");
-		assertEquals(-2f, aTuple.getW(), "W has wrong value!");
+		assertEquals(0.5f, result.getX(), "X has wrong value!");
+		assertEquals(-1f, result.getY(), "Y has wrong value!");
+		assertEquals(1.5f, result.getZ(), "Z has wrong value!");
+		assertEquals(-2f, result.getW(), "W has wrong value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

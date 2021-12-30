@@ -26,27 +26,15 @@ public class MatrixOperations {
 		logger.debug("1st Matrix: " + matrix1);
 		logger.debug("2nd Matrix: " + matrix2);
 		
-		// Compare sizes
-		if ((matrix1.getRows() != matrix2.getRows())
-				|| (matrix1.getColumns() != matrix2.getColumns())) {
-			return false;
-			
+		boolean result = matrix1.equals(matrix2);
+		
+		if (result) {
+			logger.debug(Constants.SEPARATOR_RESULT + "Matrices are identical!");
+		} else {
+			logger.debug(Constants.SEPARATOR_RESULT + "Matrices are different!");
 		}
 		
-		for (int row = 0; row < matrix1.getRows(); row++) {
-			for (int col = 0; col < matrix1.getColumns(); col++) {
-				float element1 = matrix1.getElement(row, col);
-				float element2 = matrix2.getElement(row, col);
-						
-				if (!MiscOperations.equalsEpsilon(element1, element2)) {
-					logger.debug(Constants.SEPARATOR_RESULT + "Matrices are different!");
-					return false;
-				}
-			}
-		}
-		
-		logger.debug(Constants.SEPARATOR_RESULT + "Matrices are identical!");
-		return true;
+		return result;
 	}
 	
 	/*

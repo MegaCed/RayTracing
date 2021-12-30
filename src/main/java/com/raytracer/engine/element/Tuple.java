@@ -1,5 +1,7 @@
 package com.raytracer.engine.element;
 
+import com.raytracer.engine.operation.MiscOperations;
+
 /*
  * A tuple is just an ordered list of things, like numbers.
  * 
@@ -61,6 +63,7 @@ public class Tuple {
 	/*
 	 * Prints this Tuple.
 	 */
+	@Override
 	public String toString() {
 		String type = null;
 		
@@ -91,6 +94,38 @@ public class Tuple {
 		array[3][0] = w;
 		
 		return array;
+	}
+	
+	/*
+	 * Test the equality of 2 Tuples.
+	 */
+	@Override
+	public boolean equals(Object anObject) {
+		if (this == anObject) {
+			return true;
+		}
+		
+		if (anObject instanceof Tuple) {
+			Tuple anotherTuple = (Tuple)anObject;
+			
+			if (MiscOperations.equalsEpsilon(getX(), anotherTuple.getX())
+					&& MiscOperations.equalsEpsilon(getY(), anotherTuple.getY())
+					&& MiscOperations.equalsEpsilon(getZ(), anotherTuple.getZ())
+					&& MiscOperations.equalsEpsilon(getW(), anotherTuple.getW())) {
+				return true;
+			}			
+		}
+		
+		return false;	
+	}
+	
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		
+	    int result = (int) (getX() + getY() + getZ() + getW()) * prime;
+	    
+	    return result;
 	}
 	
 	public float getX() {

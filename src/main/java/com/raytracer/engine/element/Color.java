@@ -35,6 +35,7 @@ public class Color {
 	/*
 	 * Prints this Tuple.
 	 */
+	@Override
 	public String toString() {
 		String result = "Color (red=" + red + ", green=" + green + ", blue=" + blue + ")";
 		

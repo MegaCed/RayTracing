@@ -75,7 +75,7 @@ public class TupleOperations {
 	 * vector that points from a surface toward a light source, what vector points from the light 
 	 * source back to the surface?
 	 */
-	public static void neg(Tuple aTuple) {
+	public static Tuple neg(Tuple aTuple) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Negating Tuple: " + aTuple);
 		
 		// Negate each component of the tuple
@@ -84,12 +84,10 @@ public class TupleOperations {
 		float z = aTuple.getZ() * -1;
 		float w = aTuple.getW() * -1;
 		
-		aTuple.setX(x);
-		aTuple.setY(y);
-		aTuple.setZ(z);
-		aTuple.setW(w);
+		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Negated Tuple = " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Negated Tuple = " + result);
+		return result;
 	}
 	
 	/*
@@ -99,7 +97,7 @@ public class TupleOperations {
 	 * direction (When you’re finding where a ray intersects a sphere).
 	 * So you lay that vector end-to-end 3.5 times to see just how far the point is from the start.
 	 */
-	public static void mul(Tuple aTuple, Float scalar) {
+	public static Tuple mul(Tuple aTuple, Float scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Tuple: " + aTuple + " by " + scalar);
 		
 		// Multiply each component of the Tuple by the scalar
@@ -108,12 +106,10 @@ public class TupleOperations {
 		float z = aTuple.getZ() * scalar;
 		float w = aTuple.getW() * scalar;
 		
-		aTuple.setX(x);
-		aTuple.setY(y);
-		aTuple.setZ(z);
-		aTuple.setW(w);
+		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
+		return result;
 	}
 	
 	/*
@@ -122,7 +118,7 @@ public class TupleOperations {
 	 * You can always implement division with multiplication, but sometimes it’s simpler to describe 
 	 * an operation as division.
 	 */
-	public static void div(Tuple aTuple, Float scalar) {
+	public static Tuple div(Tuple aTuple, Float scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Dividing Tuple: " + aTuple + " by " + scalar);
 		
 		// Divide each component of the tuple by the scalar
@@ -131,12 +127,10 @@ public class TupleOperations {
 		float z = aTuple.getZ() / scalar;
 		float w = aTuple.getW() / scalar;
 		
-		aTuple.setX(x);
-		aTuple.setY(y);
-		aTuple.setZ(z);
-		aTuple.setW(w);
-		
-		logger.debug(Constants.SEPARATOR_RESULT + "Result of division = " + aTuple);
+		Tuple result = new Tuple(x, y, z, w);
+				
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of division = " + result);
+		return result;
 	}
 	
 	/*
@@ -258,14 +252,7 @@ public class TupleOperations {
 		logger.debug("1st Tuple: " + tuple1);
 		logger.debug("2nd Tuple: " + tuple2);
 		
-		boolean result = false;
-		
-		if (MiscOperations.equalsEpsilon(tuple1.getX(), tuple2.getX())
-				&& MiscOperations.equalsEpsilon(tuple1.getY(), tuple2.getY())
-				&& MiscOperations.equalsEpsilon(tuple1.getZ(), tuple2.getZ())
-				&& MiscOperations.equalsEpsilon(tuple1.getW(), tuple2.getW())) {
-			result = true;
-		}
+		boolean result = tuple1.equals(tuple2);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Tuples equality = " + result);
 		return result;	
