@@ -22,6 +22,7 @@ public class RayOperations {
 	 */
 	public static Tuple position(Ray aRay, float distance) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Computing a distance: " + aRay + " by " + distance);
+		
 		// To find the position, you multiply the ray’s direction by t to find the total distance 
 		// traveled
 		Tuple updatedDistance = TupleOperations.mul(aRay.getDirection(), distance);

@@ -79,6 +79,7 @@ public class Canvas {
 	/*
 	 * Prints this Canvas.
 	 */
+	@Override
 	public String toString() {
 		String result = "Canvas (width=" + width + ", height=" + height + ")";
 		return result;

@@ -33,7 +33,7 @@ public class Color {
 	}
 
 	/*
-	 * Prints this Tuple.
+	 * Prints this Color.
 	 */
 	@Override
 	public String toString() {

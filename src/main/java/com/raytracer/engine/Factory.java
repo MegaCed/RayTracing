@@ -7,6 +7,7 @@ import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
+import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 
@@ -283,6 +284,17 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Ray: " + aRay);
 		
 		return aRay;
+	}
+	
+	/*
+	 * Creates a Sphere.
+	 */
+	public static Sphere sphere() {
+		Sphere aSphere = new Sphere();
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Sphere: " + aSphere);
+		
+		return aSphere;
 	}
 	
 }

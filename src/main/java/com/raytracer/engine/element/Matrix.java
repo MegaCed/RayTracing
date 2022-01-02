@@ -1,5 +1,7 @@
 package com.raytracer.engine.element;
 
+import java.util.Arrays;
+
 import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.MiscOperations;
 
@@ -129,15 +131,15 @@ public class Matrix {
 		
 		return true;	
 	}
-	
+
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
+		int result = 1;
 		
-		// TODO: need to use other values?
-	    int result = getRows() + getColumns() * prime;
-	    
-	    return result;
+		result = prime * result + Arrays.deepHashCode(elements);
+		
+		return result;
 	}
 	
 	public float[][] getElements() {

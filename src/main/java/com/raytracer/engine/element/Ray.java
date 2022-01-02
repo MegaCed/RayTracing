@@ -26,6 +26,7 @@ public class Ray {
 	/*
 	 * Prints this Ray.
 	 */
+	@Override
 	public String toString() {
 		String result = "Ray (origin = " + origin + " - direction = " + direction + ")";
 		
