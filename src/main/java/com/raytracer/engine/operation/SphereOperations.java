@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
@@ -21,7 +22,7 @@ public class SphereOperations {
 	/*
 	 * Returns the collection of t values where the ray intersects the sphere.
 	 */
-	public static float[] intersects(Sphere aSphere, Ray aRay) {
+	public static Intersection[] intersects(Sphere aSphere, Ray aRay) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Computing intersections between: " + aSphere + " and " + aRay);
 		
 		// The vector from the sphere's center, to the ray origin
@@ -46,7 +47,7 @@ public class SphereOperations {
 		// intersections occur between the sphere and the ray
 		if (discriminant < 0) {
 			logger.debug(Constants.SEPARATOR_RESULT + "No interactions!");
-			return new float[] {};
+			return new Intersection[] {};
 		}
 		
 		// Otherwise, you’ll see either one (for rays that hit the sphere at a perfect tangent) or 
@@ -54,18 +55,46 @@ public class SphereOperations {
 		float t1 = (float)(-b - (Math.sqrt(discriminant))) / (2 * a);
 		float t2 = (float)(-b + (Math.sqrt(discriminant))) / (2 * a);
 		
+		Intersection intersection1 = new Intersection(t1, aSphere);
+		Intersection intersection2 = new Intersection(t2, aSphere);
+		
 		// Also, make sure the intersections are returned in increasing order, to make it easier to 
 		// determine which intersections are significant, later
-		float[] interactions;
+		Intersection[] intersections;
 		
 		if (t1 <= t2) {
-			interactions = new float[] {t1, t2};
+			intersections = new Intersection[] {intersection1, intersection2};
 		} else {
-			interactions = new float[] {t2, t1};
+			intersections = new Intersection[] {intersection2, intersection1};
 		}
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Interactions = " + Arrays.toString(interactions));
-		return interactions;
+		logger.debug(Constants.SEPARATOR_RESULT + "Intersections = " + Arrays.toString(intersections));
+		return intersections;
+	}
+	
+	/*
+	 * This function returns the hit from a collection of intersection records.
+	 * 
+	 * You can ignore all intersections with negative t values when determining the hit. 
+	 * In fact, the hit will always be the intersection with the lowest nonnegative t value.
+	 */
+	public static Intersection hit(Intersection... intersections) {
+		// MAX_VALUE is the mathematical maximum value for floats
+		float lowestT = Float.MAX_VALUE;
+		Intersection result = null;
+		
+		// Find the lowest non-negative t value
+		for (int i = 0; i < intersections.length; i++) {
+			Intersection anIntersection = intersections[i];
+			
+			if (0 <= anIntersection.getT() && lowestT > anIntersection.getT()) {
+				// This is the current lowest hit
+				lowestT = anIntersection.getT();
+				result = anIntersection;
+			}
+		}
+		
+		return result;
 	}
 
 }

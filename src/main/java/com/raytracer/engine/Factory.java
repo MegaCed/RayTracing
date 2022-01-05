@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Intersection;
+import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
@@ -295,6 +297,29 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Sphere: " + aSphere);
 		
 		return aSphere;
+	}
+	
+	/*
+	 * Creates an Intersection.
+	 */
+	public static Intersection intersection(float t, Object o) {
+		Intersection anIntersection = new Intersection(t, o);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersection: " + anIntersection);
+		
+		return anIntersection;
+	}
+	
+	/*
+	 * Creates an Intersections object.
+	 */
+	// TODO: Delete this!
+	public static Intersections intersections(Intersection... intersections) {
+		Intersections theIntersections = new Intersections(intersections);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersections: " + theIntersections);
+		
+		return theIntersections;
 	}
 	
 }
