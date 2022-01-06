@@ -313,7 +313,6 @@ public class Factory {
 	/*
 	 * Creates an Intersections object.
 	 */
-	// TODO: Delete this!
 	public static Intersections intersections(Intersection... intersections) {
 		Intersections theIntersections = new Intersections(intersections);
 		

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
@@ -87,5 +88,71 @@ public class TestRays {
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
-
+	
+	/*
+	 * Translating a ray.
+	 */
+	@Test
+	@Order(3)
+	public void testTranslateRay() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Translate a Ray");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create the Ray's origin
+		Tuple origin = Factory.point(1, 2, 3);
+		
+		// Create the Ray's direction
+		Tuple direction = Factory.vector(0, 1, 0);
+		
+		// Create the Ray
+		Ray aRay = Factory.ray(origin, direction);
+		
+		// Get a Translation Matrix
+		Matrix translationMatrix = Factory.translationMatrix(3, 4, 5);
+		
+		// Translate the Ray
+		Ray result = RayOperations.transform(aRay, translationMatrix);
+		
+		Tuple expectedOrigin = Factory.point(4, 6, 8);
+		Tuple expectedDirection = Factory.vector(0, 1, 0);
+		
+		assertEquals(expectedOrigin, result.getOrigin(), "Wrong origin!");
+		assertEquals(expectedDirection, result.getDirection(), "Wrong direction!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Scaling a ray.
+	 */
+	@Test
+	@Order(4)
+	public void testScaleRay() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Scale a Ray");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create the Ray's origin
+		Tuple origin = Factory.point(1, 2, 3);
+		
+		// Create the Ray's direction
+		Tuple direction = Factory.vector(0, 1, 0);
+		
+		// Create the Ray
+		Ray aRay = Factory.ray(origin, direction);
+		
+		// Get a Scaling Matrix
+		Matrix scalingMatrix = Factory.scalingMatrix(2, 3, 4);
+		
+		// Scale the Ray
+		Ray result = RayOperations.transform(aRay, scalingMatrix);
+		
+		Tuple expectedOrigin = Factory.point(2, 6, 12);
+		Tuple expectedDirection = Factory.vector(0, 3, 0);
+		
+		assertEquals(expectedOrigin, result.getOrigin(), "Wrong origin!");
+		assertEquals(expectedDirection, result.getDirection(), "Wrong direction!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+		
 }

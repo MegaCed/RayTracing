@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
@@ -126,7 +127,7 @@ public class TestSpheres {
 	}
 	
 	/*
-	 * what happens if your ray originates inside the sphere? Well, there should be one intersection 
+	 * What happens if your ray originates inside the sphere? Well, there should be one intersection 
 	 * in front of the ray, and another behind it
 	 * 
 	 * When the ray starts at the center of a sphere, the first intersection is behind the ray’s 
@@ -222,7 +223,6 @@ public class TestSpheres {
 	 */
 	@Test
 	@Order(7)
-	// TODO: Delete this!
 	public void testImprovedIntersections() {
 		logger.info(Constants.SEPARATOR_JUNIT + "Rays-Spheres intersections");
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -249,8 +249,7 @@ public class TestSpheres {
 	 */
 	@Test
 	@Order(8)
-	// TODO: Delete this!
-	public void testhit() {
+	public void testHit() {
 		logger.info(Constants.SEPARATOR_JUNIT + "Testing hit() method");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
@@ -261,8 +260,11 @@ public class TestSpheres {
 		Intersection intersection1 = Factory.intersection(1f, aSphere);
 		Intersection intersection2 = Factory.intersection(2f, aSphere);
 		
+		// Aggregate them
+		Intersections theIntersections = Factory.intersections(intersection1, intersection2);
+		
 		// The hit, when all intersections have positive t
-		Intersection theHit = SphereOperations.hit(intersection2, intersection1);
+		Intersection theHit = SphereOperations.hit(theIntersections);
 		
 		assertEquals(intersection1, theHit, "Wrong hit!");
 		
@@ -270,8 +272,11 @@ public class TestSpheres {
 		intersection1 = Factory.intersection(-1f, aSphere);
 		intersection2 = Factory.intersection(1f, aSphere);
 		
+		// Aggregate them
+		theIntersections = Factory.intersections(intersection1, intersection2);
+		
 		// The hit, when some intersections have negative t
-		theHit = SphereOperations.hit(intersection2, intersection1);
+		theHit = SphereOperations.hit(theIntersections);
 		
 		assertEquals(intersection2, theHit, "Wrong hit!");
 		
@@ -279,8 +284,11 @@ public class TestSpheres {
 		intersection1 = Factory.intersection(-2f, aSphere);
 		intersection2 = Factory.intersection(-1f, aSphere);
 		
+		// Aggregate them
+		theIntersections = Factory.intersections(intersection1, intersection2);
+		
 		// The hit, when some intersections have negative t
-		theHit = SphereOperations.hit(intersection2, intersection1);
+		theHit = SphereOperations.hit(theIntersections);
 		
 		assertEquals(null, theHit, "Wrong hit!");
 		
@@ -290,13 +298,85 @@ public class TestSpheres {
 		Intersection intersection3 = Factory.intersection(-3f, aSphere);
 		Intersection intersection4 = Factory.intersection(2f, aSphere);
 		
+		// Aggregate them
+		theIntersections = Factory.intersections(intersection1, intersection2, intersection3, intersection4);
+		
 		// The hit, when some intersections have negative t
-		theHit = SphereOperations.hit(intersection1, intersection2, intersection3, intersection4);
+		theHit = SphereOperations.hit(theIntersections);
 		
 		assertEquals(intersection4, theHit, "Wrong hit!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
+	
+	/*
+	 * Spheres transformations.
+	 */
+	@Test
+	@Order(9)
+	public void testhit() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing Spheres transformations");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
+		// Create a Sphere
+		Sphere aSphere = Factory.sphere();
+		
+		// A sphere's default transformation
+		Matrix identityMatrix = Factory.identityMatrix();
+		
+		assertEquals(identityMatrix, aSphere.getTransform(), "Wrong default transformation!");
+		
+		// Change sphere's transformation
+		Matrix translationMatrix = Factory.translationMatrix(2, 3, 4);
+		
+		// Changing a sphere's transformation
+		aSphere.setTransform(translationMatrix);
+		
+		assertEquals(translationMatrix, aSphere.getTransform(), "Wrong updated transformation!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Make it so that your intersect function transforms the ray before doing the calculation.
+	 */
+	@Test
+	@Order(10)
+	public void testIntersectionsScaled() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Rays-Spheres interaction (scaled)");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create the Ray's origin
+		Tuple origin = Factory.point(0, 0, -5);
+		
+		// Create the Ray's direction
+		Tuple direction = Factory.vector(0, 0, 1);
+		
+		// Create the Ray
+		Ray aRay = Factory.ray(origin, direction);
+		
+		// Create a Sphere
+		Sphere aSphere = Factory.sphere();
+		
+		// Update Sphere's transformation
+		aSphere.setTransform(Factory.scalingMatrix(2, 2, 2));
+		
+		// Intersecting a scaled sphere with a ray
+		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		
+		assertEquals(2, theIntersections.length, "Wrong intersections size!");
+		assertEquals(3, theIntersections[0].getT(), "Wrong 1st intersection!");
+		assertEquals(7, theIntersections[1].getT(), "Wrong 2nd intersection!");
+		
+		// Update Sphere's transformation
+		aSphere.setTransform(Factory.translationMatrix(5, 0, 0));
+		
+		// Intersecting a translated sphere with a ray
+		theIntersections = SphereOperations.intersects(aSphere, aRay);
+		
+		assertEquals(0, theIntersections.length, "Wrong intersections size!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
 
 }

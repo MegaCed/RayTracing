@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Intersection;
+import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
@@ -22,8 +23,12 @@ public class SphereOperations {
 	/*
 	 * Returns the collection of t values where the ray intersects the sphere.
 	 */
-	public static Intersection[] intersects(Sphere aSphere, Ray aRay) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Computing intersections between: " + aSphere + " and " + aRay);
+	public static Intersection[] intersects(Sphere aSphere, Ray originalRay) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Computing intersections between: " + aSphere + " and " + originalRay);
+		
+		// You’ll need to make sure the ray passed to intersect is transformed by the inverse of the 
+		// sphere’s transformation matrix.
+		Ray aRay = RayOperations.transform(originalRay, MatrixOperations.inverse(aSphere.getTransform()));
 		
 		// The vector from the sphere's center, to the ray origin
 		// Remember: the sphere is centered 
@@ -78,6 +83,7 @@ public class SphereOperations {
 	 * You can ignore all intersections with negative t values when determining the hit. 
 	 * In fact, the hit will always be the intersection with the lowest nonnegative t value.
 	 */
+	@Deprecated
 	public static Intersection hit(Intersection... intersections) {
 		// MAX_VALUE is the mathematical maximum value for floats
 		float lowestT = Float.MAX_VALUE;
@@ -91,6 +97,26 @@ public class SphereOperations {
 				// This is the current lowest hit
 				lowestT = anIntersection.getT();
 				result = anIntersection;
+			}
+		}
+		
+		return result;
+	}
+	
+	/*
+	 * Enhanced version of the previous method, taking a sorted Intersections object.
+	 */
+	public static Intersection hit(Intersections intersections) {
+		Intersection result = null;
+		
+		// Return the first non-negative t value
+		for (int i = 0; i < intersections.getIntersections().length; i++) {
+			Intersection anIntersection = intersections.getIntersections()[i];
+			
+			if (anIntersection.getT() >= 0) {
+				// This is the current lowest hit
+				result = anIntersection;
+				break;
 			}
 		}
 		

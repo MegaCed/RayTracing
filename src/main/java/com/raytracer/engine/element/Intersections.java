@@ -1,8 +1,13 @@
 package com.raytracer.engine.element;
 
-// TODO: Delete this!
+import java.util.Arrays;
+import java.util.Comparator;
+
 /*
  * Aggregates many Intersections.
+ * 
+ * The intersections are intentionally given in random order; it’s up to your Intersections() 
+ * function to maintain a sorted list.
  */
 public class Intersections {
 	
@@ -13,6 +18,14 @@ public class Intersections {
 	 * Constructor.
 	 */
 	public Intersections(Intersection... intersections) {
+		// First sort the Intersections array
+		Arrays.sort(intersections, new Comparator<Intersection>() {
+			   public int compare(Intersection i1, Intersection i2) {
+				      return (int)(i1.getT() - i2.getT());
+				   }
+				});
+		
+		// Then keep it here
 		this.intersections = intersections;
 	}
 	
