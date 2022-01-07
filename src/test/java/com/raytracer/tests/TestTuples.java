@@ -317,10 +317,10 @@ public class TestTuples {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Vector
-		Tuple aVector = Factory.vector(4, 0, 0);
+		Tuple initialVector = Factory.vector(4, 0, 0);
 		
 		// Normalize this Vector
-		TupleOperations.normalize(aVector);
+		Tuple aVector = TupleOperations.normalize(initialVector);
 		
 		assertEquals(1f, aVector.getX(), "X has wrong value!");
 		assertEquals(0, aVector.getY(), "Y has wrong value!");

@@ -163,7 +163,7 @@ public class TupleOperations {
 	 * If you were to skip normalizing your ray vectors or your surface normals, your calculations 
 	 * would be scaled differently for every ray you cast, and your scenes would look terrible.
 	 */
-	public static void normalize(Tuple aTuple) {
+	public static Tuple normalize(Tuple aTuple) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Normalizing Tuple: " + aTuple);
 		
 		// Retrieve the magnitude of the Tuple
@@ -175,12 +175,10 @@ public class TupleOperations {
 		float z = aTuple.getZ() / magnitude;
 		float w = aTuple.getW() / magnitude;
 		
-		aTuple.setX(x);
-		aTuple.setY(y);
-		aTuple.setZ(z);
-		aTuple.setW(w);
+		Tuple result = new Tuple(x, y, z, w);
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Normalized Tuple = " + aTuple);
+		logger.debug(Constants.SEPARATOR_RESULT + "Normalized Tuple = " + result);
+		return result;
 	}
 	
 	/*

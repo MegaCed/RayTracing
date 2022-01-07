@@ -6,13 +6,17 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.PortablePixmap;
+import com.raytracer.engine.element.Ray;
+import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Environment;
 import com.raytracer.engine.misc.Projectile;
 import com.raytracer.engine.misc.Simulator;
 import com.raytracer.engine.operation.MatrixOperations;
+import com.raytracer.engine.operation.SphereOperations;
 import com.raytracer.engine.operation.TupleOperations;
 
 /*
@@ -21,6 +25,9 @@ import com.raytracer.engine.operation.TupleOperations;
 public class RayTracerApp {
 	
 	private static Logger logger = LoggerFactory.getLogger(RayTracerApp.class);
+	
+	private static final String PATH_LAPTOP = "//home//cedric//Projets//Ray Tracing//";
+	private static final String PATH_DESKTOP = "//tmp//";
 
 	/*
 	 * Make some tests...
@@ -41,7 +48,10 @@ public class RayTracerApp {
 		//matricesQuestions();
 		
 		// Analog clock
-		analogClock();
+		// analogClock();
+		
+		// Shadow of a sphere
+		sphereShadow();
 		
 		logger.info("Done!");
 	}
@@ -65,7 +75,7 @@ public class RayTracerApp {
 		// - Velocity is normalized to 1 unit/tick (X=1, Y=1)
 		Tuple position = Factory.point(0, 1, 0);
 		Tuple velocity = Factory.vector(1, 1, 0);
-		TupleOperations.normalize(velocity);
+		velocity = TupleOperations.normalize(velocity);
 		Projectile aProjectile = new Projectile(position, velocity);
 		
 		// - Gravity -0.1 unit/tick
@@ -104,7 +114,7 @@ public class RayTracerApp {
 		// determined empirically.
 		Tuple start = Factory.point(0, 1, 0);
 		Tuple velocity = Factory.vector(1, 1.8f, 0);
-		TupleOperations.normalize(velocity);
+		velocity = TupleOperations.normalize(velocity);
 		velocity.setX(velocity.getX() * 11.25f);
 		velocity.setY(velocity.getY() * 11.25f);
 		Projectile aProjectile = new Projectile(start, velocity);
@@ -130,7 +140,7 @@ public class RayTracerApp {
 		
 		// After your loop finishes, be sure to save your canvas to a file!
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
-		ppmFile.writeToFile("//home//cedric//Projets//Ray Tracing//catapult.ppm");
+		ppmFile.writeToFile(PATH_LAPTOP + "catapult.ppm");
 	}
 	
 	/*
@@ -272,8 +282,91 @@ public class RayTracerApp {
 		
 		// Save canvas to a file
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
-		//ppmFile.writeToFile("//home//cedric//Projets//Ray Tracing//clock.ppm");
-		ppmFile.writeToFile("//tmp//clock.ppm");
+		ppmFile.writeToFile(PATH_LAPTOP + "clock.ppm");
+	}
+
+	/*
+	 * Chapter 5: Casts rays at a sphere and draws the picture to a canvas.
+	 * Any ray that hits the sphere should result in a colored pixel (red, for example), and any 
+	 * miss should be drawn in black. The result will be a silhouette of the sphere—not 
+	 * three-dimensional, but definitely round!
+	 */
+	// TODO: DISABLE LOGGING BEFORE RUNNING THIS!!
+	private static void sphereShadow() {
+		// Think as if you’re trying to cast the shadow of your object onto some wall behind it
+		Color red = Factory.color(1, 0, 0);
+		Sphere aSphere = Factory.sphere();
+		
+		// Try deforming the sphere with some transformations and see what happens.
+		// Shrink it along the y axis
+		//aSphere.setTransform(Factory.scalingMatrix(1, 0.5f, 1));
+		// Shrink it along the x axis
+		//aSphere.setTransform(Factory.scalingMatrix(0.5f, 1, 1));
+		// Shrink it, and rotate it!
+		//aSphere.setTransform(MatrixOperations.mul(Factory.xRotationMatrix((float)Math.PI / 4), Factory.scalingMatrix(0.5f, 1, 1)));
+		// Shrink it, and skew it!
+		//aSphere.setTransform(MatrixOperations.mul(Factory.shearingMatrix(1, 0, 0, 0, 0, 0), Factory.scalingMatrix(0.5f, 1, 1)));
+		
+		// Decide how large you want your canvas to be (in pixels).
+		// A canvas 100 pixels on a side is probably good for starting with.
+		// (Larger images will take exponentially longer to render)
+		int canvasPixels = 100;
+		Canvas aCanvas = Factory.canvas(canvasPixels, canvasPixels);
+
+		// Figure out how far your ray’s origin is from the sphere. Also, decide where your wall 
+		// will be.
+		// Moving the ray origin closer to the sphere will make the sphere in the drawing larger. 
+		// Moving it farther away will make the sphere smaller. Moving the wall will do similarly
+		float wallZ = 10;
+		float wallSize = 7;
+		
+		// Once you know how many pixels fit along each side of the wall, you can divide the wall 
+		// size by the number of pixels to get the size of a single pixel (in world space units)
+		float pixelSize = wallSize / canvasPixels;
+		
+		// Then, assume you’re looking directly at the center of the sphere. Half of the wall will 
+		// be to the left of that, and half to the right.
+		// Since the wall is centered around the origin (because the sphere is at the origin), this 
+		// means that this half variable describes the minimum and maximum x and y coordinates of 
+		// your wall
+		float half = wallSize / 2;
+		
+		// Start the ray here, everything will be computed from this point
+		Tuple rayOrigin = Factory.point(0, 0, -5);
+		
+		// For each row of pixels in the canvas
+		for (int y = 0; y < canvasPixels; y++) {
+			// Compute the world y coordinate (top = +half, bottom = -half)
+			// In world	space, the y coordinate increases as you go up, and decreases as you go 
+			// down. But on the canvas, the top is at y = 0, and y increases as you go down. Thus, 
+			// to render the circle correctly, you have to flip the y coordinate, which is 
+			// accomplished by subtracting it from its maximum value (the top of the wall, or half)
+			float worldY = half - pixelSize * y;
+			
+			// For each pixel in the row
+			for (int x = 0; x < canvasPixels; x++) {
+				// Compute the world x coordinate (left = -half, right = half)
+				float worldX = half - pixelSize * x;
+				
+				// Describe the point on the wall that the ray will target
+				Tuple position = Factory.point(worldX, worldY, wallZ);
+				
+				// You cast each ray from some starting point toward some point on the wall that 
+				// corresponds to a position on your canvas. If the ray intersects the sphere, a 
+				// shadow is cast, which you’ll mark with a colored pixel
+				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
+				Ray aRay = Factory.ray(rayOrigin, rayDirection);
+				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+				
+				if (SphereOperations.hit(intersections) != null) {
+					aCanvas.writePixel(x, y, red);
+				}
+			}
+		}
+		
+		// Save canvas to a file
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		ppmFile.writeToFile(PATH_DESKTOP + "shadow.ppm");
 	}
 	
 }
