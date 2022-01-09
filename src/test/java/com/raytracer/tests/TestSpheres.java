@@ -17,7 +17,9 @@ import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
+import com.raytracer.engine.operation.MatrixOperations;
 import com.raytracer.engine.operation.SphereOperations;
+import com.raytracer.engine.operation.TupleOperations;
 
 /*
  * Testing the engine's Spheres.
@@ -375,6 +377,109 @@ public class TestSpheres {
 		theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
 		assertEquals(0, theIntersections.length, "Wrong intersections size!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Computing the normal at various points on a sphere.
+	 */
+	@Test
+	@Order(11)
+	public void testNormals() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The normal on a sphere at a point");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create a Sphere
+		Sphere aSphere = Factory.sphere();
+		
+		// Get a Point
+		Tuple aPoint = Factory.point(1, 0, 0);
+		
+		// The normal on a sphere at a point on the x axis
+		Tuple normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		Tuple expectedResult = Factory.vector(1, 0, 0);
+		assertEquals(expectedResult, normal, "Wrong normal for the X axis!");
+		
+		// Get a Point
+		aPoint = Factory.point(0, 1, 0);
+		
+		// The normal on a sphere at a point on the y axis
+		normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		expectedResult = Factory.vector(0, 1, 0);
+		assertEquals(expectedResult, normal, "Wrong normal for the Y axis!");
+		
+		// Get a Point
+		aPoint = Factory.point(0, 0, 1);
+		
+		// The normal on a sphere at a point on the z axis
+		normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		expectedResult = Factory.vector(0, 0, 1);
+		assertEquals(expectedResult, normal, "Wrong normal for the Z axis!");
+		
+		// Get a Point
+		aPoint = Factory.point((float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3);
+		
+		// The normal on a sphere at a nonaxial point
+		normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		expectedResult = Factory.vector((float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3);
+		assertEquals(expectedResult, normal, "Wrong normal for the point!");
+		
+		// The normal is a normalized vector
+		Tuple normalized = TupleOperations.normalize(normal);
+		
+		assertEquals(normal, normalized, "The result isn't normalized!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Computing the normal first on a translated sphere and then on a scaled and rotated sphere.
+	 */
+	@Test
+	@Order(12)
+	public void testTransformedNormals() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The transformed normal on a sphere at a point");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create a Sphere
+		Sphere aSphere = Factory.sphere();
+		
+		// Get a transformation Matrix
+		Matrix translation = Factory.translationMatrix(0, 1, 0);
+		
+		// Set the Sphere's transformation
+		aSphere.setTransform(translation);
+		
+		// Get a Point
+		Tuple aPoint = Factory.point(0, 1.70711f, -0.70711f);
+		
+		// Computing the normal on a translated sphere
+		Tuple normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		Tuple expectedResult = Factory.vector(0, 0.70711f, -0.70711f);
+		assertEquals(expectedResult, normal, "Wrong normal for the translated Sphere!");
+		
+		// Get a transformation Matrix
+		Matrix scaling = Factory.scalingMatrix(1, 0.5f, 1);
+		Matrix rotation = Factory.zRotationMatrix((float)Math.PI / 5);
+		Matrix transformation = MatrixOperations.mul(scaling, rotation);
+		
+		// Set the Sphere's transformation
+		aSphere.setTransform(transformation);
+		
+		// Get a Point
+		aPoint = Factory.point(0f, (float)Math.sqrt(2) / 2, (float)-Math.sqrt(2) / 2);
+		
+		// Computing the normal on a transformed sphere
+		normal = SphereOperations.normalAt(aSphere, aPoint);
+		
+		expectedResult = Factory.vector(0, 0.97014f, -0.24254f);
+		assertEquals(expectedResult, normal, "Wrong normal for the transformed Sphere!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

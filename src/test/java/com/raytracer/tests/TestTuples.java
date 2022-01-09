@@ -330,7 +330,7 @@ public class TestTuples {
 		aVector = Factory.vector(1, 2, 3);
 		
 		// Normalize this Vector
-		TupleOperations.normalize(aVector);
+		aVector = TupleOperations.normalize(aVector);
 		
 		// Compare the result (using Epsilon)
 		boolean xEpsilon = MiscOperations.equalsEpsilon(aVector.getX(), 1 / (float)Math.sqrt(14));
@@ -347,7 +347,7 @@ public class TestTuples {
 		aVector = Factory.vector(1, 2, 3);
 		
 		// Normalize this Vector
-		TupleOperations.normalize(aVector);
+		aVector = TupleOperations.normalize(aVector);
 		
 		// Get the magnitude of this Vector
 		float magnitude = TupleOperations.magnitude(aVector);
