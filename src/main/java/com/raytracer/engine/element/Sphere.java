@@ -16,6 +16,9 @@ public class Sphere {
 	// Transformation
 	private Matrix transform;
 	
+	// The Material
+	private Material material;
+	
 	/*
 	 * Constructor.
 	 */
@@ -25,6 +28,9 @@ public class Sphere {
 		
 		// A sphere has a default transformation
 		transform = Factory.identityMatrix();
+		
+		// A sphere has a default material
+		material = Factory.material();
 	}
 	
 	/*
@@ -39,6 +45,9 @@ public class Sphere {
 		return result;
 	}
 
+	/*
+	 * Test the equality of 2 Spheres.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -70,6 +79,14 @@ public class Sphere {
 
 	public String getId() {
 		return id;
+	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 	
 }

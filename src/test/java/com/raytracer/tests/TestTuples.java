@@ -413,5 +413,36 @@ public class TestTuples {
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
+	
+	/*
+	 * Test the cross product of 2 vectors.
+	 */
+	@Test
+	@Order(13)
+	public void testReflection() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing vectors reflection");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Reflecting a vector approaching at 45°
+		Tuple aVector = Factory.vector(1, -1, 0);
+		Tuple normal = Factory.vector(0, 1, 0);
+		
+		Tuple result = TupleOperations.reflect(aVector, normal);
+		
+		Tuple expectedResult = Factory.vector(1, 1, 0);
+		assertEquals(expectedResult, result, "Invalid reflection!");
+		
+		// If the ground were slanted at 45°, and the ball were to fall straight down onto it, it 
+		// ought to bounce away horizontally
+		aVector = Factory.vector(0, -1, 0);
+		normal = Factory.vector((float)Math.sqrt(2) / 2, (float)Math.sqrt(2) / 2, 0);
+		
+		result = TupleOperations.reflect(aVector, normal);
+		
+		expectedResult = Factory.vector(1, 0, 0);
+		assertEquals(expectedResult, result, "Invalid reflection!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
 
 }

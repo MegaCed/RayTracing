@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
+import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
@@ -480,6 +481,39 @@ public class TestSpheres {
 		
 		expectedResult = Factory.vector(0, 0.97014f, -0.24254f);
 		assertEquals(expectedResult, normal, "Wrong normal for the transformed Sphere!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Shows the default values of each of the material’s attributes.
+	 */
+	@Test
+	@Order(13)
+	public void testMaterial() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The default material");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create the Material
+		Material aMaterial = Factory.material();
+		
+		// The default material
+		assertEquals(Factory.color(1, 1, 1), aMaterial.getColor(), "Wrong color for the Material!");
+		assertEquals(0.1f, aMaterial.getAmbient(), "Wrong ambient for the Material!");
+		assertEquals(0.9f, aMaterial.getDiffuse(), "Wrong diffuse for the Material!");
+		assertEquals(0.9f, aMaterial.getSpecular(), "Wrong specular for the Material!");
+		assertEquals(200f, aMaterial.getShininess(), "Wrong shininess for the Material!");
+		
+		// A sphere has a default material
+		Sphere aSphere = Factory.sphere();
+		
+		assertEquals(Factory.material(), aSphere.getMaterial(), "Wrong Material for the Sphere!");
+		
+		// A sphere may be assigned a material
+		aMaterial.setAmbient(1f);
+		aSphere.setMaterial(aMaterial);
+		
+		assertEquals(aMaterial, aSphere.getMaterial(), "Wrong Material for the Sphere!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
