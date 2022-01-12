@@ -1,5 +1,7 @@
 package com.raytracer.engine.element;
 
+import java.util.Objects;
+
 /*
  * Each pixel on your computer monitor is a composite of three colors: red, green, and blue. If you 
  * take those three colors and mix them in different quantities, you get just about every other 
@@ -37,11 +39,37 @@ public class Color {
 	 */
 	@Override
 	public String toString() {
-		String result = "Color (red=" + red + ", green=" + green + ", blue=" + blue + ")";
+		String result = "Color (red = " + red + ", green = " + green + ", blue = " + blue + ")";
 		
 		return result;
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(blue, green, red);
+	}
+
+	/*
+	 * Test the equality of 2 Colors.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if (obj == null)
+			return false;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		Color other = (Color) obj;
+		
+		return Float.floatToIntBits(blue) == Float.floatToIntBits(other.blue)
+				&& Float.floatToIntBits(green) == Float.floatToIntBits(other.green)
+				&& Float.floatToIntBits(red) == Float.floatToIntBits(other.red);
+	}
+
 	public float getRed() {
 		return red;
 	}

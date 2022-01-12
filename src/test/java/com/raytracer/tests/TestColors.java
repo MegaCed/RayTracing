@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.PointLight;
+import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.ColorOperations;
 import com.raytracer.engine.operation.MiscOperations;
@@ -108,7 +110,7 @@ public class TestColors {
 		logger.info(Constants.SEPARATOR_JUNIT + "Testing multiplication...");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		// Create a Tuple
+		// Create a Color
 		Color aColor = new Color(0.2f, 0.3f, 0.4f);
 		float scalar = 2f;
 		
@@ -141,6 +143,30 @@ public class TestColors {
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
 		assertEquals(true, blueEquality, "Blue has wrong value!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Demonstrate the attributes of a point light.
+	 */
+	@Test
+	@Order(5)
+	public void testPointLight() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing point light...");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create a Color
+		Color intensity = Factory.color(1, 1, 1);
+		
+		// Create a Point
+		Tuple position = Factory.point(0, 0, 0);
+		
+		// A point light has a position and intensity
+		PointLight light = Factory.pointLight(position, intensity);
+		
+		assertEquals(intensity, light.getIntensity(), "Wrong intensity!");
+		assertEquals(position, light.getPosition(), "Wrong position!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

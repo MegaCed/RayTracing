@@ -7,7 +7,9 @@ import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
+import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
@@ -319,6 +321,28 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersections: " + theIntersections);
 		
 		return theIntersections;
+	}
+	
+	/*
+	 * Creates an PointLight object.
+	 */
+	public static PointLight pointLight(Tuple position, Color intensity) {
+		PointLight thePointLight = new PointLight(position, intensity);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new PointLight: " + thePointLight);
+		
+		return thePointLight;
+	}
+
+	/*
+	 * Creates an Material object.
+	 */
+	public static Material material() {
+		Material theMaterial = new Material();
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Material: " + theMaterial);
+		
+		return theMaterial;
 	}
 	
 }

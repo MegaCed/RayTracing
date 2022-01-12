@@ -256,4 +256,18 @@ public class TupleOperations {
 		return result;	
 	}
 	
+	/*
+	 * Returns the result of reflecting the in vector around the normal vector.
+	 */
+	public static Tuple reflect(Tuple in, Tuple normal) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Reflecting Tuple: " + in + " with the Normal: " + normal);
+		
+		// Mathematics is the magic that makes this work...
+		// in - normal * 2 * dot(in, normal)
+		Tuple result = TupleOperations.sub(in, TupleOperations.mul(TupleOperations.mul(normal, 2f), TupleOperations.dot(in, normal)));
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Reflected Tuple = " + result);
+		return result;	
+	}
+	
 }

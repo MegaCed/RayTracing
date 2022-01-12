@@ -39,6 +39,11 @@ public class RayOperations {
 	/*
 	 * Applies the given transformation matrix to the given ray, and returns a new ray with 
 	 * transformed origin and direction. 
+	 * 
+	 * Multiplying a point in object space by a transformation matrix converts that point to world 
+	 * space—scaling it, translating, rotating it, or whatever. 
+	 * Multiplying a point in world space by the inverse of the transformation matrix converts that 
+	 * point back to object space.
 	 */
 	public static Ray transform(Ray aRay, Matrix aMatrix) {
 		// Transform Ray's origin

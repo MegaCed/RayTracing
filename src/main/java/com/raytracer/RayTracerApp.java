@@ -1,5 +1,8 @@
 package com.raytracer;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +36,7 @@ public class RayTracerApp {
 	 * Make some tests...
 	 */
 	public static void main(String[] args) {
+		Instant start = Instant.now();
 		logger.info("Starting App...");
 
 		// Miscellaneous stuff
@@ -54,6 +58,10 @@ public class RayTracerApp {
 		sphereShadow();
 		
 		logger.info("Done!");
+		
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		logger.info("Elapsed time: " + timeElapsed.getSeconds() + " second(s)");
 	}
 	
 	/*
@@ -366,7 +374,7 @@ public class RayTracerApp {
 		
 		// Save canvas to a file
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
-		ppmFile.writeToFile(PATH_DESKTOP + "shadow.ppm");
+		ppmFile.writeToFile(PATH_LAPTOP + "shadow.ppm");
 	}
 	
 }
