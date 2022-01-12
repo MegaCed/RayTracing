@@ -14,6 +14,8 @@ public class MiscOperations {
 	
 	// Acceptable error
 	private static final float EPSILON = 0.00001f;
+	// Broader error
+	//private static final float EPSILON = 0.0001f;
 	
 	/*
 	 * Test for equality, using Epsilon as acceptable error.
@@ -22,7 +24,6 @@ public class MiscOperations {
 	 * If the absolute value of their difference is less than some value (called EPSILON), you can 
 	 * consider them equal.
 	 */
-	// TODO: remove this from this class??
 	public static boolean equalsEpsilon(float value1, float value2) {
 		boolean result = false;
 		

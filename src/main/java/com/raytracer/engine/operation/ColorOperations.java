@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Material;
+import com.raytracer.engine.element.PointLight;
+import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 
 /*
@@ -94,7 +97,71 @@ public class ColorOperations {
 		Color result = new Color(red, green, blue);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Result of multiplication = " + result);
+		return result;
+	}
+	
+	/*
+	 * This lighting() function is what will shade your objects so that they appear 
+	 * three-dimensional. It expects five arguments: 
+	 *  - the material itself
+	 *  - the point being illuminated
+	 *  - the light source
+	 *  - the eye and normal vectors from the Phong reflection model
+	 *  
+	 *  In a nutshell, it will add together the material’s ambient, diffuse, and specular 
+	 *  components, weighted by the angles between the different vectors.
+	 */
+	public static Color lithting(Material aMaterial, PointLight lightSource, Tuple illluminatedPoint, Tuple eyeVector, Tuple normalVector) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Lighting a point...");
+		logger.debug("Material: " + aMaterial);
+		logger.debug("Light source: " + lightSource);
+		logger.debug("Illuminated point: " + illluminatedPoint);
+		logger.debug("Eye vector: " + eyeVector);
+		logger.debug("Normal vector: " + normalVector);
 		
+		// Combine the surface color with the light's color/intensity
+		Color effectiveColor = ColorOperations.mul(aMaterial.getColor(), lightSource.getIntensity());
+		
+		// Find the direction to the light source
+		Tuple lightVector = TupleOperations.normalize(TupleOperations.sub(lightSource.getPosition(), illluminatedPoint));
+		
+		// Compute the ambient contribution
+		Color ambient = ColorOperations.mul(effectiveColor, aMaterial.getAmbient());
+		
+		// lightDotNormal represents the cosine of the angle between the light vector and the normal 
+		// vector
+		float lightDotNormal = TupleOperations.dot(lightVector, normalVector);
+		
+		Color diffuse;
+		Color specular;
+		
+		// A negative number means the light is on the other side of the surface
+		if (lightDotNormal < 0) {
+			diffuse = Constants.COLOR_BLACK;
+			specular = Constants.COLOR_BLACK;
+		} else {
+			// Compute the diffuse contribution
+			diffuse = ColorOperations.mul(ColorOperations.mul(effectiveColor, aMaterial.getDiffuse()), lightDotNormal);
+			
+			// reflectDotEye represents the cosine of the angle between the reflection vector and 
+			// the eye vector
+			Tuple reflectVector = TupleOperations.reflect(TupleOperations.neg(lightVector), normalVector);
+			float reflectDotEye = TupleOperations.dot(reflectVector, eyeVector);
+			
+			// A negative number means the light reflects away from the eye
+			if (reflectDotEye < 0) {
+				specular = Constants.COLOR_BLACK;
+			} else {
+				// compute the specular contribution
+				Float factor = (float)Math.pow(reflectDotEye, aMaterial.getShininess());
+				specular = ColorOperations.mul(ColorOperations.mul(lightSource.getIntensity(), aMaterial.getSpecular()), factor);
+			}
+		}
+		
+		// Add the three contributions together to get the final shading
+		Color result = ColorOperations.add(ColorOperations.add(ambient, diffuse), specular);
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Result of lighting = " + result);
 		return result;
 	}
 	

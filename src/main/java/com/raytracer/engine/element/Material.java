@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.misc.Constants;
 
 /*
  * Encapsulates not just the surface color, but also the four new attributes from the Phong 
@@ -43,10 +44,10 @@ public class Material {
 	public Material() {
 		// Default Material
 		setColor(Factory.color(1, 1, 1));
-		setAmbient(0.1f);
-		setDiffuse(0.9f);
-		setSpecular(0.9f);
-		setShininess(200f);
+		setAmbient(Constants.MATERIAL_AMBIENT);
+		setDiffuse(Constants.MATERIAL_DIFFUSE);
+		setSpecular(Constants.MATERIAL_SPECULAR);
+		setShininess(Constants.MATERIAL_SHININESS);
 	}
 
 	public Color getColor() {
