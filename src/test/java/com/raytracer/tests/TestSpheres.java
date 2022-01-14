@@ -213,9 +213,9 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Create an Intersection
-		Intersection anIntersection = Factory.intersection(3.5f, aSphere);
+		Intersection anIntersection = Factory.intersection(3.5, aSphere);
 		
-		assertEquals(3.5f, anIntersection.getT(), "Wrong t for the intersection!");
+		assertEquals(3.5, anIntersection.getT(), "Wrong t for the intersection!");
 		assertEquals(aSphere, anIntersection.getObject(), "Wrong object for the intersection!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -234,15 +234,15 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Create 2 Intersections
-		Intersection intersection1 = Factory.intersection(1f, aSphere);
-		Intersection intersection2 = Factory.intersection(2f, aSphere);
+		Intersection intersection1 = Factory.intersection(1, aSphere);
+		Intersection intersection2 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
 		Intersections theIntersections = Factory.intersections(intersection1, intersection2);
 		
 		assertEquals(2, theIntersections.getIntersections().length, "Wrong intersections size!");
-		assertEquals(1f, theIntersections.getIntersections()[0].getT(), "Wrong t for the 1st intersection!");
-		assertEquals(2f, theIntersections.getIntersections()[1].getT(), "Wrong t for the 2nd intersection!");
+		assertEquals(1, theIntersections.getIntersections()[0].getT(), "Wrong t for the 1st intersection!");
+		assertEquals(2, theIntersections.getIntersections()[1].getT(), "Wrong t for the 2nd intersection!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -260,8 +260,8 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Create 2 Intersections
-		Intersection intersection1 = Factory.intersection(1f, aSphere);
-		Intersection intersection2 = Factory.intersection(2f, aSphere);
+		Intersection intersection1 = Factory.intersection(1, aSphere);
+		Intersection intersection2 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
 		Intersections theIntersections = Factory.intersections(intersection1, intersection2);
@@ -272,8 +272,8 @@ public class TestSpheres {
 		assertEquals(intersection1, theHit, "Wrong hit!");
 		
 		// Create 2 Intersections
-		intersection1 = Factory.intersection(-1f, aSphere);
-		intersection2 = Factory.intersection(1f, aSphere);
+		intersection1 = Factory.intersection(-1, aSphere);
+		intersection2 = Factory.intersection(1, aSphere);
 		
 		// Aggregate them
 		theIntersections = Factory.intersections(intersection1, intersection2);
@@ -284,8 +284,8 @@ public class TestSpheres {
 		assertEquals(intersection2, theHit, "Wrong hit!");
 		
 		// Create 2 Intersections
-		intersection1 = Factory.intersection(-2f, aSphere);
-		intersection2 = Factory.intersection(-1f, aSphere);
+		intersection1 = Factory.intersection(-2, aSphere);
+		intersection2 = Factory.intersection(-1, aSphere);
 		
 		// Aggregate them
 		theIntersections = Factory.intersections(intersection1, intersection2);
@@ -296,10 +296,10 @@ public class TestSpheres {
 		assertEquals(null, theHit, "Wrong hit!");
 		
 		// Create many Intersections
-		intersection1 = Factory.intersection(5f, aSphere);
-		intersection2 = Factory.intersection(7f, aSphere);
-		Intersection intersection3 = Factory.intersection(-3f, aSphere);
-		Intersection intersection4 = Factory.intersection(2f, aSphere);
+		intersection1 = Factory.intersection(5, aSphere);
+		intersection2 = Factory.intersection(7, aSphere);
+		Intersection intersection3 = Factory.intersection(-3, aSphere);
+		Intersection intersection4 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
 		theIntersections = Factory.intersections(intersection1, intersection2, intersection3, intersection4);
@@ -422,12 +422,12 @@ public class TestSpheres {
 		assertEquals(expectedResult, normal, "Wrong normal for the Z axis!");
 		
 		// Get a Point
-		aPoint = Factory.point((float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3);
+		aPoint = Factory.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
 		
 		// The normal on a sphere at a nonaxial point
 		normal = SphereOperations.normalAt(aSphere, aPoint);
 		
-		expectedResult = Factory.vector((float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3, (float)Math.sqrt(3) / 3);
+		expectedResult = Factory.vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
 		assertEquals(expectedResult, normal, "Wrong normal for the point!");
 		
 		// The normal is a normalized vector
@@ -457,29 +457,29 @@ public class TestSpheres {
 		aSphere.setTransform(translation);
 		
 		// Get a Point
-		Tuple aPoint = Factory.point(0, 1.70711f, -0.70711f);
+		Tuple aPoint = Factory.point(0, 1.70711, -0.70711);
 		
 		// Computing the normal on a translated sphere
 		Tuple normal = SphereOperations.normalAt(aSphere, aPoint);
 		
-		Tuple expectedResult = Factory.vector(0, 0.70711f, -0.70711f);
+		Tuple expectedResult = Factory.vector(0, 0.70711, -0.70711);
 		assertEquals(expectedResult, normal, "Wrong normal for the translated Sphere!");
 		
 		// Get a transformation Matrix
-		Matrix scaling = Factory.scalingMatrix(1, 0.5f, 1);
-		Matrix rotation = Factory.zRotationMatrix((float)Math.PI / 5);
+		Matrix scaling = Factory.scalingMatrix(1, 0.5, 1);
+		Matrix rotation = Factory.zRotationMatrix(Math.PI / 5);
 		Matrix transformation = MatrixOperations.mul(scaling, rotation);
 		
 		// Set the Sphere's transformation
 		aSphere.setTransform(transformation);
 		
 		// Get a Point
-		aPoint = Factory.point(0f, (float)Math.sqrt(2) / 2, (float)-Math.sqrt(2) / 2);
+		aPoint = Factory.point(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		
 		// Computing the normal on a transformed sphere
 		normal = SphereOperations.normalAt(aSphere, aPoint);
 		
-		expectedResult = Factory.vector(0, 0.97014f, -0.24254f);
+		expectedResult = Factory.vector(0, 0.97014, -0.24254);
 		assertEquals(expectedResult, normal, "Wrong normal for the transformed Sphere!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -499,10 +499,10 @@ public class TestSpheres {
 		
 		// The default material
 		assertEquals(Factory.color(1, 1, 1), aMaterial.getColor(), "Wrong color for the Material!");
-		assertEquals(0.1f, aMaterial.getAmbient(), "Wrong ambient for the Material!");
-		assertEquals(0.9f, aMaterial.getDiffuse(), "Wrong diffuse for the Material!");
-		assertEquals(0.9f, aMaterial.getSpecular(), "Wrong specular for the Material!");
-		assertEquals(200f, aMaterial.getShininess(), "Wrong shininess for the Material!");
+		assertEquals(0.1, aMaterial.getAmbient(), "Wrong ambient for the Material!");
+		assertEquals(0.9, aMaterial.getDiffuse(), "Wrong diffuse for the Material!");
+		assertEquals(0.9, aMaterial.getSpecular(), "Wrong specular for the Material!");
+		assertEquals(200, aMaterial.getShininess(), "Wrong shininess for the Material!");
 		
 		// A sphere has a default material
 		Sphere aSphere = Factory.sphere();
@@ -510,7 +510,7 @@ public class TestSpheres {
 		assertEquals(Factory.material(), aSphere.getMaterial(), "Wrong Material for the Sphere!");
 		
 		// A sphere may be assigned a material
-		aMaterial.setAmbient(1f);
+		aMaterial.setAmbient(1);
 		aSphere.setMaterial(aMaterial);
 		
 		assertEquals(aMaterial, aSphere.getMaterial(), "Wrong Material for the Sphere!");

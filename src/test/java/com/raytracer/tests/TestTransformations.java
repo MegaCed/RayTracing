@@ -158,7 +158,7 @@ public class TestTransformations {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Get a Rotation Matrix
-		Matrix halfQuarter = Factory.xRotationMatrix((float)Math.PI / 4);
+		Matrix halfQuarter = Factory.xRotationMatrix(Math.PI / 4);
 		
 		// Get a Point
 		Tuple aPoint = Factory.point(0, 1, 0);
@@ -166,13 +166,13 @@ public class TestTransformations {
 		// Rotate a tuple some number of radians around the x axis
 		Tuple halfResult = MatrixOperations.mul(halfQuarter, aPoint);
 		
-		Tuple expectedResult = Factory.point(0, (float)Math.sqrt(2)/2, (float)Math.sqrt(2)/2);
+		Tuple expectedResult = Factory.point(0, Math.sqrt(2)/2, Math.sqrt(2)/2);
 		boolean equality = TupleOperations.equals(halfResult, expectedResult);
 		
 		assertEquals(true, equality, "Wrong half result!");
 		
 		// Get a Rotation Matrix
-		Matrix fullQuarter = Factory.xRotationMatrix((float)Math.PI / 2);
+		Matrix fullQuarter = Factory.xRotationMatrix(Math.PI / 2);
 		
 		// Rotate a tuple some number of radians around the x axis
 		Tuple fullResult = MatrixOperations.mul(fullQuarter, aPoint);
@@ -188,7 +188,7 @@ public class TestTransformations {
 		// Rotate a tuple some number of radians around the x axis
 		Tuple inverseResult = MatrixOperations.mul(inverse, aPoint);
 		
-		expectedResult = Factory.point(0, (float)Math.sqrt(2)/2, -(float)Math.sqrt(2)/2);
+		expectedResult = Factory.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2);
 		equality = TupleOperations.equals(inverseResult, expectedResult);
 		
 		assertEquals(true, equality, "Wrong inverse result!");
@@ -206,7 +206,7 @@ public class TestTransformations {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Get a Rotation Matrix
-		Matrix halfQuarter = Factory.yRotationMatrix((float)Math.PI / 4);
+		Matrix halfQuarter = Factory.yRotationMatrix(Math.PI / 4);
 		
 		// Get a Point
 		Tuple aPoint = Factory.point(0, 0, 1);
@@ -214,13 +214,13 @@ public class TestTransformations {
 		// Rotate a tuple some number of radians around the y axis
 		Tuple halfResult = MatrixOperations.mul(halfQuarter, aPoint);
 		
-		Tuple expectedResult = Factory.point((float)Math.sqrt(2)/2, 0, (float)Math.sqrt(2)/2);
+		Tuple expectedResult = Factory.point(Math.sqrt(2)/2, 0, Math.sqrt(2)/2);
 		boolean equality = TupleOperations.equals(halfResult, expectedResult);
 		
 		assertEquals(true, equality, "Wrong half result!");
 		
 		// Get a Rotation Matrix
-		Matrix fullQuarter = Factory.yRotationMatrix((float)Math.PI / 2);
+		Matrix fullQuarter = Factory.yRotationMatrix(Math.PI / 2);
 		
 		// Rotate a tuple some number of radians around the y axis
 		Tuple fullResult = MatrixOperations.mul(fullQuarter, aPoint);
@@ -243,7 +243,7 @@ public class TestTransformations {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Get a Rotation Matrix
-		Matrix halfQuarter = Factory.zRotationMatrix((float)Math.PI / 4);
+		Matrix halfQuarter = Factory.zRotationMatrix(Math.PI / 4);
 		
 		// Get a Point
 		Tuple aPoint = Factory.point(0, 1, 0);
@@ -251,13 +251,13 @@ public class TestTransformations {
 		// Rotate a tuple some number of radians around the z axis
 		Tuple halfResult = MatrixOperations.mul(halfQuarter, aPoint);
 		
-		Tuple expectedResult = Factory.point(-(float)Math.sqrt(2)/2, (float)Math.sqrt(2)/2, 0);
+		Tuple expectedResult = Factory.point(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
 		boolean equality = TupleOperations.equals(halfResult, expectedResult);
 		
 		assertEquals(true, equality, "Wrong half result!");
 		
 		// Get a Rotation Matrix
-		Matrix fullQuarter = Factory.zRotationMatrix((float)Math.PI / 2);
+		Matrix fullQuarter = Factory.zRotationMatrix(Math.PI / 2);
 		
 		// Rotate a tuple some number of radians around the y axis
 		Tuple fullResult = MatrixOperations.mul(fullQuarter, aPoint);
@@ -364,7 +364,7 @@ public class TestTransformations {
 		Tuple p = Factory.point(1, 0, 1);
 		
 		// Get Rotation Matrix
-		Matrix a = Factory.xRotationMatrix((float)Math.PI/2);
+		Matrix a = Factory.xRotationMatrix(Math.PI/2);
 		
 		// Get Scaling Matrix
 		Matrix b = Factory.scalingMatrix(5, 5, 5);

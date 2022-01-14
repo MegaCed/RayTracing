@@ -27,7 +27,7 @@ public class Factory {
 	/*
 	 * Creates a Point (a Tuple with w=1).
 	 */
-	public static Tuple point(float x, float y, float z) {
+	public static Tuple point(double x, double y, double z) {
 		Tuple aPoint =  new Tuple(x, y, z, 1);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Tuple: " + aPoint);
@@ -38,7 +38,7 @@ public class Factory {
 	/*
 	 * Creates a Vector (a Tuple with w=0).
 	 */
-	public static Tuple vector(float x, float y, float z) {
+	public static Tuple vector(double x, double y, double z) {
 		Tuple aVector = new Tuple(x, y, z, 0);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Tuple: " + aVector);
@@ -49,7 +49,7 @@ public class Factory {
 	/*
 	 * Creates a Color.
 	 */
-	public static Color color(float red, float green, float blue) {
+	public static Color color(double red, double green, double blue) {
 		Color aColor = new Color(red, green, blue);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Color: " + aColor);
@@ -71,7 +71,7 @@ public class Factory {
 	/*
 	 * Creates a Matrix.
 	 */
-	public static Matrix matrix(float[][] elements) {
+	public static Matrix matrix(double[][] elements) {
 		Matrix aMatrix = new Matrix(elements);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Matrix: " + aMatrix);
@@ -90,7 +90,7 @@ public class Factory {
 	public static Matrix identityMatrix() {
 		// The identity matrix is all zeros, except for those elements along the diagonal, which are 
 		// each set to 1
-		float[][] elements = {
+		double[][] elements = {
 				{1, 0, 0, 0},
 				{0, 1, 0, 0},
 				{0, 0, 1, 0},
@@ -119,7 +119,7 @@ public class Factory {
 	 * if the point had an x coordinate of 3, and you moved it 4 units in x, it would wind up with 
 	 * an x coordinate of 7.
 	 */
-	public static Matrix translationMatrix(float x, float y, float z) {
+	public static Matrix translationMatrix(double x, double y, double z) {
 		// Get the Identity Matrix
 		Matrix translationMatrix = Factory.identityMatrix();
 		
@@ -146,7 +146,7 @@ public class Factory {
 	 * the object, effectively making it larger (if the scale value is greater than 1) or smaller 
 	 * (if the scale value is less than 1).
 	 */
-	public static Matrix scalingMatrix(float x, float y, float z) {
+	public static Matrix scalingMatrix(double x, double y, double z) {
 		// Get the Identity Matrix
 		Matrix scalingMatrix = Factory.identityMatrix();
 		
@@ -178,15 +178,15 @@ public class Factory {
 	 * - a half circle (180 degrees) is PI radians
 	 * - a quarter circle (90 degrees) is PI⁄2 radians
 	 */
-	public static Matrix xRotationMatrix(float radians) {
+	public static Matrix xRotationMatrix(double radians) {
 		// Get the Identity Matrix
 		Matrix rotationMatrix = Factory.identityMatrix();
 		
 		// Set correctly the 4 elements
-		rotationMatrix.setElement((float)Math.cos(radians), 1, 1);
-		rotationMatrix.setElement(-(float)Math.sin(radians), 1, 2);
-		rotationMatrix.setElement((float)Math.sin(radians), 2, 1);
-		rotationMatrix.setElement((float)Math.cos(radians), 2, 2);
+		rotationMatrix.setElement(Math.cos(radians), 1, 1);
+		rotationMatrix.setElement(-Math.sin(radians), 1, 2);
+		rotationMatrix.setElement(Math.sin(radians), 2, 1);
+		rotationMatrix.setElement(Math.cos(radians), 2, 2);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning X Rotation Matrix: " + rotationMatrix);
 		return rotationMatrix;
@@ -201,15 +201,15 @@ public class Factory {
 	 * |-sin r 0 cos r 0|
 	 * |     0 0     0 1|
 	 */
-	public static Matrix yRotationMatrix(float radians) {
+	public static Matrix yRotationMatrix(double radians) {
 		// Get the Identity Matrix
 		Matrix rotationMatrix = Factory.identityMatrix();
 		
 		// Set correctly the 4 elements
-		rotationMatrix.setElement((float)Math.cos(radians), 0, 0);
-		rotationMatrix.setElement((float)Math.sin(radians), 0, 2);
-		rotationMatrix.setElement(-(float)Math.sin(radians), 2, 0);
-		rotationMatrix.setElement((float)Math.cos(radians), 2, 2);
+		rotationMatrix.setElement(Math.cos(radians), 0, 0);
+		rotationMatrix.setElement(Math.sin(radians), 0, 2);
+		rotationMatrix.setElement(-Math.sin(radians), 2, 0);
+		rotationMatrix.setElement(Math.cos(radians), 2, 2);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning Y Rotation Matrix: " + rotationMatrix);
 		return rotationMatrix;
@@ -224,15 +224,15 @@ public class Factory {
 	 * |     0      0 1 0|
 	 * |     0      0 0 1|
 	 */
-	public static Matrix zRotationMatrix(float radians) {
+	public static Matrix zRotationMatrix(double radians) {
 		// Get the Identity Matrix
 		Matrix rotationMatrix = Factory.identityMatrix();
 		
 		// Set correctly the 4 elements
-		rotationMatrix.setElement((float)Math.cos(radians), 0, 0);
-		rotationMatrix.setElement(-(float)Math.sin(radians), 0, 1);
-		rotationMatrix.setElement((float)Math.sin(radians), 1, 0);
-		rotationMatrix.setElement((float)Math.cos(radians), 1, 1);
+		rotationMatrix.setElement(Math.cos(radians), 0, 0);
+		rotationMatrix.setElement(-Math.sin(radians), 0, 1);
+		rotationMatrix.setElement(Math.sin(radians), 1, 0);
+		rotationMatrix.setElement(Math.cos(radians), 1, 1);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Returning Z Rotation Matrix: " + rotationMatrix);
 		return rotationMatrix;
@@ -263,7 +263,7 @@ public class Factory {
 	 * |zx zy  1 0|
 	 * |0   0  0 1|
 	 */
-	public static Matrix shearingMatrix(float xy, float xz, float yx, float yz, float zx, float zy) {
+	public static Matrix shearingMatrix(double xy, double xz, double yx, double yz, double zx, double zy) {
 		// Get the Identity Matrix
 		Matrix shearingMatrix = Factory.identityMatrix();
 		
@@ -304,7 +304,7 @@ public class Factory {
 	/*
 	 * Creates an Intersection.
 	 */
-	public static Intersection intersection(float t, Object o) {
+	public static Intersection intersection(double t, Object o) {
 		Intersection anIntersection = new Intersection(t, o);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersection: " + anIntersection);

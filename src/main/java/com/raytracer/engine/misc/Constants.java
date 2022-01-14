@@ -30,13 +30,14 @@ public interface Constants {
 	public static final String SEPARATOR_RESULT		= "===>> ";
 	
 	// Default Material
-	public static final float MATERIAL_AMBIENT = 0.1f;
-	public static final float MATERIAL_DIFFUSE = 0.9f;
-	public static final float MATERIAL_SPECULAR = 0.9f;
-	public static final float MATERIAL_SHININESS = 200f;
+	public static final double MATERIAL_AMBIENT = 0.1;
+	public static final double MATERIAL_DIFFUSE = 0.9;
+	public static final double MATERIAL_SPECULAR = 0.9;
+	public static final double MATERIAL_SHININESS = 200;
 	
 	// Some colors
 	public static final Color COLOR_BLACK = new Color(0, 0, 0);
 	public static final Color COLOR_WHITE = new Color(1, 1, 1);
+	public static final Color COLOR_RED = new Color(1, 0, 0);
 
 }

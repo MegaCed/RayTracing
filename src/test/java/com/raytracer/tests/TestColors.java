@@ -33,11 +33,11 @@ public class TestColors {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
-		Color aColor = Factory.color(-0.5f, 0.4f, 1.7f);
+		Color aColor = Factory.color(-0.5, 0.4, 1.7);
 		
-		assertEquals(-0.5f, aColor.getRed(), "Wrong red value!");
-		assertEquals(0.4f, aColor.getGreen(), "Wrong green value!");
-		assertEquals(1.7f, aColor.getBlue(), "Wrong blue value!");
+		assertEquals(-0.5, aColor.getRed(), "Wrong red value!");
+		assertEquals(0.4, aColor.getGreen(), "Wrong green value!");
+		assertEquals(1.7, aColor.getBlue(), "Wrong blue value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -52,18 +52,18 @@ public class TestColors {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
-		Color aColor = Factory.color(0.9f, 0.6f, 0.75f);
+		Color aColor = Factory.color(0.9, 0.6, 0.75);
 		
 		// Create a Color
-		Color anotherColor = Factory.color(0.7f, 0.1f, 0.25f);
+		Color anotherColor = Factory.color(0.7, 0.1, 0.25);
 		
 		// Add them
 		Color result = ColorOperations.add(aColor, anotherColor);
 		
 		// Compare result
-		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 1.6f);
-		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.7f);
-		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 1.0f);
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 1.6);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.7);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 1.0);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
@@ -82,18 +82,18 @@ public class TestColors {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
-		Color aColor = Factory.color(0.9f, 0.6f, 0.75f);
+		Color aColor = Factory.color(0.9, 0.6, 0.75);
 		
 		// Create a Color
-		Color anotherColor = Factory.color(0.7f, 0.1f, 0.25f);
+		Color anotherColor = Factory.color(0.7, 0.1, 0.25);
 		
 		// Add them
 		Color result = ColorOperations.sub(aColor, anotherColor);
 		
 		// Compare result
-		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.2f);
-		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.5f);
-		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.5f);
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.2);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.5);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.5);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
@@ -112,34 +112,34 @@ public class TestColors {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create a Color
-		Color aColor = new Color(0.2f, 0.3f, 0.4f);
-		float scalar = 2f;
+		Color aColor = new Color(0.2, 0.3, 0.4);
+		double scalar = 2;
 		
 		// Multiply this Color
 		Color result = ColorOperations.mul(aColor, scalar);
 		
 		// Compare result
-		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.4f);
-		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.6f);
-		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.8f);
+		boolean redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.4);
+		boolean greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.6);
+		boolean blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.8);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
 		assertEquals(true, blueEquality, "Blue has wrong value!");
 		
 		// Create a Color
-		aColor = Factory.color(1f, 0.2f, 0.4f);
+		aColor = Factory.color(1, 0.2, 0.4);
 		
 		// Create a Color
-		Color anotherColor = Factory.color(0.9f, 1f, 0.1f);
+		Color anotherColor = Factory.color(0.9, 1, 0.1);
 		
 		// Multiply them
 		result = ColorOperations.mul(aColor, anotherColor);
 		
 		// Compare result
-		redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.9f);
-		greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.2f);
-		blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.04f);
+		redEquality = MiscOperations.equalsEpsilon(result.getRed(), 0.9);
+		greenEquality = MiscOperations.equalsEpsilon(result.getGreen(), 0.2);
+		blueEquality = MiscOperations.equalsEpsilon(result.getBlue(), 0.04);
 		
 		assertEquals(true, redEquality, "Red has wrong value!");
 		assertEquals(true, greenEquality, "Green has wrong value!");
@@ -200,7 +200,7 @@ public class TestColors {
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
 		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
 		
-		Color expectedResult = Factory.color(1.9f, 1.9f, 1.9f);
+		Color expectedResult = Factory.color(1.9, 1.9, 1.9);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -225,7 +225,7 @@ public class TestColors {
 		Tuple position = Factory.point(0, 0, 0);
 		
 		// Lighting with the eye between light and surface, eye offset 45°
-		Tuple eyeVector = Factory.vector(0f, (float)Math.sqrt(2) / 2, (float)-Math.sqrt(2) / 2);
+		Tuple eyeVector = Factory.vector(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
 		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
@@ -260,7 +260,7 @@ public class TestColors {
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
 		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
 		
-		Color expectedResult = Factory.color(0.7364f, 0.7364f, 0.7364f);
+		Color expectedResult = Factory.color(0.7364, 0.7364, 0.7364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -285,12 +285,12 @@ public class TestColors {
 		Tuple position = Factory.point(0, 0, 0);
 		
 		// Lighting with eye opposite surface, light offset 45°
-		Tuple eyeVector = Factory.vector(0f, (float)-Math.sqrt(2) / 2, (float)-Math.sqrt(2) / 2);
+		Tuple eyeVector = Factory.vector(0, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
 		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
 		
-		Color expectedResult = Factory.color(1.6364f, 1.6364f, 1.6364f);
+		Color expectedResult = Factory.color(1.6364, 1.6364, 1.6364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
@@ -318,7 +318,7 @@ public class TestColors {
 		PointLight light = Factory.pointLight(Factory.point(0, 0, 10), Factory.color(1, 1, 1));
 		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
 		
-		Color expectedResult = Factory.color(0.1f, 0.1f, 0.1f);
+		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);

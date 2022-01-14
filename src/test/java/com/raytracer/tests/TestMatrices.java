@@ -31,11 +31,11 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{1, 2, 3, 4},
-				{5.5f, 6.5f, 7.5f, 8.5f},
+				{5.5, 6.5, 7.5, 8.5},
 				{9, 10, 11, 12},
-				{13.5f, 14.5f, 15.5f, 16.5f}
+				{13.5, 14.5, 15.5, 16.5}
 		};
 		
 		// Create a Matrix
@@ -43,14 +43,14 @@ public class TestMatrices {
 		
 		assertEquals(1, aMatrix.getElement(0,0), "Wrong value!");
 		assertEquals(4, aMatrix.getElement(0,3), "Wrong value!");
-		assertEquals(5.5f, aMatrix.getElement(1,0), "Wrong value!");
-		assertEquals(7.5f, aMatrix.getElement(1,2), "Wrong value!");
+		assertEquals(5.5, aMatrix.getElement(1,0), "Wrong value!");
+		assertEquals(7.5, aMatrix.getElement(1,2), "Wrong value!");
 		assertEquals(11, aMatrix.getElement(2,2), "Wrong value!");
-		assertEquals(13.5f, aMatrix.getElement(3,0), "Wrong value!");
-		assertEquals(15.5f, aMatrix.getElement(3,2), "Wrong value!");
+		assertEquals(13.5, aMatrix.getElement(3,0), "Wrong value!");
+		assertEquals(15.5, aMatrix.getElement(3,2), "Wrong value!");
 		
 		// A 2x2 matrix ought to be representable
-		float[][] values2 = {
+		double[][] values2 = {
 				{-3, 5},
 				{1, -2}
 		};
@@ -64,7 +64,7 @@ public class TestMatrices {
 		assertEquals(-2, aMatrix.getElement(1,1), "Wrong value!");
 		
 		// A 3x3 matrix ought to be representable
-		float[][] values3 = {
+		double[][] values3 = {
 				{-3, 5, 0},
 				{1, -2, -7},
 				{0, 1, 1}
@@ -90,7 +90,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values1 = {
+		double[][] values1 = {
 				{1, 2, 3, 4},
 				{5, 6, 7, 8},
 				{9, 8, 7, 6},
@@ -101,7 +101,7 @@ public class TestMatrices {
 		Matrix matrix1 = Factory.matrix(values1);
 		
 		// Create other elements
-		float[][] values2 = {
+		double[][] values2 = {
 				{1, 2, 3, 4},
 				{5, 6, 7, 8},
 				{9, 8, 7, 6},
@@ -117,7 +117,7 @@ public class TestMatrices {
 		assertEquals(true, equality, "Matrices aren't equals!");
 		
 		// Create other elements
-		float[][] values3 = {
+		double[][] values3 = {
 				{2, 3, 4, 5},
 				{6, 7, 8, 9},
 				{8, 7, 6, 5},
@@ -145,7 +145,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values1 = {
+		double[][] values1 = {
 				{1, 2, 3, 4},
 				{5, 6, 7, 8},
 				{9, 8, 7, 6},
@@ -156,7 +156,7 @@ public class TestMatrices {
 		Matrix matrix1 = Factory.matrix(values1);
 		
 		// Create other elements
-		float[][] values2 = {
+		double[][] values2 = {
 				{-2, 1, 2, 3},
 				{3, 2, 1, -1},
 				{4, 3, 6, 5},
@@ -187,7 +187,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{1, 2, 3, 4},
 				{2, 4, 4, 2},
 				{8, 6, 4, 1},
@@ -221,7 +221,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{0, 1, 2, 4},
 				{1, 2, 4, 8},
 				{2, 4, 8, 10},
@@ -266,7 +266,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{0, 9, 3, 0},
 				{9, 8, 0, 8},
 				{1, 8, 5, 3},
@@ -309,7 +309,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{1, 5},
 				{-3, 2}
 		};
@@ -318,7 +318,7 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values);
 		
 		// Find determinant
-		float determinant = MatrixOperations.determinant(aMatrix);
+		double determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(17, determinant, "Wrong result!");
 		
@@ -335,7 +335,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{1, 5, 0},
 				{-3, 2, 7},
 				{0, 6, -3}
@@ -354,7 +354,7 @@ public class TestMatrices {
 		assertEquals(6, result.getElement(1,1), "Wrong value!");
 		
 		// Create the elements
-		float[][] values2 = {
+		double[][] values2 = {
 				{-6, 1, 1, 6},
 				{-8, 5, 8, 6},
 				{-1, 0, 8, 2},
@@ -387,7 +387,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{3, 5, 0},
 				{2, -1, -7},
 				{6, -1, 5}
@@ -398,12 +398,12 @@ public class TestMatrices {
 		
 		// Find Determinant
 		Matrix submatrix = MatrixOperations.submatrix(aMatrix, 1, 0);
-		float determinant = MatrixOperations.determinant(submatrix);
+		double determinant = MatrixOperations.determinant(submatrix);
 		
 		assertEquals(25, determinant, "Wrong determinant!");
 		
 		// Find Minor
-		float minor = MatrixOperations.minor(aMatrix, 1, 0);
+		double minor = MatrixOperations.minor(aMatrix, 1, 0);
 		
 		assertEquals(25, minor, "Wrong minor!");
 		
@@ -420,7 +420,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{3, 5, 0},
 				{2, -1, -7},
 				{6, -1, 5}
@@ -430,12 +430,12 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values);
 		
 		// Find Minor
-		float minor = MatrixOperations.minor(aMatrix, 0, 0);
+		double minor = MatrixOperations.minor(aMatrix, 0, 0);
 				
 		assertEquals(-12, minor, "Wrong minor!");
 		
 		// Find Cofactor
-		float cofactor = MatrixOperations.cofactor(aMatrix, 0, 0);
+		double cofactor = MatrixOperations.cofactor(aMatrix, 0, 0);
 		
 		assertEquals(-12, cofactor, "Wrong cofactor!");
 		
@@ -462,7 +462,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements (3x3)
-		float[][] values3x3 = {
+		double[][] values3x3 = {
 				{1, 2, 6},
 				{-5, 8, -4},
 				{2, 6, 4}
@@ -472,21 +472,21 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values3x3);
 		
 		// Find cofactors
-		float cofactor1 = MatrixOperations.cofactor(aMatrix, 0, 0);
-		float cofactor2 = MatrixOperations.cofactor(aMatrix, 0, 1);
-		float cofactor3 = MatrixOperations.cofactor(aMatrix, 0, 2);
+		double cofactor1 = MatrixOperations.cofactor(aMatrix, 0, 0);
+		double cofactor2 = MatrixOperations.cofactor(aMatrix, 0, 1);
+		double cofactor3 = MatrixOperations.cofactor(aMatrix, 0, 2);
 		
 		assertEquals(56, cofactor1, "Wrong cofactor!");
 		assertEquals(12, cofactor2, "Wrong cofactor!");
 		assertEquals(-46, cofactor3, "Wrong cofactor!");
 		
 		// Calculating the determinant of a 3x3 matrix
-		float determinant = MatrixOperations.determinant(aMatrix);
+		double determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(-196, determinant, "Wrong determinant!");
 		
 		// Create the elements (4x4)
-		float[][] values4x4 = {
+		double[][] values4x4 = {
 				{-2, -8, 3, 5},
 				{-3, 1, 7, 3},
 				{1, 2, -9, 6},
@@ -500,7 +500,7 @@ public class TestMatrices {
 		cofactor1 = MatrixOperations.cofactor(aMatrix, 0, 0);
 		cofactor2 = MatrixOperations.cofactor(aMatrix, 0, 1);
 		cofactor3 = MatrixOperations.cofactor(aMatrix, 0, 2);
-		float cofactor4 = MatrixOperations.cofactor(aMatrix, 0, 3);
+		double cofactor4 = MatrixOperations.cofactor(aMatrix, 0, 3);
 		
 		assertEquals(690, cofactor1, "Wrong cofactor!");
 		assertEquals(447, cofactor2, "Wrong cofactor!");
@@ -525,7 +525,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{6, 4, 4, 4},
 				{5, 5, 7, 6},
 				{4, -9, 3, -7},
@@ -536,12 +536,12 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values);
 		
 		// Testing an invertible matrix for invertibility
-		float determinant = MatrixOperations.determinant(aMatrix);
+		double determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(-2120, determinant, "Wrong value!");
 		
 		// Create the elements
-		float[][] values2 = {
+		double[][] values2 = {
 				{-4, 2, -2, 3},
 				{9, 6, 2, 6},
 				{0, -5, 1, -5},
@@ -569,7 +569,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] values = {
+		double[][] values = {
 				{-5, 2, 6, -8},
 				{1, -5, 1, 8},
 				{7, 7, -6, -7},
@@ -580,12 +580,12 @@ public class TestMatrices {
 		Matrix aMatrix = Factory.matrix(values);
 		
 		// Check Determinant
-		float determinant = MatrixOperations.determinant(aMatrix);
+		double determinant = MatrixOperations.determinant(aMatrix);
 		
 		assertEquals(532, determinant, "Wrong determinant!");
 		
 		// Check Cofactor
-		float cofactor = MatrixOperations.cofactor(aMatrix, 2, 3);
+		double cofactor = MatrixOperations.cofactor(aMatrix, 2, 3);
 		
 		assertEquals(-160, cofactor, "Wrong cofactor!");
 		
@@ -598,10 +598,10 @@ public class TestMatrices {
 		Matrix inverse = MatrixOperations.inverse(aMatrix);
 		
 		// Compare result
-		boolean row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), 0.21805f);
-		boolean row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), -1.45677f);
-		boolean row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.05263f);
-		boolean row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.30639f);
+		boolean row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), 0.21805);
+		boolean row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), -1.45677);
+		boolean row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.05263);
+		boolean row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.30639);
 		
 		assertEquals(true, row0col0, "Wrong value!");
 		assertEquals(true, row1col1, "Wrong value!");
@@ -609,7 +609,7 @@ public class TestMatrices {
 		assertEquals(true, row3col3, "Wrong value!");
 		
 		// Create the elements
-		float[][] values2 = {
+		double[][] values2 = {
 				{8, -5, 9, 2},
 				{7, 5, 6, 1},
 				{-6, 0, 9, 6},
@@ -623,10 +623,10 @@ public class TestMatrices {
 		inverse = MatrixOperations.inverse(aMatrix);
 		
 		// Compare result
-		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.15385f);
-		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.12308f);
-		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), 0.43590f);
-		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), -1.92308f);
+		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.15385);
+		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.12308);
+		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), 0.43590);
+		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), -1.92308);
 		
 		assertEquals(true, row0col0, "Wrong value!");
 		assertEquals(true, row1col1, "Wrong value!");
@@ -634,7 +634,7 @@ public class TestMatrices {
 		assertEquals(true, row3col3, "Wrong value!");
 		
 		// Create the elements
-		float[][] values3 = {
+		double[][] values3 = {
 				{9, 3, 0, 9},
 				{-5, -2, -6, -3},
 				{-4, 9, 6, 4},
@@ -648,10 +648,10 @@ public class TestMatrices {
 		inverse = MatrixOperations.inverse(aMatrix);
 		
 		// Compare result
-		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.04074f);
-		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.03333f);
-		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.10926f);
-		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.33333f);
+		row0col0 = MiscOperations.equalsEpsilon(inverse.getElement(0, 0), -0.04074);
+		row1col1 = MiscOperations.equalsEpsilon(inverse.getElement(1, 1), 0.03333);
+		row2col2 = MiscOperations.equalsEpsilon(inverse.getElement(2, 2), -0.10926);
+		row3col3 = MiscOperations.equalsEpsilon(inverse.getElement(3, 3), 0.33333);
 		
 		assertEquals(true, row0col0, "Wrong value!");
 		assertEquals(true, row1col1, "Wrong value!");
@@ -671,7 +671,7 @@ public class TestMatrices {
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
 		// Create the elements
-		float[][] valuesA = {
+		double[][] valuesA = {
 				{3, -9, 7, 3},
 				{3, -8, 2, -9},
 				{-4, 4, 4, 1},
@@ -682,7 +682,7 @@ public class TestMatrices {
 		Matrix matrixA = Factory.matrix(valuesA);
 		
 		// Create the elements
-		float[][] valuesB = {
+		double[][] valuesB = {
 				{3, -9, 7, 3},
 				{3, -8, 2, -9},
 				{-4, 4, 4, 1},

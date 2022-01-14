@@ -12,7 +12,7 @@ public class Intersection {
 	// The points that lie any distance t along the ray.
 	// Why t? Blame the mathematicians! It stands for time, which only makes sense once you think of 
 	// the ray’s direction vector as its speed
-	float t;
+	double t;
 	
 	// The intersected object
 	Object object;
@@ -20,7 +20,7 @@ public class Intersection {
 	/*
 	 * Constructor.
 	 */
-	public Intersection(float t, Object o) {
+	public Intersection(double t, Object o) {
 		this.t = t;
 		this.object = o;
 	}
@@ -54,14 +54,14 @@ public class Intersection {
 		Intersection other = (Intersection) obj;
 		
 		return Objects.equals(object, other.object) 
-				&& Float.floatToIntBits(t) == Float.floatToIntBits(other.t);
+				&& Double.doubleToLongBits(t) == Double.doubleToLongBits(other.t);
 	}
 
-	public float getT() {
+	public double getT() {
 		return t;
 	}
 
-	public void setT(float t) {
+	public void setT(double t) {
 		this.t = t;
 	}
 

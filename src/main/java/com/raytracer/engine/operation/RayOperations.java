@@ -22,7 +22,7 @@ public class RayOperations {
 	 * You’ll make good use of this when you start turning intersections into actual surface 
 	 * information. It’s part of the process of computing realistic shading for your scenes.
 	 */
-	public static Tuple position(Ray aRay, float distance) {
+	public static Tuple position(Ray aRay, double distance) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Computing a distance: " + aRay + " by " + distance);
 		
 		// To find the position, you multiply the ray’s direction by t to find the total distance 

@@ -66,18 +66,18 @@ public class TestTuples {
 		logger.info(Constants.SEPARATOR_JUNIT + "Testing equality...");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		// Create 2 floats with an acceptable difference
-		float value1 = 1.0f;
-		float value2 = 1.000001f;
+		// Create 2 doubles with an acceptable difference
+		double value1 = 1.0;
+		double value2 = 1.000001;
 		
 		// Compare them
 		boolean result = MiscOperations.equalsEpsilon(value1, value2);
 		
 		assertEquals(true, result, "Values are not equals!");
 		
-		// Create 2 floats with an unacceptable difference
-		value1 = 1.0f;
-	    value2 = 1.00002f;
+		// Create 2 doubles with an unacceptable difference
+		value1 = 1.0;
+	    value2 = 1.00002;
 		
 		// Compare them
 		result = MiscOperations.equalsEpsilon(value1, value2);
@@ -201,27 +201,27 @@ public class TestTuples {
 		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
-		float scalar = 3.5f;
+		double scalar = 3.5;
 		
 		// Multiply this Tuple
 		Tuple result = TupleOperations.mul(aTuple, scalar);
 		
-		assertEquals(3.5f, result.getX(), "X has wrong value!");
-		assertEquals(-7f, result.getY(), "Y has wrong value!");
-		assertEquals(10.5f, result.getZ(), "Z has wrong value!");
-		assertEquals(-14f, result.getW(), "W has wrong value!");
+		assertEquals(3.5, result.getX(), "X has wrong value!");
+		assertEquals(-7, result.getY(), "Y has wrong value!");
+		assertEquals(10.5, result.getZ(), "Z has wrong value!");
+		assertEquals(-14, result.getW(), "W has wrong value!");
 		
 		// Create a Tuple
 		aTuple = new Tuple(1, -2, 3, -4);
-		scalar = 0.5f;
+		scalar = 0.5;
 		
 		// Multiply this Tuple
 		result = TupleOperations.mul(aTuple, scalar);
 		
-		assertEquals(0.5f, result.getX(), "X has wrong value!");
-		assertEquals(-1f, result.getY(), "Y has wrong value!");
-		assertEquals(1.5f, result.getZ(), "Z has wrong value!");
-		assertEquals(-2f, result.getW(), "W has wrong value!");
+		assertEquals(0.5, result.getX(), "X has wrong value!");
+		assertEquals(-1, result.getY(), "Y has wrong value!");
+		assertEquals(1.5, result.getZ(), "Z has wrong value!");
+		assertEquals(-2, result.getW(), "W has wrong value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -237,15 +237,15 @@ public class TestTuples {
 		
 		// Create a Tuple
 		Tuple aTuple = new Tuple(1, -2, 3, -4);
-		float scalar = 2f;
+		double scalar = 2;
 		
 		// Divide this Tuple
 		Tuple result = TupleOperations.div(aTuple, scalar);
 		
-		assertEquals(0.5f, result.getX(), "X has wrong value!");
-		assertEquals(-1f, result.getY(), "Y has wrong value!");
-		assertEquals(1.5f, result.getZ(), "Z has wrong value!");
-		assertEquals(-2f, result.getW(), "W has wrong value!");
+		assertEquals(0.5, result.getX(), "X has wrong value!");
+		assertEquals(-1, result.getY(), "Y has wrong value!");
+		assertEquals(1.5, result.getZ(), "Z has wrong value!");
+		assertEquals(-2, result.getW(), "W has wrong value!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -263,9 +263,9 @@ public class TestTuples {
 		Tuple aVector = Factory.vector(1, 0, 0);
 		
 		// Get the magnitude of this Vector
-		float result = TupleOperations.magnitude(aVector);
+		double result = TupleOperations.magnitude(aVector);
 		
-		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		assertEquals(1, result, "Wrong magnitude for the Vector!");
 		
 		// Create a Vector
 		aVector = Factory.vector(0, 1, 0);
@@ -273,7 +273,7 @@ public class TestTuples {
 		// Get the magnitude of this Vector
 		result = TupleOperations.magnitude(aVector);
 		
-		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		assertEquals(1, result, "Wrong magnitude for the Vector!");
 		
 		// Create a Vector
 		aVector = Factory.vector(0, 0, 1);
@@ -281,7 +281,7 @@ public class TestTuples {
 		// Get the magnitude of this Vector
 		result = TupleOperations.magnitude(aVector);
 		
-		assertEquals(1f, result, "Wrong magnitude for the Vector!");
+		assertEquals(1, result, "Wrong magnitude for the Vector!");
 		
 		// Create a Vector
 		aVector = Factory.vector(1, 2, 3);
@@ -290,7 +290,7 @@ public class TestTuples {
 		result = TupleOperations.magnitude(aVector);
 		
 		// Compare the result (using Epsilon)
-		boolean equalsEpsilon = MiscOperations.equalsEpsilon(result, (float)Math.sqrt(14));
+		boolean equalsEpsilon = MiscOperations.equalsEpsilon(result, Math.sqrt(14));
 		assertEquals(true, equalsEpsilon, "Wrong magnitude for the Vector!");
 		
 		// Create a Vector
@@ -300,7 +300,7 @@ public class TestTuples {
 		result = TupleOperations.magnitude(aVector);
 		
 		// Compare the result (using Epsilon)
-		equalsEpsilon = MiscOperations.equalsEpsilon(result, (float)Math.sqrt(14));
+		equalsEpsilon = MiscOperations.equalsEpsilon(result, Math.sqrt(14));
 		
 		assertEquals(true, equalsEpsilon, "Wrong magnitude for the Vector!");
 		
@@ -322,7 +322,7 @@ public class TestTuples {
 		// Normalize this Vector
 		Tuple aVector = TupleOperations.normalize(initialVector);
 		
-		assertEquals(1f, aVector.getX(), "X has wrong value!");
+		assertEquals(1, aVector.getX(), "X has wrong value!");
 		assertEquals(0, aVector.getY(), "Y has wrong value!");
 		assertEquals(0, aVector.getZ(), "Z has wrong value!");
 		
@@ -333,9 +333,9 @@ public class TestTuples {
 		aVector = TupleOperations.normalize(aVector);
 		
 		// Compare the result (using Epsilon)
-		boolean xEpsilon = MiscOperations.equalsEpsilon(aVector.getX(), 1 / (float)Math.sqrt(14));
-		boolean yEpsilon = MiscOperations.equalsEpsilon(aVector.getY(), 2 / (float)Math.sqrt(14));
-		boolean zEpsilon = MiscOperations.equalsEpsilon(aVector.getZ(), 3 / (float)Math.sqrt(14));
+		boolean xEpsilon = MiscOperations.equalsEpsilon(aVector.getX(), 1 / Math.sqrt(14));
+		boolean yEpsilon = MiscOperations.equalsEpsilon(aVector.getY(), 2 / Math.sqrt(14));
+		boolean zEpsilon = MiscOperations.equalsEpsilon(aVector.getZ(), 3 / Math.sqrt(14));
 		
 		assertEquals(true, xEpsilon, "X has wrong value!");
 		assertEquals(true, yEpsilon, "Y has wrong value!");
@@ -350,7 +350,7 @@ public class TestTuples {
 		aVector = TupleOperations.normalize(aVector);
 		
 		// Get the magnitude of this Vector
-		float magnitude = TupleOperations.magnitude(aVector);
+		double magnitude = TupleOperations.magnitude(aVector);
 		
 		// Compare the result (using Epsilon)
 		boolean magnitudeEpsilon = MiscOperations.equalsEpsilon(magnitude, 1);
@@ -374,7 +374,7 @@ public class TestTuples {
 		Tuple vector2 = Factory.vector(2, 3, 4);
 		
 		// Get dot product
-		float result = TupleOperations.dot(vector1, vector2);
+		double result = TupleOperations.dot(vector1, vector2);
 		
 		assertEquals(20, result, "Wrong dot product!");
 		
@@ -435,7 +435,7 @@ public class TestTuples {
 		// If the ground were slanted at 45°, and the ball were to fall straight down onto it, it 
 		// ought to bounce away horizontally
 		aVector = Factory.vector(0, -1, 0);
-		normal = Factory.vector((float)Math.sqrt(2) / 2, (float)Math.sqrt(2) / 2, 0);
+		normal = Factory.vector(Math.sqrt(2) / 2, (double)Math.sqrt(2) / 2, 0);
 		
 		result = TupleOperations.reflect(aVector, normal);
 		

@@ -27,12 +27,12 @@ public class TupleOperations {
 		logger.debug("2nd Tuple: " + tuple2);
 		
 		// You make a new tuple by adding the corresponding components of each of the operands
-		float x = tuple1.getX() + tuple2.getX();
-		float y = tuple1.getY() + tuple2.getY();
-		float z = tuple1.getZ() + tuple2.getZ();
+		double x = tuple1.getX() + tuple2.getX();
+		double y = tuple1.getY() + tuple2.getY();
+		double z = tuple1.getZ() + tuple2.getZ();
 		
 		// Adding a Point to a Point doesn't makes sense (W would be equals to 2!)
-		float w = tuple1.getW() + tuple2.getW();
+		double w = tuple1.getW() + tuple2.getW();
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
@@ -55,12 +55,12 @@ public class TupleOperations {
 		logger.debug("1st Tuple: " + tuple1);
 		logger.debug("2nd Tuple: " + tuple2);
 		
-		float x = tuple1.getX() - tuple2.getX();
-		float y = tuple1.getY() - tuple2.getY();
-		float z = tuple1.getZ() - tuple2.getZ();
+		double x = tuple1.getX() - tuple2.getX();
+		double y = tuple1.getY() - tuple2.getY();
+		double z = tuple1.getZ() - tuple2.getZ();
 		
 		// Adding a Point to a Point doesn't makes sense (W would be equals to 2!)
-		float w = tuple1.getW() - tuple2.getW();
+		double w = tuple1.getW() - tuple2.getW();
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
@@ -79,10 +79,10 @@ public class TupleOperations {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Negating Tuple: " + aTuple);
 		
 		// Negate each component of the tuple
-		float x = aTuple.getX() * -1;
-		float y = aTuple.getY() * -1;
-		float z = aTuple.getZ() * -1;
-		float w = aTuple.getW() * -1;
+		double x = aTuple.getX() * -1;
+		double y = aTuple.getY() * -1;
+		double z = aTuple.getZ() * -1;
+		double w = aTuple.getW() * -1;
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
@@ -97,14 +97,14 @@ public class TupleOperations {
 	 * direction (When you’re finding where a ray intersects a sphere).
 	 * So you lay that vector end-to-end 3.5 times to see just how far the point is from the start.
 	 */
-	public static Tuple mul(Tuple aTuple, Float scalar) {
+	public static Tuple mul(Tuple aTuple, double scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Tuple: " + aTuple + " by " + scalar);
 		
 		// Multiply each component of the Tuple by the scalar
-		float x = aTuple.getX() * scalar;
-		float y = aTuple.getY() * scalar;
-		float z = aTuple.getZ() * scalar;
-		float w = aTuple.getW() * scalar;
+		double x = aTuple.getX() * scalar;
+		double y = aTuple.getY() * scalar;
+		double z = aTuple.getZ() * scalar;
+		double w = aTuple.getW() * scalar;
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
@@ -118,14 +118,14 @@ public class TupleOperations {
 	 * You can always implement division with multiplication, but sometimes it’s simpler to describe 
 	 * an operation as division.
 	 */
-	public static Tuple div(Tuple aTuple, Float scalar) {
+	public static Tuple div(Tuple aTuple, double scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Dividing Tuple: " + aTuple + " by " + scalar);
 		
 		// Divide each component of the tuple by the scalar
-		float x = aTuple.getX() / scalar;
-		float y = aTuple.getY() / scalar;
-		float z = aTuple.getZ() / scalar;
-		float w = aTuple.getW() / scalar;
+		double x = aTuple.getX() / scalar;
+		double y = aTuple.getY() / scalar;
+		double z = aTuple.getZ() / scalar;
+		double w = aTuple.getW() / scalar;
 		
 		Tuple result = new Tuple(x, y, z, w);
 				
@@ -139,16 +139,16 @@ public class TupleOperations {
 	 * The distance represented by a vector is called its magnitude, or length. It’s how far you 
 	 * would travel in a straight line if you were to walk from one end of the vector to the other.
 	 */
-	public static float magnitude(Tuple aVector) {
+	public static double magnitude(Tuple aVector) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Retrieving magnitude of vector: " + aVector);
 		
 		// Pythagoras’ theorem taught us how to compute this, with some squares and a square root
-		float x2 = (float) Math.pow(aVector.getX(), 2);
-		float y2 = (float) Math.pow(aVector.getY(), 2);
-		float z2 = (float) Math.pow(aVector.getZ(), 2);
-		float w2 = (float) Math.pow(aVector.getW(), 2);
+		double x2 = Math.pow(aVector.getX(), 2);
+		double y2 = Math.pow(aVector.getY(), 2);
+		double z2 = Math.pow(aVector.getZ(), 2);
+		double w2 = Math.pow(aVector.getW(), 2);
 		
-		float result = (float) Math.sqrt(x2+y2+z2+w2);
+		double result = Math.sqrt(x2+y2+z2+w2);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Magnitude = " + result);
 		return result;
@@ -167,13 +167,13 @@ public class TupleOperations {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Normalizing Tuple: " + aTuple);
 		
 		// Retrieve the magnitude of the Tuple
-		float magnitude = magnitude(aTuple);
+		double magnitude = magnitude(aTuple);
 		
 		// You normalize a Tuple by dividing each of its components by its magnitude
-		float x = aTuple.getX() / magnitude;
-		float y = aTuple.getY() / magnitude;
-		float z = aTuple.getZ() / magnitude;
-		float w = aTuple.getW() / magnitude;
+		double x = aTuple.getX() / magnitude;
+		double y = aTuple.getY() / magnitude;
+		double z = aTuple.getZ() / magnitude;
+		double w = aTuple.getW() / magnitude;
 		
 		Tuple result = new Tuple(x, y, z, w);
 		
@@ -193,7 +193,7 @@ public class TupleOperations {
 	 * unit vectors, a dot product of 1 means the vectors are identical, and a dot product of -1 
 	 * means they point in opposite directions.
 	 */
-	public static float dot(Tuple vector1, Tuple vector2) {
+	public static double dot(Tuple vector1, Tuple vector2) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Dot product of 2 Vectors...");
 		logger.debug("1st Vector: " + vector1);
 		logger.debug("2nd Vector: " + vector2);
@@ -201,12 +201,12 @@ public class TupleOperations {
 		
 		// The dot product is computed as the sum of the products of the corresponding components 
 		// of each vector
-		float x = vector1.getX() * vector2.getX();
-		float y = vector1.getY() * vector2.getY();
-		float z = vector1.getZ() * vector2.getZ();
-		float w = vector1.getW() * vector2.getW();
+		double x = vector1.getX() * vector2.getX();
+		double y = vector1.getY() * vector2.getY();
+		double z = vector1.getZ() * vector2.getZ();
+		double w = vector1.getW() * vector2.getW();
 		
-		float result = x + y + z + w;
+		double result = x + y + z + w;
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Dot product = " + result);
 		return result;
@@ -231,9 +231,9 @@ public class TupleOperations {
 		logger.debug("1st Vector: " + vector1);
 		logger.debug("2nd Vector: " + vector2);
 		
-		float x = (vector1.getY() * vector2.getZ()) - (vector1.getZ() * vector2.getY());
-		float y = (vector1.getZ() * vector2.getX()) - (vector1.getX() * vector2.getZ());
-		float z = (vector1.getX() * vector2.getY()) - (vector1.getY() * vector2.getX());
+		double x = (vector1.getY() * vector2.getZ()) - (vector1.getZ() * vector2.getY());
+		double y = (vector1.getZ() * vector2.getX()) - (vector1.getX() * vector2.getZ());
+		double z = (vector1.getX() * vector2.getY()) - (vector1.getY() * vector2.getX());
 		
 		// You get a new vector that is perpendicular to both of the original vectors.
 		Tuple result = Factory.vector(x, y, z);
@@ -264,7 +264,7 @@ public class TupleOperations {
 		
 		// Mathematics is the magic that makes this work...
 		// in - normal * 2 * dot(in, normal)
-		Tuple result = TupleOperations.sub(in, TupleOperations.mul(TupleOperations.mul(normal, 2f), TupleOperations.dot(in, normal)));
+		Tuple result = TupleOperations.sub(in, TupleOperations.mul(TupleOperations.mul(normal, 2), TupleOperations.dot(in, normal)));
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Reflected Tuple = " + result);
 		return result;	

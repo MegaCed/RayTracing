@@ -13,9 +13,7 @@ public class MiscOperations {
 	private static Logger logger = LoggerFactory.getLogger(MiscOperations.class);
 	
 	// Acceptable error
-	private static final float EPSILON = 0.00001f;
-	// Broader error
-	//private static final float EPSILON = 0.0001f;
+	private static final double EPSILON = 0.00001;
 	
 	/*
 	 * Test for equality, using Epsilon as acceptable error.
@@ -24,7 +22,7 @@ public class MiscOperations {
 	 * If the absolute value of their difference is less than some value (called EPSILON), you can 
 	 * consider them equal.
 	 */
-	public static boolean equalsEpsilon(float value1, float value2) {
+	public static boolean equalsEpsilon(double value1, double value2) {
 		boolean result = false;
 		
 		if (Math.abs(value1 - value2) < EPSILON) {

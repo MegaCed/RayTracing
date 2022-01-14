@@ -29,9 +29,9 @@ public class ColorOperations {
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
-		float red = color1.getRed() + color2.getRed();
-		float green = color1.getGreen() + color2.getGreen();
-		float blue = color1.getBlue() + color2.getBlue();
+		double red = color1.getRed() + color2.getRed();
+		double green = color1.getGreen() + color2.getGreen();
+		double blue = color1.getBlue() + color2.getBlue();
 		
 		Color result = new Color(red, green, blue);
 		
@@ -48,9 +48,9 @@ public class ColorOperations {
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
-		float red = color1.getRed() - color2.getRed();
-		float green = color1.getGreen() - color2.getGreen();
-		float blue = color1.getBlue() - color2.getBlue();
+		double red = color1.getRed() - color2.getRed();
+		double green = color1.getGreen() - color2.getGreen();
+		double blue = color1.getBlue() - color2.getBlue();
 		
 		Color result = new Color(red, green, blue);
 		
@@ -62,13 +62,13 @@ public class ColorOperations {
 	/*
 	 * Multiplying a color by a scalar.
 	 */
-	public static Color mul(Color aColor, Float scalar) {
+	public static Color mul(Color aColor, double scalar) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Multiply Color: " + aColor + " by " + scalar);
 		
 		// Multiply each component of the Color by the scalar
-		float red = aColor.getRed() * scalar;
-		float green = aColor.getGreen() * scalar;
-		float blue = aColor.getBlue() * scalar;
+		double red = aColor.getRed() * scalar;
+		double green = aColor.getGreen() * scalar;
+		double blue = aColor.getBlue() * scalar;
 		
 		Color result = new Color(red, green, blue);
 		
@@ -87,9 +87,9 @@ public class ColorOperations {
 		logger.debug("1st Color: " + color1);
 		logger.debug("2nd Color: " + color2);
 		
-		float red = color1.getRed() * color2.getRed();
-		float green = color1.getGreen() * color2.getGreen();
-		float blue = color1.getBlue() * color2.getBlue();
+		double red = color1.getRed() * color2.getRed();
+		double green = color1.getGreen() * color2.getGreen();
+		double blue = color1.getBlue() * color2.getBlue();
 
 		// This method of blending two colors works by multiplying corresponding components of each 
 		// color to form a new color. It’s technically called the Hadamard product (or Schur 
@@ -130,7 +130,7 @@ public class ColorOperations {
 		
 		// lightDotNormal represents the cosine of the angle between the light vector and the normal 
 		// vector
-		float lightDotNormal = TupleOperations.dot(lightVector, normalVector);
+		double lightDotNormal = TupleOperations.dot(lightVector, normalVector);
 		
 		Color diffuse;
 		Color specular;
@@ -146,14 +146,14 @@ public class ColorOperations {
 			// reflectDotEye represents the cosine of the angle between the reflection vector and 
 			// the eye vector
 			Tuple reflectVector = TupleOperations.reflect(TupleOperations.neg(lightVector), normalVector);
-			float reflectDotEye = TupleOperations.dot(reflectVector, eyeVector);
+			double reflectDotEye = TupleOperations.dot(reflectVector, eyeVector);
 			
 			// A negative number means the light reflects away from the eye
 			if (reflectDotEye < 0) {
 				specular = Constants.COLOR_BLACK;
 			} else {
 				// compute the specular contribution
-				Float factor = (float)Math.pow(reflectDotEye, aMaterial.getShininess());
+				double factor = Math.pow(reflectDotEye, aMaterial.getShininess());
 				specular = ColorOperations.mul(ColorOperations.mul(lightSource.getIntensity(), aMaterial.getSpecular()), factor);
 			}
 		}

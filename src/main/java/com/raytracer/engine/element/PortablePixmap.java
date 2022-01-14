@@ -105,9 +105,9 @@ public class PortablePixmap {
 			
 			for (int pixelNumber = 0; pixelNumber < width; pixelNumber++) {
 				// Retrieve the current pixel's color
-				float red = pixels[lineNumber][pixelNumber].getRed();
-				float green = pixels[lineNumber][pixelNumber].getGreen();
-				float blue = pixels[lineNumber][pixelNumber].getBlue();
+				double red = pixels[lineNumber][pixelNumber].getRed();
+				double green = pixels[lineNumber][pixelNumber].getGreen();
+				double blue = pixels[lineNumber][pixelNumber].getBlue();
 				
 				// Scale the colors to their scaled values
 				int redScaled = scale(red, MAXIMUM_COLOR_VALUE);
@@ -149,7 +149,7 @@ public class PortablePixmap {
 	/*
 	 * Each component should be scaled to between 0 and the maximum color value given in the header.
 	 */
-	private int scale(float aNumber, int maximumValue) {
+	private int scale(double aNumber, int maximumValue) {
 		// Round it up to the next integer
 		int result = (int) Math.ceil(maximumValue * aNumber);
 		

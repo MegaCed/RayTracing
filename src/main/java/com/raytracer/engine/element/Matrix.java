@@ -16,12 +16,12 @@ import com.raytracer.engine.operation.MiscOperations;
 public class Matrix {
 	
 	// The elements of this Matrix
-	private float[][] elements;
+	private double[][] elements;
 	
 	/*
 	 * Constructor.
 	 */
-	public Matrix(float[][] elements) {
+	public Matrix(double[][] elements) {
 		this.setElements(elements);
 	}
 	
@@ -42,7 +42,7 @@ public class Matrix {
 	/*
 	 * Returns the element at Y (row), X (column).
 	 */
-	public float getElement(int y, int x) {
+	public double getElement(int y, int x) {
 		if (x <= getColumns() && y < getRows()) {
 			return elements[y][x];
 		}
@@ -54,7 +54,7 @@ public class Matrix {
 	/*
 	 * Set an element at a specific location.
 	 */
-	public void setElement(float element, int y, int x) {
+	public void setElement(double element, int y, int x) {
 		if (x <= getColumns() && y < getRows()) {
 			elements[y][x] = element;
 		}
@@ -119,8 +119,8 @@ public class Matrix {
 			
 			for (int row = 0; row < getRows(); row++) {
 				for (int col = 0; col < getColumns(); col++) {
-					float element1 = getElement(row, col);
-					float element2 = anotherMatrix.getElement(row, col);
+					double element1 = getElement(row, col);
+					double element2 = anotherMatrix.getElement(row, col);
 							
 					if (!MiscOperations.equalsEpsilon(element1, element2)) {
 						return false;
@@ -142,11 +142,11 @@ public class Matrix {
 		return result;
 	}
 	
-	public float[][] getElements() {
+	public double[][] getElements() {
 		return elements;
 	}
 
-	public void setElements(float[][] elements) {
+	public void setElements(double[][] elements) {
 		this.elements = elements;
 	}
 	

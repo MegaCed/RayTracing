@@ -52,7 +52,7 @@ public class MatrixOperations {
 		logger.debug("2nd Matrix: " + matrix2);
 
 		// Multiply the 2 arrays of elements
-		float[][] elements = mul(matrix1.getElements(), matrix2.getElements());
+		double[][] elements = mul(matrix1.getElements(), matrix2.getElements());
 		
 		Matrix result = new Matrix(elements);
 		
@@ -72,7 +72,7 @@ public class MatrixOperations {
 		logger.debug("Tuple: " + aTuple);
 
 		// Multiply the 2 arrays of elements
-		float[][] elements = mul(aMatrix.getElements(), aTuple.asArray());
+		double[][] elements = mul(aMatrix.getElements(), aTuple.asArray());
 
 		Tuple result = new Tuple(elements);
 		
@@ -83,7 +83,7 @@ public class MatrixOperations {
 	/*
 	 * Common method for multiplying arrays.
 	 */
-	private static float[][] mul(float[][] array1, float[][] array2) {
+	private static double[][] mul(double[][] array1, double[][] array2) {
 		// # of lines is always the same for the 2 arrays
 		int lines = array1.length;
 		
@@ -91,11 +91,11 @@ public class MatrixOperations {
 		int columns = array2[0].length;
 		
 		// Array of results
-		float[][] elements = new float[lines][columns];
+		double[][] elements = new double[lines][columns];
 		
 		for (int row = 0; row < lines; row++) {
 			for (int col = 0; col < columns; col++) {
-				float value = 0;
+				double value = 0;
 				
 				// Matrix multiplication computes the dot product of every row-column combination in 
 				// the two matrices!
@@ -129,7 +129,7 @@ public class MatrixOperations {
 		int columns = aMatrix.getColumns();
 		
 		// Array of results
-		float[][] elements = new float[rows][columns];
+		double[][] elements = new double[rows][columns];
 		
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < columns; col++) {
@@ -152,11 +152,11 @@ public class MatrixOperations {
 	 * determine whether or not the system has a solution. If the determinant is zero, then the 
 	 * corresponding system of equations has no solution.
 	 */
-	public static float determinant(Matrix aMatrix) {
+	public static double determinant(Matrix aMatrix) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Determining  Matrix Determinant...");
 		logger.debug("Matrix: " + aMatrix);
 		
-		float determinant = 0;
+		double determinant = 0;
 		
 		if (aMatrix.getRows() == 2) {
 			// 2x2 Matrix
@@ -179,12 +179,12 @@ public class MatrixOperations {
 	/*
 	 * Find the Determinant of small matrices (2x2).
 	 */
-	private static float determinantSmallMatrix(Matrix aMatrix) {
+	private static double determinantSmallMatrix(Matrix aMatrix) {
 		logger.debug("(Determinant for small matrices)");
 		
 		// Determinant | a b | = ad - bc
 		//             | c d |
-		float determinant = 
+		double determinant = 
 				(aMatrix.getElement(0, 0) * aMatrix.getElement(1, 1))
 				- (aMatrix.getElement(0, 1) * aMatrix.getElement(1, 0));
 		
@@ -199,10 +199,10 @@ public class MatrixOperations {
 	 * products together
 	 * And that’s the determinant!
 	 */
-	private static float determinantBigMatrix(Matrix aMatrix) {
+	private static double determinantBigMatrix(Matrix aMatrix) {
 		logger.debug("(Determinant for big matrices)");
 		
-		float determinant = 0;
+		double determinant = 0;
 		
 		// You only need to look at a single row or column, so let’s choose the first row
 		int firstRow = 0;
@@ -231,7 +231,7 @@ public class MatrixOperations {
 		int columnsCount = aMatrix.getColumns();
 		
 		// Reduced array of results
-		float[][] elements = new float[rowsCount-1][columnsCount-1];
+		double[][] elements = new double[rowsCount-1][columnsCount-1];
 		
 		// Fill the new array excluding forbidden row & column
 		for (int row = 0, subRow = 0; row < rowsCount; row++) {
@@ -263,7 +263,7 @@ public class MatrixOperations {
 	 * submatrix. The answer is the minor.
 	 * (You have to admit: “minor” is easier to say than “determinant of the submatrix.”)
 	 */
-	public static float minor(Matrix aMatrix, int row, int col) {
+	public static double minor(Matrix aMatrix, int row, int col) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Finding Matrix Minor...");
 		logger.debug("Matrix: " + aMatrix);
 		logger.debug("Row: " + row + " - Column: " + col);
@@ -272,7 +272,7 @@ public class MatrixOperations {
 		Matrix submatrix = submatrix(aMatrix, row, col);
 		
 		// 2. Find the determinant of the submatrix
-		float minor = determinant(submatrix);
+		double minor = determinant(submatrix);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Minor = " + minor);
 		return minor;
@@ -291,14 +291,14 @@ public class MatrixOperations {
 	 * If the row and column identifies a spot with a +, then the minor’s sign doesn’t change. 
 	 * If the row and column identifies a spot with a -, then you negate the minor.
 	 */
-	public static float cofactor(Matrix aMatrix, int row, int col) {
+	public static double cofactor(Matrix aMatrix, int row, int col) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Finding Matrix Cofactor...");
 		logger.debug("Matrix: " + aMatrix);
 		logger.debug("Row: " + row + " - Column: " + col);
 		
 		// 1. Find the Minor
-		float minor = minor(aMatrix, row, col);
-		float cofactor = minor;
+		double minor = minor(aMatrix, row, col);
+		double cofactor = minor;
 		
 		// If row + column is an odd number, then you negate the minor.
 		// Otherwise, you just return the minor as is
@@ -326,18 +326,18 @@ public class MatrixOperations {
 	 */
 	public static Matrix inverse(Matrix aMatrix) {
 		// Fail if the Matrix is not invertible
-		float determinant = determinant(aMatrix);
+		double determinant = determinant(aMatrix);
 		if (determinant == 0) {
 			// An exception would be better...
 			return null;
 		}
 		
 		// New matrix of same size
-		float[][] elements = new float[aMatrix.getRows()][aMatrix.getColumns()];
+		double[][] elements = new double[aMatrix.getRows()][aMatrix.getColumns()];
 		
 		for (int row=0; row<aMatrix.getRows(); row++) {
 			for (int col=0; col<aMatrix.getColumns(); col++) {
-				float cofactor = cofactor(aMatrix, row, col);
+				double cofactor = cofactor(aMatrix, row, col);
 				
 				// Note that "col, row" here, instead of "row, col" accomplishes the transpose 
 				// operation!

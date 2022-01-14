@@ -41,12 +41,12 @@ public class SphereOperations {
 		
 		// The math behind intersecting a ray and a sphere is really quite elegant, but for the sake 
 		// of brevity we’ll skip the derivations and jump straight to the implementation...
-		float a = TupleOperations.dot(aRay.getDirection(), aRay.getDirection());
-		float b = TupleOperations.dot(aRay.getDirection(), sphereToRay) * 2;
-		float c = TupleOperations.dot(sphereToRay, sphereToRay) - 1;
+		double a = TupleOperations.dot(aRay.getDirection(), aRay.getDirection());
+		double b = TupleOperations.dot(aRay.getDirection(), sphereToRay) * 2;
+		double c = TupleOperations.dot(sphereToRay, sphereToRay) - 1;
 		
 		// discriminant = b² - 4 * a * c
-		float discriminant = (float)Math.pow(b, 2) - 4 * a * c;
+		double discriminant = Math.pow(b, 2) - 4 * a * c;
 		
 		// That discriminant value is the key. If it’s negative, then the ray misses and no 
 		// intersections occur between the sphere and the ray
@@ -57,8 +57,8 @@ public class SphereOperations {
 		
 		// Otherwise, you’ll see either one (for rays that hit the sphere at a perfect tangent) or 
 		// two intersections
-		float t1 = (float)(-b - (Math.sqrt(discriminant))) / (2 * a);
-		float t2 = (float)(-b + (Math.sqrt(discriminant))) / (2 * a);
+		double t1 = (-b - (Math.sqrt(discriminant))) / (2 * a);
+		double t2 = (-b + (Math.sqrt(discriminant))) / (2 * a);
 		
 		Intersection intersection1 = new Intersection(t1, aSphere);
 		Intersection intersection2 = new Intersection(t2, aSphere);
@@ -85,8 +85,8 @@ public class SphereOperations {
 	 */
 	@Deprecated
 	public static Intersection hit(Intersection... intersections) {
-		// MAX_VALUE is the mathematical maximum value for floats
-		float lowestT = Float.MAX_VALUE;
+		// MAX_VALUE is the mathematical maximum value for doubles
+		double lowestT = Double.MAX_VALUE;
 		Intersection result = null;
 		
 		// Find the lowest non-negative t value

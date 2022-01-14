@@ -9,16 +9,22 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
+import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.PortablePixmap;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.misc.Environment;
 import com.raytracer.engine.misc.Projectile;
 import com.raytracer.engine.misc.Simulator;
+import com.raytracer.engine.operation.ColorOperations;
 import com.raytracer.engine.operation.MatrixOperations;
+import com.raytracer.engine.operation.RayOperations;
 import com.raytracer.engine.operation.SphereOperations;
 import com.raytracer.engine.operation.TupleOperations;
 
@@ -37,7 +43,7 @@ public class RayTracerApp {
 	 */
 	public static void main(String[] args) {
 		Instant start = Instant.now();
-		logger.info("Starting App...");
+		logger.info("Computing...");
 
 		// Miscellaneous stuff
 		//misc();
@@ -55,13 +61,16 @@ public class RayTracerApp {
 		// analogClock();
 		
 		// Shadow of a sphere
-		sphereShadow();
+		//sphereShadow();
+		
+		// 3D sphere
+		sphere3d();
 		
 		logger.info("Done!");
 		
 		Instant end = Instant.now();
 		Duration timeElapsed = Duration.between(start, end);
-		logger.info("Elapsed time: " + timeElapsed.getSeconds() + " second(s)");
+		logger.info("Elapsed time: " + timeElapsed.getSeconds() + " second(s) (" + timeElapsed.getSeconds() / 60 + " minute(s))");
 	}
 	
 	/*
@@ -88,8 +97,8 @@ public class RayTracerApp {
 		
 		// - Gravity -0.1 unit/tick
 		// - And wind is -0.01 unit/tick.
-		Tuple gravity = Factory.vector(0, -0.1f, 0);
-		Tuple wind = Factory.vector(-0.01f, 0, 0);
+		Tuple gravity = Factory.vector(0, -0.1, 0);
+		Tuple wind = Factory.vector(-0.01, 0, 0);
 		Environment anEnvironment = new Environment(gravity, wind);
 		
 		// Then, run tick repeatedly until the projectile’s y position is less than or equal to 0. 
@@ -121,16 +130,16 @@ public class RayTracerApp {
 		// to increase its magnitude. That, and the velocity vector, and the canvas size, were all 
 		// determined empirically.
 		Tuple start = Factory.point(0, 1, 0);
-		Tuple velocity = Factory.vector(1, 1.8f, 0);
+		Tuple velocity = Factory.vector(1, 1.8, 0);
 		velocity = TupleOperations.normalize(velocity);
-		velocity.setX(velocity.getX() * 11.25f);
-		velocity.setY(velocity.getY() * 11.25f);
+		velocity.setX(velocity.getX() * 11.25);
+		velocity.setY(velocity.getY() * 11.25);
 		Projectile aProjectile = new Projectile(start, velocity);
 		
 		// - Gravity -0.1 unit/tick
 		// - And wind is -0.01 unit/tick.
-		Tuple gravity = Factory.vector(0, -0.1f, 0);
-		Tuple wind = Factory.vector(-0.01f, 0, 0);
+		Tuple gravity = Factory.vector(0, -0.1, 0);
+		Tuple wind = Factory.vector(-0.01, 0, 0);
 		Environment anEnvironment = new Environment(gravity, wind);
 		
 		while (aProjectile.getPosition().getY() > 0) {
@@ -181,7 +190,7 @@ public class RayTracerApp {
 	 * 2. What do you get when you multiply a matrix by its inverse?
 	 */
 	private static void question2() {
-		float[][] values = {
+		double[][] values = {
 				{6, 4, 4, 4},
 				{5, 5, 7, 6},
 				{4, -9, 3, -7},
@@ -204,7 +213,7 @@ public class RayTracerApp {
 	 * transpose of the inverse?
 	 */
 	private static void question3() {
-		float[][] values = {
+		double[][] values = {
 				{6, 4, 4, 4},
 				{5, 5, 7, 6},
 				{4, -9, 3, -7},
@@ -275,7 +284,7 @@ public class RayTracerApp {
 			// Next, choose an axis to orient the clock. If, for example, it’s oriented along the z 
 			// axis and you’re looking at it face-on, then you’re looking toward the negative end of 
 			// the z axis
-			Matrix rotation = Factory.zRotationMatrix((float)(hour * (Math.PI / 6)));
+			Matrix rotation = Factory.zRotationMatrix((hour * (Math.PI / 6)));
 			
 			Tuple result = MatrixOperations.mul(rotation, twelveOclock);
 			
@@ -307,13 +316,13 @@ public class RayTracerApp {
 		
 		// Try deforming the sphere with some transformations and see what happens.
 		// Shrink it along the y axis
-		//aSphere.setTransform(Factory.scalingMatrix(1, 0.5f, 1));
+		//aSphere.setTransform(Factory.scalingMatrix(1, 0.5, 1));
 		// Shrink it along the x axis
-		//aSphere.setTransform(Factory.scalingMatrix(0.5f, 1, 1));
+		//aSphere.setTransform(Factory.scalingMatrix(0.5, 1, 1));
 		// Shrink it, and rotate it!
-		//aSphere.setTransform(MatrixOperations.mul(Factory.xRotationMatrix((float)Math.PI / 4), Factory.scalingMatrix(0.5f, 1, 1)));
+		//aSphere.setTransform(MatrixOperations.mul(Factory.xRotationMatrix(Math.PI / 4), Factory.scalingMatrix(0.5, 1, 1)));
 		// Shrink it, and skew it!
-		//aSphere.setTransform(MatrixOperations.mul(Factory.shearingMatrix(1, 0, 0, 0, 0, 0), Factory.scalingMatrix(0.5f, 1, 1)));
+		//aSphere.setTransform(MatrixOperations.mul(Factory.shearingMatrix(1, 0, 0, 0, 0, 0), Factory.scalingMatrix(0.5, 1, 1)));
 		
 		// Decide how large you want your canvas to be (in pixels).
 		// A canvas 100 pixels on a side is probably good for starting with.
@@ -325,36 +334,38 @@ public class RayTracerApp {
 		// will be.
 		// Moving the ray origin closer to the sphere will make the sphere in the drawing larger. 
 		// Moving it farther away will make the sphere smaller. Moving the wall will do similarly
-		float wallZ = 10;
-		float wallSize = 7;
+		double wallZ = 10;
+		double wallSize = 7;
 		
 		// Once you know how many pixels fit along each side of the wall, you can divide the wall 
 		// size by the number of pixels to get the size of a single pixel (in world space units)
-		float pixelSize = wallSize / canvasPixels;
+		double pixelSize = wallSize / canvasPixels;
 		
 		// Then, assume you’re looking directly at the center of the sphere. Half of the wall will 
 		// be to the left of that, and half to the right.
 		// Since the wall is centered around the origin (because the sphere is at the origin), this 
 		// means that this half variable describes the minimum and maximum x and y coordinates of 
 		// your wall
-		float half = wallSize / 2;
+		double half = wallSize / 2;
 		
 		// Start the ray here, everything will be computed from this point
 		Tuple rayOrigin = Factory.point(0, 0, -5);
 		
 		// For each row of pixels in the canvas
 		for (int y = 0; y < canvasPixels; y++) {
+			logger.info("Computing line " + y + " / " + canvasPixels);
+			
 			// Compute the world y coordinate (top = +half, bottom = -half)
 			// In world	space, the y coordinate increases as you go up, and decreases as you go 
 			// down. But on the canvas, the top is at y = 0, and y increases as you go down. Thus, 
 			// to render the circle correctly, you have to flip the y coordinate, which is 
 			// accomplished by subtracting it from its maximum value (the top of the wall, or half)
-			float worldY = half - pixelSize * y;
+			double worldY = half - pixelSize * y;
 			
 			// For each pixel in the row
 			for (int x = 0; x < canvasPixels; x++) {
 				// Compute the world x coordinate (left = -half, right = half)
-				float worldX = half - pixelSize * x;
+				double worldX = half - pixelSize * x;
 				
 				// Describe the point on the wall that the ray will target
 				Tuple position = Factory.point(worldX, worldY, wallZ);
@@ -376,5 +387,91 @@ public class RayTracerApp {
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
 		ppmFile.writeToFile(PATH_LAPTOP + "shadow.ppm");
 	}
-	
+
+	/*
+	 * Chapter 6: Take a look at the program you wrote at the end of the previous chapter, the one 
+	 * where you drew the silhouette of a sphere on a canvas. It’s time to revisit that and turn the 
+	 * silhouette into a full-on 3D rendering.
+	 */
+	// TODO: DISABLE LOGGING BEFORE RUNNING THIS!!
+	private static void sphere3d() {
+		Color red = Constants.COLOR_RED;
+		Sphere aSphere = Factory.sphere();
+		
+		// Assign a material to your sphere
+		Material aMaterial = Factory.material();
+		aMaterial.setColor(Factory.color(1, 0.2, 1));
+		aSphere.setMaterial(aMaterial);
+		
+		// Add a light source. Here’s one possible configuration, with a white light behind, above 
+		// and to the left of the eye:
+		Tuple lightPosition = Factory.point(-10, 10, -10);
+		Color lightColor = Factory.color(1, 1, 1);
+		PointLight light = Factory.pointLight(lightPosition, lightColor);
+		
+		// Try deforming the sphere with some transformations and see what happens.
+		// Shrink it along the y axis
+		//aSphere.setTransform(Factory.scalingMatrix(1, 0.5, 1));
+		// Shrink it along the x axis
+		//aSphere.setTransform(Factory.scalingMatrix(0.5, 1, 1));
+		// Shrink it, and rotate it!
+		//aSphere.setTransform(MatrixOperations.mul(Factory.xRotationMatrix(Math.PI / 4), Factory.scalingMatrix(0.5, 1, 1)));
+		// Shrink it, and skew it!
+		//aSphere.setTransform(MatrixOperations.mul(Factory.shearingMatrix(1, 0, 0, 0, 0, 0), Factory.scalingMatrix(0.5, 1, 1)));
+		
+		int canvasPixels = 50;
+		Canvas aCanvas = Factory.canvas(canvasPixels, canvasPixels);
+
+		double wallZ = 10;
+		double wallSize = 7;
+		
+		double pixelSize = wallSize / canvasPixels;
+		
+		double half = wallSize / 2;
+		
+		Tuple rayOrigin = Factory.point(0, 0, -5);
+		
+		for (int y = 0; y < canvasPixels; y++) {
+			logger.info("Processing line " + y + " / " + canvasPixels);
+			
+			double worldY = half - pixelSize * y;
+			
+			for (int x = 0; x < canvasPixels; x++) {
+				double worldX = half - pixelSize * x;
+				
+				Tuple position = Factory.point(worldX, worldY, wallZ);
+				
+				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
+				Ray aRay = Factory.ray(rayOrigin, rayDirection);
+				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+				
+				Intersection hit = SphereOperations.hit(intersections);
+				if (hit != null) {
+					// In the loop where you cast your rays, make sure you’re normalizing the ray 
+					// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
+					// intersection, find the normal vector at the hit (the closest intersection), 
+					// and calculate the eye vector
+					Tuple point = RayOperations.position(aRay, hit.getT());
+					Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+					Tuple eye = TupleOperations.neg(aRay.getDirection());
+					
+					// Finally, calculate the color with your lighting() function before applying it 
+					// to the canvas
+					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+					
+					aCanvas.writePixel(x, y, theColor);
+				}
+			}
+		}
+		
+		// Save canvas to a file
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		ppmFile.writeToFile(PATH_DESKTOP + "shadow.ppm");
+		
+		// From there, experiment with different transformations of the sphere. Squash it, rotate 
+		// it, scale it. Try different colors, and different material parameters. What happens when 
+		// you increase the ambient value? What if the diffuse and specular are both low? What 
+		// happens when you move the light source, or change its intensity?
+	}
+
 }

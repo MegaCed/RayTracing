@@ -23,20 +23,20 @@ public class Material {
 	// Ambient reflection is background lighting, or light reflected from other objects in the 
 	// environment. The Phong model treats this as a constant, coloring all points on the surface 
 	// equally
-	private float ambient;
+	private double ambient;
 	
 	// Diffuse reflection is light reflected from a matte surface. It depends only on the angle 
 	// between the light source and the surface normal
-	private float diffuse;
+	private double diffuse;
 	
 	// Specular reflection is the reflection of the light source itself and results in what is 
 	// called a specular highlight—the bright spot on a curved surface.
 	// It depends only on the angle between the reflection vector and the eye vector and is 
 	// controlled by a parameter that we’ll call shininess.
-	private float specular;
+	private double specular;
 	
 	// The higher the shininess, the smaller and tighter the specular highlight
-	private float shininess;
+	private double shininess;
 	
 	/*
 	 * Constructor.
@@ -58,11 +58,11 @@ public class Material {
 		this.color = color;
 	}
 
-	public float getAmbient() {
+	public double getAmbient() {
 		return ambient;
 	}
 
-	public void setAmbient(float ambient) {
+	public void setAmbient(double ambient) {
 		// The typical values are between 0 and 1
 		if (ambient >= 0) {
 			this.ambient = ambient;
@@ -71,11 +71,11 @@ public class Material {
 		}
 	}
 
-	public float getDiffuse() {
+	public double getDiffuse() {
 		return diffuse;
 	}
 
-	public void setDiffuse(float diffuse) {
+	public void setDiffuse(double diffuse) {
 		// The typical values are between 0 and 1
 		if (diffuse >= 0) {
 			this.diffuse = diffuse;
@@ -84,11 +84,11 @@ public class Material {
 		}
 	}
 
-	public float getSpecular() {
+	public double getSpecular() {
 		return specular;
 	}
 
-	public void setSpecular(float specular) {
+	public void setSpecular(double specular) {
 		// The typical values are between 0 and 1
 		if (specular >= 0) {
 			this.specular = specular;
@@ -97,11 +97,11 @@ public class Material {
 		}
 	}
 
-	public float getShininess() {
+	public double getShininess() {
 		return shininess;
 	}
 
-	public void setShininess(float shininess) {
+	public void setShininess(double shininess) {
 		// Values between 10 (very large highlight) and 200 (very small highlight) seem to work 
 		// best, though there is no actual upper bound
 		if (shininess >= 0) {
@@ -132,11 +132,11 @@ public class Material {
 		
 		Material other = (Material) obj;
 		
-		return Float.floatToIntBits(ambient) == Float.floatToIntBits(other.ambient)
+		return Double.doubleToLongBits(ambient) == Double.doubleToLongBits(other.ambient)
 				&& Objects.equals(color, other.color)
-				&& Float.floatToIntBits(diffuse) == Float.floatToIntBits(other.diffuse)
-				&& Float.floatToIntBits(shininess) == Float.floatToIntBits(other.shininess)
-				&& Float.floatToIntBits(specular) == Float.floatToIntBits(other.specular);
+				&& Double.doubleToLongBits(diffuse) == Double.doubleToLongBits(other.diffuse)
+				&& Double.doubleToLongBits(shininess) == Double.doubleToLongBits(other.shininess)
+				&& Double.doubleToLongBits(specular) == Double.doubleToLongBits(other.specular);
 	}
 	
 }

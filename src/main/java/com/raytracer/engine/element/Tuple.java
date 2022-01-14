@@ -12,23 +12,23 @@ import com.raytracer.engine.operation.MiscOperations;
 public class Tuple {
 
 	// X coordinate
-	private float x;
+	private double x;
 	
 	// Y coordinate
-	private float y;
+	private double y;
 	
 	// Z coordinate
-	private float z;
+	private double z;
 	
 	// Used to differentiate points from vectors
 	// W = 0 -> Vector
 	// W = 1 -> Point
-	private float w;
+	private double w;
 
 	/*
 	 * Constructor.
 	 */
-	public Tuple(float x, float y, float z, float w) {
+	public Tuple(double x, double y, double z, double w) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -39,7 +39,7 @@ public class Tuple {
 	 * Constructor.
 	 * Creates a Tuple from an array.
 	 */
-	public Tuple(float[][] elements) {
+	public Tuple(double[][] elements) {
 		this.x = elements[0][0];
 		this.y = elements[1][0];
 		this.z = elements[2][0];
@@ -81,12 +81,12 @@ public class Tuple {
 	
 	/*
 	 * Returns this Tuple as an array.
-	 * A Tuple can be seen as an array of 4 floats.
+	 * A Tuple can be seen as an array of 4 doubles.
 	 * Threat the tuple as a really skinny (one column!) matrix.
 	 * Four rows. One column.
 	 */
-	public float[][] asArray() {
-		float[][] array = new float[4][1];
+	public double[][] asArray() {
+		double[][] array = new double[4][1];
 		
 		array[0][0] = x;
 		array[1][0] = y;
@@ -128,35 +128,35 @@ public class Tuple {
 	    return result;
 	}
 	
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
-	public float getZ() {
+	public double getZ() {
 		return z;
 	}
 
-	public void setZ(float z) {
+	public void setZ(double z) {
 		this.z = z;
 	}
 
-	public float getW() {
+	public double getW() {
 		return w;
 	}
 
-	public void setW(float w) {
+	public void setW(double w) {
 		this.w = w;
 	}
 	

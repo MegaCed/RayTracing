@@ -19,18 +19,18 @@ import com.raytracer.engine.operation.MiscOperations;
 public class Color {
 	
 	// Red color
-	private float red;
+	private double red;
 	
 	// Green color
-	private float green;
+	private double green;
 	
 	// Blue color
-	private float blue;
+	private double blue;
 	
 	/*
 	 * Constructor.
 	 */
-	public Color(float red, float green, float blue) {
+	public Color(double red, double green, double blue) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
@@ -72,27 +72,27 @@ public class Color {
 				&& MiscOperations.equalsEpsilon(red, other.getRed());
 	}
 
-	public float getRed() {
+	public double getRed() {
 		return red;
 	}
 
-	public void setRed(float red) {
+	public void setRed(double red) {
 		this.red = red;
 	}
 
-	public float getGreen() {
+	public double getGreen() {
 		return green;
 	}
 
-	public void setGreen(float green) {
+	public void setGreen(double green) {
 		this.green = green;
 	}
 
-	public float getBlue() {
+	public double getBlue() {
 		return blue;
 	}
 
-	public void setBlue(float blue) {
+	public void setBlue(double blue) {
 		this.blue = blue;
 	}
 

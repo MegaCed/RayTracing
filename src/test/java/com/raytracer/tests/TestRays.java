@@ -74,12 +74,12 @@ public class TestRays {
 		Tuple position1 = RayOperations.position(aRay, 0);
 		Tuple position2 = RayOperations.position(aRay, 1);
 		Tuple position3 = RayOperations.position(aRay, -1);
-		Tuple position4 = RayOperations.position(aRay, 2.5f);
+		Tuple position4 = RayOperations.position(aRay, 2.5);
 		
 		Tuple expected1 = Factory.point(2, 3, 4);
 		Tuple expected2 = Factory.point(3, 3, 4);
 		Tuple expected3 = Factory.point(1, 3, 4);
-		Tuple expected4 = Factory.point(4.5f, 3, 4);
+		Tuple expected4 = Factory.point(4.5, 3, 4);
 		
 		assertEquals(expected1, position1, "Wrong position 1!");
 		assertEquals(expected2, position2, "Wrong position 2!");

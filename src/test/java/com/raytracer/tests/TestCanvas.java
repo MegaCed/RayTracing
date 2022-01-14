@@ -102,9 +102,9 @@ public class TestCanvas {
 		Canvas aCanvas = Factory.canvas(width, height);
 		
 		// Create some colors
-		Color color1 = Factory.color(1.5f, 0, 0);
-		Color color2 = Factory.color(0, 0.5f, 0);
-		Color color3 = Factory.color(-0.5f, 0, 1);
+		Color color1 = Factory.color(1.5, 0, 0);
+		Color color2 = Factory.color(0, 0.5, 0);
+		Color color3 = Factory.color(-0.5, 0, 1);
 		
 		// Update the Canvas
 		aCanvas.writePixel(0, 0, color1);
@@ -147,7 +147,7 @@ public class TestCanvas {
 		Canvas aCanvas = Factory.canvas(width, height);
 		
 		// Create a color
-		Color aColor = Factory.color(1, 0.8f, 0.6f);
+		Color aColor = Factory.color(1, 0.8, 0.6);
 		
 		// Initialize the Canvas
 		for (int x = 0; x < width; x++) {
