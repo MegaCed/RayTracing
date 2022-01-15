@@ -395,7 +395,6 @@ public class RayTracerApp {
 	 */
 	// TODO: DISABLE LOGGING BEFORE RUNNING THIS!!
 	private static void sphere3d() {
-		Color red = Constants.COLOR_RED;
 		Sphere aSphere = Factory.sphere();
 		
 		// Assign a material to your sphere
@@ -409,17 +408,7 @@ public class RayTracerApp {
 		Color lightColor = Factory.color(1, 1, 1);
 		PointLight light = Factory.pointLight(lightPosition, lightColor);
 		
-		// Try deforming the sphere with some transformations and see what happens.
-		// Shrink it along the y axis
-		//aSphere.setTransform(Factory.scalingMatrix(1, 0.5, 1));
-		// Shrink it along the x axis
-		//aSphere.setTransform(Factory.scalingMatrix(0.5, 1, 1));
-		// Shrink it, and rotate it!
-		//aSphere.setTransform(MatrixOperations.mul(Factory.xRotationMatrix(Math.PI / 4), Factory.scalingMatrix(0.5, 1, 1)));
-		// Shrink it, and skew it!
-		//aSphere.setTransform(MatrixOperations.mul(Factory.shearingMatrix(1, 0, 0, 0, 0, 0), Factory.scalingMatrix(0.5, 1, 1)));
-		
-		int canvasPixels = 50;
+		int canvasPixels = 100;
 		Canvas aCanvas = Factory.canvas(canvasPixels, canvasPixels);
 
 		double wallZ = 10;
@@ -435,38 +424,45 @@ public class RayTracerApp {
 			logger.info("Processing line " + y + " / " + canvasPixels);
 			
 			double worldY = half - pixelSize * y;
-			
+				
 			for (int x = 0; x < canvasPixels; x++) {
-				double worldX = half - pixelSize * x;
+				final int xThread = x;
+				final int yThread = y;
 				
-				Tuple position = Factory.point(worldX, worldY, wallZ);
-				
-				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
-				Ray aRay = Factory.ray(rayOrigin, rayDirection);
-				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
-				
-				Intersection hit = SphereOperations.hit(intersections);
-				if (hit != null) {
-					// In the loop where you cast your rays, make sure you’re normalizing the ray 
-					// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
-					// intersection, find the normal vector at the hit (the closest intersection), 
-					// and calculate the eye vector
-					Tuple point = RayOperations.position(aRay, hit.getT());
-					Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
-					Tuple eye = TupleOperations.neg(aRay.getDirection());
+				// Parallelization...
+				new Thread(() -> {
+					double worldX = half - pixelSize * xThread;
 					
-					// Finally, calculate the color with your lighting() function before applying it 
-					// to the canvas
-					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+					Tuple position = Factory.point(worldX, worldY, wallZ);
 					
-					aCanvas.writePixel(x, y, theColor);
-				}
+					Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
+					Ray aRay = Factory.ray(rayOrigin, rayDirection);
+					Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+					
+					Intersection hit = SphereOperations.hit(intersections);
+					
+					if (hit != null) {
+							// In the loop where you cast your rays, make sure you’re normalizing the ray 
+							// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
+							// intersection, find the normal vector at the hit (the closest intersection), 
+							// and calculate the eye vector
+							Tuple point = RayOperations.position(aRay, hit.getT());
+							Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+							Tuple eye = TupleOperations.neg(aRay.getDirection());
+							
+							// Finally, calculate the color with your lighting() function before applying it 
+							// to the canvas
+							Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+							
+							aCanvas.writePixel(xThread, yThread, theColor);
+					}
+				}).start();
 			}
 		}
 		
 		// Save canvas to a file
 		PortablePixmap ppmFile = aCanvas.canvasToPPM();
-		ppmFile.writeToFile(PATH_DESKTOP + "shadow.ppm");
+		ppmFile.writeToFile(PATH_LAPTOP + "sphere.ppm");
 		
 		// From there, experiment with different transformations of the sphere. Squash it, rotate 
 		// it, scale it. Try different colors, and different material parameters. What happens when 
