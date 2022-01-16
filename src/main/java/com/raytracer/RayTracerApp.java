@@ -2,6 +2,14 @@ package com.raytracer;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +72,11 @@ public class RayTracerApp {
 		//sphereShadow();
 		
 		// 3D sphere
-		sphere3d();
+		//sphere3d();
+		sphere3dMultiThreaded();
+		
+		// Test multi-threading
+		//multiThreading();
 		
 		logger.info("Done!");
 		
@@ -413,50 +425,40 @@ public class RayTracerApp {
 
 		double wallZ = 10;
 		double wallSize = 7;
-		
 		double pixelSize = wallSize / canvasPixels;
-		
 		double half = wallSize / 2;
 		
 		Tuple rayOrigin = Factory.point(0, 0, -5);
 		
 		for (int y = 0; y < canvasPixels; y++) {
-			logger.info("Processing line " + y + " / " + canvasPixels);
-			
 			double worldY = half - pixelSize * y;
 				
 			for (int x = 0; x < canvasPixels; x++) {
-				final int xThread = x;
-				final int yThread = y;
+				double worldX = half - pixelSize * x;
 				
-				// Parallelization...
-				new Thread(() -> {
-					double worldX = half - pixelSize * xThread;
+				Tuple position = Factory.point(worldX, worldY, wallZ);
+				
+				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
+				Ray aRay = Factory.ray(rayOrigin, rayDirection);
+				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+				
+				Intersection hit = SphereOperations.hit(intersections);
+				
+				if (hit != null) {
+					// In the loop where you cast your rays, make sure you’re normalizing the ray 
+					// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
+					// intersection, find the normal vector at the hit (the closest intersection), 
+					// and calculate the eye vector
+					Tuple point = RayOperations.position(aRay, hit.getT());
+					Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+					Tuple eye = TupleOperations.neg(aRay.getDirection());
 					
-					Tuple position = Factory.point(worldX, worldY, wallZ);
+					// Finally, calculate the color with your lighting() function before applying it 
+					// to the canvas
+					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
 					
-					Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
-					Ray aRay = Factory.ray(rayOrigin, rayDirection);
-					Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
-					
-					Intersection hit = SphereOperations.hit(intersections);
-					
-					if (hit != null) {
-							// In the loop where you cast your rays, make sure you’re normalizing the ray 
-							// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
-							// intersection, find the normal vector at the hit (the closest intersection), 
-							// and calculate the eye vector
-							Tuple point = RayOperations.position(aRay, hit.getT());
-							Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
-							Tuple eye = TupleOperations.neg(aRay.getDirection());
-							
-							// Finally, calculate the color with your lighting() function before applying it 
-							// to the canvas
-							Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
-							
-							aCanvas.writePixel(xThread, yThread, theColor);
-					}
-				}).start();
+					aCanvas.writePixel(x, y, theColor);
+				}
 			}
 		}
 		
@@ -468,6 +470,135 @@ public class RayTracerApp {
 		// it, scale it. Try different colors, and different material parameters. What happens when 
 		// you increase the ambient value? What if the diffuse and specular are both low? What 
 		// happens when you move the light source, or change its intensity?
+	}
+	
+	/*
+	 * Multi-thread version of the same method.
+	 */
+	// TODO: DISABLE LOGGING BEFORE RUNNING THIS!!
+	private static void sphere3dMultiThreaded() {
+		Sphere aSphere = Factory.sphere();
+		
+		Material aMaterial = Factory.material();
+		aMaterial.setColor(Factory.color(1, 0.2, 1));
+		aSphere.setMaterial(aMaterial);
+		
+		Tuple lightPosition = Factory.point(10, 10, -10);
+		Color lightColor = Factory.color(1, 1, 1);
+		PointLight light = Factory.pointLight(lightPosition, lightColor);
+		
+		int canvasPixels = 150;
+		Canvas aCanvas = Factory.canvas(canvasPixels, canvasPixels);
+
+		double wallZ = 10;
+		double wallSize = 7;
+		double pixelSize = wallSize / canvasPixels;
+		double half = wallSize / 2;
+		
+		Tuple rayOrigin = Factory.point(0, 0, -5);
+		
+		// Create a Thread pool
+		int maxThreadsCount = 4;
+		ExecutorService threadPool = Executors.newFixedThreadPool(maxThreadsCount);
+		Collection<Future<?>> futures = new LinkedList<Future<?>>();
+		
+		for (int y = 0; y < canvasPixels; y++) {
+			final int yFinal = y;
+			
+			// Launch the Threads
+			futures.add(threadPool.submit(() -> {
+			    logic(canvasPixels, half, pixelSize, yFinal, wallZ, rayOrigin, aSphere, aCanvas, light);
+			}));
+		}
+		
+		// Wait for Threads end
+		for (Future<?> future:futures) {
+		    try {
+				future.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		threadPool.shutdownNow();
+		
+		// Save canvas to a file
+		PortablePixmap ppmFile = aCanvas.canvasToPPM();
+		ppmFile.writeToFile(PATH_LAPTOP + "sphere_multi_threaded.ppm");
+	}
+	
+	/*
+	 * Thread's payload.
+	 */
+	private static void logic(int canvasPixels, double half, double pixelSize, int y, double wallZ, Tuple rayOrigin, Sphere aSphere, Canvas aCanvas, PointLight light) {
+		logger.info("Processing line " + y + " / " + canvasPixels);
+		
+		double worldY = half - pixelSize * y;
+		
+		for (int x = 0; x < canvasPixels; x++) {
+			double worldX = half - pixelSize * x;
+			
+			Tuple position = Factory.point(worldX, worldY, wallZ);
+			
+			Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
+			Ray aRay = Factory.ray(rayOrigin, rayDirection);
+			Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+			
+			Intersection hit = SphereOperations.hit(intersections);
+			
+			if (hit != null) {
+				// In the loop where you cast your rays, make sure you’re normalizing the ray 
+				// direction. It didn’t matter before, but it does now! Also, once you’ve got an 
+				// intersection, find the normal vector at the hit (the closest intersection), 
+				// and calculate the eye vector
+				Tuple point = RayOperations.position(aRay, hit.getT());
+				Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+				Tuple eye = TupleOperations.neg(aRay.getDirection());
+				
+				// Finally, calculate the color with your lighting() function before applying it 
+				// to the canvas
+				Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+				
+				synchronized(RayTracerApp.class) {
+					aCanvas.writePixel(x, y, theColor);
+				}
+			}
+		}
+	}
+	
+	/*
+	 * Test for multi-threading.
+	 */
+	private static void multiThreading() {
+		int maxThreadsCount = 4;
+		ExecutorService threadPool = Executors.newFixedThreadPool(maxThreadsCount);
+		Collection<Future<?>> futures = new LinkedList<Future<?>>();
+		
+		// Create tasks
+		for (int cpt = 0; cpt < 10; cpt++) {
+			// Add them to the pool
+			futures.add(threadPool.submit(() -> {
+				String name = Thread.currentThread().getName();
+			    System.out.println("Thread: " + name +" - START");
+			    
+			    try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			    
+			    System.out.println("Thread: " + name +" - FINISH");
+			}));
+		}
+
+		// Wait for completion
+		for (Future<?> future:futures) {
+		    try {
+				future.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		threadPool.shutdownNow();
 	}
 
 }
