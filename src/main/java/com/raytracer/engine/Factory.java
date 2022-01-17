@@ -13,6 +13,7 @@ import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
+import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
 
 /*
@@ -343,6 +344,17 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Material: " + theMaterial);
 		
 		return theMaterial;
+	}
+	
+	/*
+	 * Creates a World.
+	 */
+	public static World world() {
+		World theWorld = new World();
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new World: " + theWorld);
+		
+		return theWorld;
 	}
 	
 }
