@@ -2,6 +2,9 @@ package com.raytracer.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -49,13 +52,13 @@ public class TestWorld {
 		
 		// Create a World
 		World theWorld = Factory.world();
-		Object[] objects = new Object[2];
-		objects[0] = sphere1;
-		objects[1] = sphere2;
+		List objects = new ArrayList();
+		objects.add(sphere1);
+		objects.add(sphere2);
 		theWorld.setObjects(objects);
 		
 		assertEquals(Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1)), theWorld.getLight(), "Wrong Light for the World!");
-		assertEquals(2, theWorld.getObjects().length, "Wrong number of objects for the World!");
+		assertEquals(2, theWorld.getObjects().size(), "Wrong number of objects for the World!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -83,9 +86,9 @@ public class TestWorld {
 		
 		// Create a World
 		World theWorld = Factory.world();
-		Object[] objects = new Object[2];
-		objects[0] = sphere1;
-		objects[1] = sphere2;
+		List objects = new ArrayList();
+		objects.add(sphere1);
+		objects.add(sphere2);
 		theWorld.setObjects(objects);
 		
 		// Create a Ray
@@ -96,10 +99,10 @@ public class TestWorld {
 		Intersections theIntersections = WorldOperations.intersectWorld(theWorld, theRay);
 		
 		assertEquals(4, theIntersections.getIntersections().length, "Wrong number of intersections for the World!");
-		assertEquals(4, theIntersections.getIntersections()[0].getT(), "Wrong 1st ntersection for the World!");
-		assertEquals(4.5, theIntersections.getIntersections()[1].getT(), "Wrong 2nd ntersection for the World!");
-		assertEquals(5, theIntersections.getIntersections()[2].getT(), "Wrong 3rd ntersection for the World!");
-		assertEquals(5.5, theIntersections.getIntersections()[3].getT(), "Wrong 4th ntersection for the World!");
+		assertEquals(4, theIntersections.getIntersections()[0].getT(), "Wrong 1st intersection for the World!");
+		assertEquals(4.5, theIntersections.getIntersections()[1].getT(), "Wrong 2nd intersection for the World!");
+		assertEquals(5.5, theIntersections.getIntersections()[2].getT(), "Wrong 3rd intersection for the World!");
+		assertEquals(6, theIntersections.getIntersections()[3].getT(), "Wrong 4th intersection for the World!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

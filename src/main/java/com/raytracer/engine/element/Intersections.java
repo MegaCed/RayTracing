@@ -21,7 +21,7 @@ public class Intersections {
 		// First sort the Intersections array
 		Arrays.sort(intersections, new Comparator<Intersection>() {
 			   public int compare(Intersection i1, Intersection i2) {
-				      return (int)(i1.getT() - i2.getT());
+				   return Double.compare(i1.getT(), i2.getT());
 				   }
 				});
 		

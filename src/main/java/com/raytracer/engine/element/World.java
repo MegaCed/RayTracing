@@ -1,5 +1,7 @@
 package com.raytracer.engine.element;
 
+import java.util.List;
+
 import com.raytracer.engine.Factory;
 
 /*
@@ -13,7 +15,7 @@ public class World {
 	PointLight light;
 	
 	// The World's Objects
-	Object[] objects;
+	List objects;
 
 	/*
 	 * Constructor.
@@ -31,11 +33,11 @@ public class World {
 		this.light = light;
 	}
 
-	public Object[] getObjects() {
+	public List getObjects() {
 		return objects;
 	}
 
-	public void setObjects(Object[] objects) {
+	public void setObjects(List objects) {
 		this.objects = objects;
 	}
 	
