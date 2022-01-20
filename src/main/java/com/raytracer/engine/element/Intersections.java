@@ -1,7 +1,8 @@
 package com.raytracer.engine.element;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /*
  * Aggregates many Intersections.
@@ -11,15 +12,15 @@ import java.util.Comparator;
  */
 public class Intersections {
 	
-	// The array of Intersections
-	Intersection[] intersections;
+	// The list of Intersections
+	List<Intersection> intersections;
 
 	/*
 	 * Constructor.
 	 */
-	public Intersections(Intersection... intersections) {
+	public Intersections(List<Intersection> intersections) {
 		// First sort the Intersections array
-		Arrays.sort(intersections, new Comparator<Intersection>() {
+		Collections.sort(intersections, new Comparator<Intersection>() {
 			   public int compare(Intersection i1, Intersection i2) {
 				   return Double.compare(i1.getT(), i2.getT());
 				   }
@@ -36,21 +37,11 @@ public class Intersections {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 		
-		int numberOfIntersections = intersections.length;
-		
+		int numberOfIntersections = intersections.size();
 		result.append("Intersection (size = " + numberOfIntersections);
 		
 		if (numberOfIntersections > 0) {
-			result.append(" - intersections = ");
-			
-			for (int i = 0; i < intersections.length; i++) {
-				result.append(intersections[i]);
-				
-				if (i != intersections.length - 1) {
-					// Don't print separator for the last item of the collection
-					result.append(" - ");
-				}
-			}
+			result.append(" - intersections = " + intersections);
 		}
 		
 		result.append(")");
@@ -58,11 +49,11 @@ public class Intersections {
 		return result.toString();
 	}
 	
-	public Intersection[] getIntersections() {
+	public List<Intersection> getIntersections() {
 		return intersections;
 	}
 
-	public void setIntersections(Intersection[] intersections) {
+	public void setIntersections(List<Intersection> intersections) {
 		this.intersections = intersections;
 	}
 	

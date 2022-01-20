@@ -98,11 +98,11 @@ public class TestWorld {
 		// it should intersect each sphere twice, for a total of four intersections.
 		Intersections theIntersections = WorldOperations.intersectWorld(theWorld, theRay);
 		
-		assertEquals(4, theIntersections.getIntersections().length, "Wrong number of intersections for the World!");
-		assertEquals(4, theIntersections.getIntersections()[0].getT(), "Wrong 1st intersection for the World!");
-		assertEquals(4.5, theIntersections.getIntersections()[1].getT(), "Wrong 2nd intersection for the World!");
-		assertEquals(5.5, theIntersections.getIntersections()[2].getT(), "Wrong 3rd intersection for the World!");
-		assertEquals(6, theIntersections.getIntersections()[3].getT(), "Wrong 4th intersection for the World!");
+		assertEquals(4, theIntersections.getIntersections().size(), "Wrong number of intersections for the World!");
+		assertEquals(4, theIntersections.getIntersections().get(0).getT(), "Wrong 1st intersection for the World!");
+		assertEquals(4.5, theIntersections.getIntersections().get(1).getT(), "Wrong 2nd intersection for the World!");
+		assertEquals(5.5, theIntersections.getIntersections().get(2).getT(), "Wrong 3rd intersection for the World!");
+		assertEquals(6, theIntersections.getIntersections().get(3).getT(), "Wrong 4th intersection for the World!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

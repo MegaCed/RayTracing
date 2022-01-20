@@ -1,5 +1,8 @@
 package com.raytracer.engine.operation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +14,6 @@ import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 
-import java.util.Arrays;
-
 /*
  * Performs various operations on Spheres.
  */
@@ -23,7 +24,7 @@ public class SphereOperations {
 	/*
 	 * Returns the collection of t values where the ray intersects the sphere.
 	 */
-	public static Intersection[] intersects(Sphere aSphere, Ray originalRay) {
+	public static List<Intersection> intersects(Sphere aSphere, Ray originalRay) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Computing intersections between: " + aSphere + " and " + originalRay);
 		
 		// You’ll need to make sure the ray passed to intersect is transformed by the inverse of the 
@@ -52,7 +53,7 @@ public class SphereOperations {
 		// intersections occur between the sphere and the ray
 		if (discriminant < 0) {
 			logger.debug(Constants.SEPARATOR_RESULT + "No interactions!");
-			return new Intersection[] {};
+			return new ArrayList<Intersection>();
 		}
 		
 		// Otherwise, you’ll see either one (for rays that hit the sphere at a perfect tangent) or 
@@ -65,15 +66,17 @@ public class SphereOperations {
 		
 		// Also, make sure the intersections are returned in increasing order, to make it easier to 
 		// determine which intersections are significant, later
-		Intersection[] intersections;
+		List<Intersection> intersections = new ArrayList<Intersection>();
 		
 		if (t1 <= t2) {
-			intersections = new Intersection[] {intersection1, intersection2};
+			intersections.add(intersection1);
+			intersections.add(intersection2);
 		} else {
-			intersections = new Intersection[] {intersection2, intersection1};
+			intersections.add(intersection1);
+			intersections.add(intersection2);
 		}
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Intersections = " + Arrays.toString(intersections));
+		logger.debug(Constants.SEPARATOR_RESULT + "Intersections = " + intersections);
 		return intersections;
 	}
 	
@@ -110,9 +113,7 @@ public class SphereOperations {
 		Intersection result = null;
 		
 		// Return the first non-negative t value
-		for (int i = 0; i < intersections.getIntersections().length; i++) {
-			Intersection anIntersection = intersections.getIntersections()[i];
-			
+		for (Intersection anIntersection : intersections.getIntersections()) {
 			if (anIntersection.getT() >= 0) {
 				// This is the current lowest hit
 				result = anIntersection;

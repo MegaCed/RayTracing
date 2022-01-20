@@ -28,27 +28,19 @@ public class WorldOperations {
 	 * collection. Note that for the test to pass, it must return the intersections in sorted order.
 	 */
 	public static Intersections intersectWorld(World aWorld, Ray aRay) {
-		logger.info(Constants.SEPARATOR_OPERATION + "Finding intersections between: " + aWorld + " and: " + aRay);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Finding intersections between: " + aWorld + " and: " + aRay);
 		
 		List<Intersection> intersections = new ArrayList<Intersection>();
 		
-		// TODO: Clean this fucking mess...
-		
 		// Iterate over the World's intersections
 		for (Object anObject: aWorld.getObjects()) {
-			Intersection[] intersectionsArray = SphereOperations.intersects((Sphere)anObject, aRay);
-			
-			// Add all the intersections in the List
-			for (int i = 0; i < intersectionsArray.length; i++) {
-				intersections.add(intersectionsArray[i]);	
-			}
+			// Add all the intersections to the List
+			intersections.addAll(SphereOperations.intersects((Sphere)anObject, aRay));
 		}
 		
-		Intersection[] temp = new Intersection[intersections.size()];
-		temp = intersections.toArray(temp);
-		Intersections result = Factory.intersections(temp);
+		Intersections result = Factory.intersections(intersections);
 		
-		logger.info(Constants.SEPARATOR_RESULT + "Intersections found = " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Intersections found = " + result);
 		return result;
 	}
 	

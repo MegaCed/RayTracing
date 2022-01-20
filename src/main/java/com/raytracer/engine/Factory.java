@@ -1,5 +1,7 @@
 package com.raytracer.engine;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -316,7 +318,7 @@ public class Factory {
 	/*
 	 * Creates an Intersections object.
 	 */
-	public static Intersections intersections(Intersection... intersections) {
+	public static Intersections intersections(List<Intersection> intersections) {
 		Intersections theIntersections = new Intersections(intersections);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersections: " + theIntersections);

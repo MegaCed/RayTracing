@@ -2,6 +2,9 @@ package com.raytracer.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -52,11 +55,11 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
-		assertEquals(2, theIntersections.length, "Wrong interactions size!");
-		assertEquals(4, theIntersections[0].getT(), "Wrong 1st interaction!");
-		assertEquals(6, theIntersections[1].getT(), "Wrong 2nd interaction!");
+		assertEquals(2, theIntersections.size(), "Wrong interactions size!");
+		assertEquals(4, theIntersections.get(0).getT(), "Wrong 1st interaction!");
+		assertEquals(6, theIntersections.get(1).getT(), "Wrong 2nd interaction!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -86,13 +89,13 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
-		assertEquals(2, theIntersections.length, "Wrong interactions size!");
-		assertEquals(5, theIntersections[0].getT(), "Wrong 1st interaction!");
-		assertEquals(5, theIntersections[1].getT(), "Wrong 2nd interaction!");
+		assertEquals(2, theIntersections.size(), "Wrong interactions size!");
+		assertEquals(5, theIntersections.get(0).getT(), "Wrong 1st interaction!");
+		assertEquals(5, theIntersections.get(1).getT(), "Wrong 2nd interaction!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -122,9 +125,9 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
-		assertEquals(0, theIntersections.length, "Wrong interactions size!");
+		assertEquals(0, theIntersections.size(), "Wrong interactions size!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -155,13 +158,13 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
-		assertEquals(2, theIntersections.length, "Wrong interactions size!");
-		assertEquals(-1, theIntersections[0].getT(), "Wrong 1st interaction!");
-		assertEquals(1, theIntersections[1].getT(), "Wrong 2nd interaction!");
+		assertEquals(2, theIntersections.size(), "Wrong interactions size!");
+		assertEquals(-1, theIntersections.get(0).getT(), "Wrong 1st interaction!");
+		assertEquals(1, theIntersections.get(1).getT(), "Wrong 2nd interaction!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -189,13 +192,13 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
-		assertEquals(2, theIntersections.length, "Wrong interactions size!");
-		assertEquals(-6, theIntersections[0].getT(), "Wrong 1st interaction!");
-		assertEquals(-4, theIntersections[1].getT(), "Wrong 2nd interaction!");
+		assertEquals(2, theIntersections.size(), "Wrong interactions size!");
+		assertEquals(-6, theIntersections.get(0).getT(), "Wrong 1st interaction!");
+		assertEquals(-4, theIntersections.get(1).getT(), "Wrong 2nd interaction!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -238,11 +241,11 @@ public class TestSpheres {
 		Intersection intersection2 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
-		Intersections theIntersections = Factory.intersections(intersection1, intersection2);
+		Intersections theIntersections = Factory.intersections(Arrays.asList(intersection1, intersection2));
 		
-		assertEquals(2, theIntersections.getIntersections().length, "Wrong intersections size!");
-		assertEquals(1, theIntersections.getIntersections()[0].getT(), "Wrong t for the 1st intersection!");
-		assertEquals(2, theIntersections.getIntersections()[1].getT(), "Wrong t for the 2nd intersection!");
+		assertEquals(2, theIntersections.getIntersections().size(), "Wrong intersections size!");
+		assertEquals(1, theIntersections.getIntersections().get(0).getT(), "Wrong t for the 1st intersection!");
+		assertEquals(2, theIntersections.getIntersections().get(1).getT(), "Wrong t for the 2nd intersection!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
@@ -264,7 +267,7 @@ public class TestSpheres {
 		Intersection intersection2 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
-		Intersections theIntersections = Factory.intersections(intersection1, intersection2);
+		Intersections theIntersections = Factory.intersections(Arrays.asList(intersection1, intersection2));
 		
 		// The hit, when all intersections have positive t
 		Intersection theHit = SphereOperations.hit(theIntersections);
@@ -276,7 +279,7 @@ public class TestSpheres {
 		intersection2 = Factory.intersection(1, aSphere);
 		
 		// Aggregate them
-		theIntersections = Factory.intersections(intersection1, intersection2);
+		theIntersections = Factory.intersections(Arrays.asList(intersection1, intersection2));
 		
 		// The hit, when some intersections have negative t
 		theHit = SphereOperations.hit(theIntersections);
@@ -288,7 +291,7 @@ public class TestSpheres {
 		intersection2 = Factory.intersection(-1, aSphere);
 		
 		// Aggregate them
-		theIntersections = Factory.intersections(intersection1, intersection2);
+		theIntersections = Factory.intersections(Arrays.asList(intersection1, intersection2));
 		
 		// The hit, when some intersections have negative t
 		theHit = SphereOperations.hit(theIntersections);
@@ -302,7 +305,7 @@ public class TestSpheres {
 		Intersection intersection4 = Factory.intersection(2, aSphere);
 		
 		// Aggregate them
-		theIntersections = Factory.intersections(intersection1, intersection2, intersection3, intersection4);
+		theIntersections = Factory.intersections(Arrays.asList(intersection1, intersection2, intersection3, intersection4));
 		
 		// The hit, when some intersections have negative t
 		theHit = SphereOperations.hit(theIntersections);
@@ -365,11 +368,11 @@ public class TestSpheres {
 		aSphere.setTransform(Factory.scalingMatrix(2, 2, 2));
 		
 		// Intersecting a scaled sphere with a ray
-		Intersection[] theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
-		assertEquals(2, theIntersections.length, "Wrong intersections size!");
-		assertEquals(3, theIntersections[0].getT(), "Wrong 1st intersection!");
-		assertEquals(7, theIntersections[1].getT(), "Wrong 2nd intersection!");
+		assertEquals(2, theIntersections.size(), "Wrong intersections size!");
+		assertEquals(3, theIntersections.get(0).getT(), "Wrong 1st intersection!");
+		assertEquals(7, theIntersections.get(1).getT(), "Wrong 2nd intersection!");
 		
 		// Update Sphere's transformation
 		aSphere.setTransform(Factory.translationMatrix(5, 0, 0));
@@ -377,7 +380,7 @@ public class TestSpheres {
 		// Intersecting a translated sphere with a ray
 		theIntersections = SphereOperations.intersects(aSphere, aRay);
 		
-		assertEquals(0, theIntersections.length, "Wrong intersections size!");
+		assertEquals(0, theIntersections.size(), "Wrong intersections size!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
