@@ -13,7 +13,7 @@ import java.util.List;
 public class Intersections {
 	
 	// The list of Intersections
-	List<Intersection> intersections;
+	private List<Intersection> intersections;
 
 	/*
 	 * Constructor.

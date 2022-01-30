@@ -7,10 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
+import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
 
@@ -39,6 +41,36 @@ public class WorldOperations {
 		}
 		
 		Intersections result = Factory.intersections(intersections);
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Intersections found = " + result);
+		return result;
+	}
+	
+	/*
+	 * return a new data structure encapsulating some precomputed information relating to the 
+	 * intersection. 
+	 * This will help you later by making it easier to reuse these computations in different 
+	 * calculations.
+	 */
+	public static Computations prepareComputations(Intersection anIntersection, Ray aRay) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Preparing computations between: " + anIntersection + " and: " + aRay);
+		
+		// Instantiate a data structure for storing some precomputed values
+		Computations result = Factory.computations();
+		
+		// Copy the intersection's properties, for convenience
+		result.setT(anIntersection.getT());
+		result.setObject(anIntersection.getObject());
+		
+		// Precompute some useful values
+		Tuple position = RayOperations.position(aRay, result.getT());
+		result.setPoint(position);
+		
+		Tuple eyeVector = TupleOperations.neg(aRay.getDirection());
+		result.setEyeVector(eyeVector);
+		
+		Tuple normalVector = SphereOperations.normalAt((Sphere)result.getObject(), result.getPoint());
+		result.setNormalVector(normalVector);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Intersections found = " + result);
 		return result;

@@ -13,10 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Computations;
+import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
+import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.WorldOperations;
@@ -103,6 +106,41 @@ public class TestWorld {
 		assertEquals(4.5, theIntersections.getIntersections().get(1).getT(), "Wrong 2nd intersection for the World!");
 		assertEquals(5.5, theIntersections.getIntersections().get(2).getT(), "Wrong 3rd intersection for the World!");
 		assertEquals(6, theIntersections.getIntersections().get(3).getT(), "Wrong 4th intersection for the World!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Shows that prepareComputations() precomputes the point (in world space) where the 
+	 * intersection occurred, the eye vector (pointing back toward the eye, or camera), and the 
+	 * normal vector.
+	 */
+	@Test
+	@Order(3)
+	public void testComputations() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing computations");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create a Ray
+		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
+		
+		// Create a Sphere
+		Sphere aSphere = Factory.sphere();
+		
+		// Create an Intersection
+		Intersection anIntersection = Factory.intersection(4, aSphere);
+		
+		// Precomputing the state of an intersection
+		Computations computations = WorldOperations.prepareComputations(anIntersection, theRay);
+		
+		Tuple expectedPoint = Factory.point(0, 0, -1);
+		Tuple expectedEyeVector = Factory.vector(0, 0, -1);
+		Tuple expectedNormalVector = Factory.vector(0, 0, -1);
+		
+		assertEquals(anIntersection.getObject(), computations.getObject(), "Wrong Object for the Computations!");
+		assertEquals(expectedPoint, computations.getPoint(), "Wrong Point for the Computations!");
+		assertEquals(expectedEyeVector, computations.getEyeVector(), "Wrong Eye Vector for the Computations!");
+		assertEquals(expectedNormalVector, computations.getNormalVector(), "Wrong Normal Vector for the Computations!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

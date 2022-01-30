@@ -12,10 +12,10 @@ public class Intersection {
 	// The points that lie any distance t along the ray.
 	// Why t? Blame the mathematicians! It stands for time, which only makes sense once you think of 
 	// the ray’s direction vector as its speed
-	double t;
+	private double t;
 	
 	// The intersected object
-	Object object;
+	private Object object;
 
 	/*
 	 * Constructor.

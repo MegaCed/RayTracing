@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
+import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
@@ -357,6 +358,17 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new World: " + theWorld);
 		
 		return theWorld;
+	}
+	
+	/*
+	 * Creates a Computations object.
+	 */
+	public static Computations computations() {
+		Computations theComputations = new Computations();
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Computations: " + theComputations);
+		
+		return theComputations;
 	}
 	
 }

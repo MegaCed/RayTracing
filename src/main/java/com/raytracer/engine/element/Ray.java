@@ -10,10 +10,10 @@ package com.raytracer.engine.element;
 public class Ray {
 	
 	// The Ray's starting point
-	Tuple origin;
+	private Tuple origin;
 	
 	// The Ray's direction
-	Tuple direction;
+	private Tuple direction;
 	
 	/*
 	 * Constructor.

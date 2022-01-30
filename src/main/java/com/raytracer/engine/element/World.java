@@ -12,10 +12,10 @@ import com.raytracer.engine.Factory;
 public class World {
 	
 	// The World's Light
-	PointLight light;
+	private PointLight light;
 	
 	// The World's Objects
-	List objects;
+	private List objects;
 
 	/*
 	 * Constructor.
