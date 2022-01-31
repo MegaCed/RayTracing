@@ -1,5 +1,6 @@
 package com.raytracer.engine.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.raytracer.engine.Factory;
@@ -23,6 +24,7 @@ public class World {
 	public World() {
 		// The default Light for this World
 		this.light = Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1));
+		this.objects = new ArrayList();
 	}
 	
 	public PointLight getLight() {

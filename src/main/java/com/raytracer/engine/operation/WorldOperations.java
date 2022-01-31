@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
@@ -72,7 +73,34 @@ public class WorldOperations {
 		Tuple normalVector = SphereOperations.normalAt((Sphere)result.getObject(), result.getPoint());
 		result.setNormalVector(normalVector);
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Intersections found = " + result);
+		// How can you know — mathematically — if the normal points away from the eye vector? 
+		// Take the dot product of the two vectors, and if the result is negative, they’re pointing 
+		// in (roughly) opposite directions
+		if (TupleOperations.dot(normalVector, eyeVector) < 0) {
+			result.setInside(true);
+			result.setNormalVector(TupleOperations.neg(normalVector));
+		} else {
+			result.setInside(false);
+		}
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Computations created = " + result);
+		return result;
+	}
+	
+	/*
+	 * The function ought to return the color at the intersection encapsulated by Computations, in 
+	 * the given world.
+	 */
+	public static Color shadeHit(World aWorld, Computations computations) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
+		
+		Color result = ColorOperations.lithting(((Sphere)(computations.getObject())).getMaterial(), 
+				aWorld.getLight(), 
+				computations.getPoint(), 
+				computations.getEyeVector(), 
+				computations.getNormalVector());
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
 		return result;
 	}
 	

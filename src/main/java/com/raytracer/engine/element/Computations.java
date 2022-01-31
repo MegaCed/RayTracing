@@ -19,6 +19,9 @@ public class Computations {
 	
 	// The normal vector
 	private Tuple normalVector;
+	
+	// Will be true if the hit occurs inside the object, and false otherwise
+	private boolean inside;
 
 	public double getT() {
 		return t;
@@ -58,6 +61,20 @@ public class Computations {
 
 	public void setNormalVector(Tuple normalVector) {
 		this.normalVector = normalVector;
+	}
+
+	public boolean isInside() {
+		return inside;
+	}
+
+	public void setInside(boolean inside) {
+		this.inside = inside;
+	}
+
+	@Override
+	public String toString() {
+		return "Computations (t=" + t + ", object=" + object + ", point=" + point + ", eyeVector=" + eyeVector
+				+ ", normalVector=" + normalVector + ", inside=" + inside + ")";
 	}
 	
 }
