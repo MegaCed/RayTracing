@@ -12,6 +12,11 @@
         <Logger name="com.raytracer" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+<!-- 
+        <Logger name="com.raytracer.engine.operation" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+ -->
         <Root level="error">
             <AppenderRef ref="LogToConsole"/>
         </Root>

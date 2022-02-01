@@ -204,18 +204,30 @@ public class TestWorld {
 		logger.info(Constants.SEPARATOR_JUNIT + "Testing shading");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
+		// Create a shape: the first object in the World
+		Sphere sphere1 = Factory.sphere();
+		Material material1 = Factory.material();
+		material1.setColor(Factory.color(0.8, 1, 0.6));
+		material1.setDiffuse(0.7);
+		material1.setSpecular(0.2);
+		sphere1.setMaterial(material1);
+		
+		// Create a shape: the second object in the World
+		Sphere sphere2 = Factory.sphere();
+		sphere2.setTransform(Factory.scalingMatrix(0.5, 0.5, 0.5));
+		
 		// Create a World
 		World theWorld = Factory.world();
-		
+		List objects = new ArrayList();
+		objects.add(sphere1);
+		objects.add(sphere2);
+		theWorld.setObjects(objects);
+
 		// Create a Ray
 		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
 		
-		// Create a shape: the first object in the World
-		Sphere aShape = Factory.sphere();
-		theWorld.getObjects().add(aShape);
-		
 		// Create an Intersection
-		Intersection anIntersection = Factory.intersection(4, aShape);
+		Intersection anIntersection = Factory.intersection(4, sphere1);
 		
 		// Precomputing the state of an intersection
 		Computations computations = WorldOperations.prepareComputations(anIntersection, theRay);
@@ -234,12 +246,8 @@ public class TestWorld {
 		// Create a Ray
 		theRay = Factory.ray(Factory.point(0, 0, 0), Factory.vector(0, 0, 1));
 		
-		// Create a shape: the second object in the World
-		Sphere anotherShape = Factory.sphere();
-		theWorld.getObjects().add(anotherShape);
-		
 		// Create an Intersection
-		anIntersection = Factory.intersection(0.5, anotherShape);
+		anIntersection = Factory.intersection(0.5, sphere2);
 		
 		// Precomputing the state of an intersection
 		computations = WorldOperations.prepareComputations(anIntersection, theRay);

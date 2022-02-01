@@ -92,7 +92,7 @@ public class WorldOperations {
 	 * the given world.
 	 */
 	public static Color shadeHit(World aWorld, Computations computations) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
+		logger.info(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
 		
 		Color result = ColorOperations.lithting(((Sphere)(computations.getObject())).getMaterial(), 
 				aWorld.getLight(), 
@@ -100,7 +100,7 @@ public class WorldOperations {
 				computations.getEyeVector(), 
 				computations.getNormalVector());
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
+		logger.info(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
 		return result;
 	}
 	
