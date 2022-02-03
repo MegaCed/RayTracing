@@ -92,7 +92,7 @@ public class WorldOperations {
 	 * the given world.
 	 */
 	public static Color shadeHit(World aWorld, Computations computations) {
-		logger.info(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
 		
 		Color result = ColorOperations.lithting(((Sphere)(computations.getObject())).getMaterial(), 
 				aWorld.getLight(), 
@@ -100,7 +100,38 @@ public class WorldOperations {
 				computations.getEyeVector(), 
 				computations.getNormalVector());
 		
-		logger.info(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
+		return result;
+	}
+	
+	/*
+	 * For convenience’s sake, tie up the intersect(), prepareComputations(), and shadeHit() 
+	 * functions.
+	 * It will intersect the world with the given ray and then return the color at the resulting 
+	 * intersection.
+	 */
+	public static Color colorAt(World aWorld, Ray aRay) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Intersect the World: " + aWorld + " with the Ray: " + aRay);
+		
+		// Call intersectWorld to find the intersections of the given ray with the given world
+		Intersections intersections = intersectWorld(aWorld, aRay);
+		
+		// Find the hit from the resulting intersections
+		Intersection hit = null;
+		if (intersections.getIntersections().size() > 0) {
+			hit = intersections.getIntersections().get(0);
+		} else {
+			// Return the color black if there is no such intersection.
+			return Constants.COLOR_BLACK;
+		}
+		
+		// Otherwise, precompute the necessary values with prepareComputations
+		Computations computations = prepareComputations(hit, aRay);
+		
+		// Finally, call shadeHit to find the color at the hit
+		Color result = shadeHit(aWorld, computations);
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Color at the intersection = " + result);
 		return result;
 	}
 	

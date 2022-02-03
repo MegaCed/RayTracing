@@ -35,15 +35,10 @@ public class TestWorld {
 	private static Logger logger = LoggerFactory.getLogger(TestWorld.class);
 	
 	/*
-	 * Test the default World.
+	 * Creates a "default world".
 	 */
-	@Test
-	@Order(1)
-	public void testDefaultWorld() {
-		logger.info(Constants.SEPARATOR_JUNIT + "Creating a default World");
-		logger.info(Constants.SEPARATOR_JUNIT);
-		
-		// Create a Sphere
+	private static World getDefaultWorld() {
+		// Create a shape: the first object in the World
 		Sphere sphere1 = Factory.sphere();
 		Material material1 = Factory.material();
 		material1.setColor(Factory.color(0.8, 1, 0.6));
@@ -51,7 +46,7 @@ public class TestWorld {
 		material1.setSpecular(0.2);
 		sphere1.setMaterial(material1);
 		
-		// Create another Sphere
+		// Create a shape: the second object in the World
 		Sphere sphere2 = Factory.sphere();
 		sphere2.setTransform(Factory.scalingMatrix(0.5, 0.5, 0.5));
 		
@@ -61,6 +56,21 @@ public class TestWorld {
 		objects.add(sphere1);
 		objects.add(sphere2);
 		theWorld.setObjects(objects);
+		
+		return theWorld;
+	}
+	
+	/*
+	 * Test the default World.
+	 */
+	@Test
+	@Order(1)
+	public void testDefaultWorld() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Creating a default World");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Get the default World
+		World theWorld = getDefaultWorld();
 		
 		assertEquals(Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1)), theWorld.getLight(), "Wrong Light for the World!");
 		assertEquals(2, theWorld.getObjects().size(), "Wrong number of objects for the World!");
@@ -77,24 +87,8 @@ public class TestWorld {
 		logger.info(Constants.SEPARATOR_JUNIT + "World intersections");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		// Create a Sphere
-		Sphere sphere1 = Factory.sphere();
-		Material material1 = Factory.material();
-		material1.setColor(Factory.color(0.8, 1, 0.6));
-		material1.setDiffuse(0.7);
-		material1.setSpecular(0.2);
-		sphere1.setMaterial(material1);
-		
-		// Create another Sphere
-		Sphere sphere2 = Factory.sphere();
-		sphere2.setTransform(Factory.scalingMatrix(0.5, 0.5, 0.5));
-		
-		// Create a World
-		World theWorld = Factory.world();
-		List objects = new ArrayList();
-		objects.add(sphere1);
-		objects.add(sphere2);
-		theWorld.setObjects(objects);
+		// Get the default World
+		World theWorld = getDefaultWorld();
 		
 		// Create a Ray
 		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
@@ -204,30 +198,14 @@ public class TestWorld {
 		logger.info(Constants.SEPARATOR_JUNIT + "Testing shading");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		// Create a shape: the first object in the World
-		Sphere sphere1 = Factory.sphere();
-		Material material1 = Factory.material();
-		material1.setColor(Factory.color(0.8, 1, 0.6));
-		material1.setDiffuse(0.7);
-		material1.setSpecular(0.2);
-		sphere1.setMaterial(material1);
-		
-		// Create a shape: the second object in the World
-		Sphere sphere2 = Factory.sphere();
-		sphere2.setTransform(Factory.scalingMatrix(0.5, 0.5, 0.5));
-		
-		// Create a World
-		World theWorld = Factory.world();
-		List objects = new ArrayList();
-		objects.add(sphere1);
-		objects.add(sphere2);
-		theWorld.setObjects(objects);
+		// Get the default World
+		World theWorld = getDefaultWorld();
 
 		// Create a Ray
 		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
 		
 		// Create an Intersection
-		Intersection anIntersection = Factory.intersection(4, sphere1);
+		Intersection anIntersection = Factory.intersection(4, theWorld.getObjects().get(0));
 		
 		// Precomputing the state of an intersection
 		Computations computations = WorldOperations.prepareComputations(anIntersection, theRay);
@@ -247,7 +225,7 @@ public class TestWorld {
 		theRay = Factory.ray(Factory.point(0, 0, 0), Factory.vector(0, 0, 1));
 		
 		// Create an Intersection
-		anIntersection = Factory.intersection(0.5, sphere2);
+		anIntersection = Factory.intersection(0.5, theWorld.getObjects().get(1));
 		
 		// Precomputing the state of an intersection
 		computations = WorldOperations.prepareComputations(anIntersection, theRay);
@@ -258,6 +236,96 @@ public class TestWorld {
 		expectedColor = Factory.color(0.90498, 0.90498, 0.90498);
 		
 		assertEquals(expectedColor, aColor, "Wrong shaded Color!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * The test shows that when the ray fails to intersect anything, the color that is returned 
+	 * should be black.
+	 */
+	@Test
+	@Order(6)
+	public void testColorMiss() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The color when a ray misses");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Get the default World
+		World theWorld = getDefaultWorld();
+		
+		// Create a Ray
+		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 1, 0));
+		
+		// Get the Color
+		Color result = WorldOperations.colorAt(theWorld, theRay);
+		
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong Color!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * This test shows that the shading should be computed appropriately when the ray intersects an 
+	 * object—in this case, the outermost sphere in the default world.
+	 */
+	@Test
+	@Order(7)
+	public void testColorHit() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The color when a ray hits");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Get the default World
+		World theWorld = getDefaultWorld();
+		
+		// Create a Ray
+		Ray theRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
+		
+		// Get the Color
+		Color result = WorldOperations.colorAt(theWorld, theRay);
+		
+		Color expectedColor = Factory.color(0.38066, 0.47583, 0.2855);
+		
+		assertEquals(expectedColor, result, "Wrong Color!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * The test shows that we expect colorAt() to use the hit when computing the color. 
+	 * Here, we put the ray inside the outer sphere, but outside the inner sphere, and pointing at 
+	 * the inner sphere. We expect the hit to be on the inner sphere, and thus return its color.
+	 */
+	@Test
+	@Order(8)
+	public void testColorBehind() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The color with an intersection behind the ray");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Create a World
+		World theWorld = Factory.world();
+		
+		// Create a shape: the first object in the World
+		Sphere outer = Factory.sphere();
+		Material material = Factory.material();
+		material.setAmbient(1);
+		outer.setMaterial(material);
+		
+		// Create a shape: the second object in the World
+		Sphere inner = Factory.sphere();
+		inner.setMaterial(material);
+		
+		List objects = new ArrayList();
+		objects.add(inner);
+		objects.add(outer);
+		theWorld.setObjects(objects);
+		
+		// Create a Ray
+		Ray theRay = Factory.ray(Factory.point(0, 0, 0.75), Factory.vector(0, 0, -1));
+		
+		// Get the Color
+		Color result = WorldOperations.colorAt(theWorld, theRay);
+		
+		assertEquals(inner.getMaterial().getColor(), result, "Wrong Color!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
