@@ -284,6 +284,44 @@ public class Factory {
 	}
 	
 	/*
+	 * A transformation matrix—like scaling, rotation, and translation—that orients the world 
+	 * relative to your eye, thus allowing you to line everything up and get exactly the shot that 
+	 * you need.
+	 * Represents the orientation transformation:
+	 * | left.x     left.y     left.z     0 |
+	 * | trueUp.x   trueUp.y   trueUp.z   0 |
+	 * | -forward.x -forward.y -forward.z 0 |
+	 * | 0          0          0          1 | 
+	 */
+	public static Matrix orientationMatrix(Tuple left, Tuple trueUp, Tuple forward) {
+		// Get the Orientation Matrix
+		Matrix orientationMatrix = Factory.identityMatrix();
+		
+		orientationMatrix.setElement(left.getX(), 0, 0);
+		orientationMatrix.setElement(left.getY(), 0, 1);
+		orientationMatrix.setElement(left.getZ(), 0, 2);
+		orientationMatrix.setElement(0, 0, 3);
+		
+		orientationMatrix.setElement(trueUp.getX(), 1, 0);
+		orientationMatrix.setElement(trueUp.getY(), 1, 1);
+		orientationMatrix.setElement(trueUp.getZ(), 1, 2);
+		orientationMatrix.setElement(0, 1, 3);
+		
+		orientationMatrix.setElement(-forward.getX(), 2, 0);
+		orientationMatrix.setElement(-forward.getY(), 2, 1);
+		orientationMatrix.setElement(-forward.getZ(), 2, 2);
+		orientationMatrix.setElement(0, 2, 3);
+		
+		orientationMatrix.setElement(0, 3, 0);
+		orientationMatrix.setElement(0, 3, 1);
+		orientationMatrix.setElement(0, 3, 2);
+		orientationMatrix.setElement(1, 3, 3);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Returning Orientation Matrix: " + orientationMatrix);
+		return orientationMatrix;
+	}
+	
+	/*
 	 * Creates a Ray.
 	 */
 	public static Ray ray(Tuple origin, Tuple direction) {

@@ -18,6 +18,7 @@ import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
@@ -326,6 +327,110 @@ public class TestWorld {
 		Color result = WorldOperations.colorAt(theWorld, theRay);
 		
 		assertEquals(inner.getMaterial().getColor(), result, "Wrong Color!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * The following test demonstrates this and shows that the orientation looks from the origin 
+	 * along the z axis in the negative direction, with up in the positive y direction.
+	 */
+	@Test
+	@Order(9)
+	public void testDefaultTransformationMatrix() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The transformation matrix for the default orientation");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Tuple from = Factory.point(0, 0, 0);
+		Tuple to = Factory.point(0, 0, -1);
+		Tuple up = Factory.vector(0, 1, 0);
+		
+		// Get the world’s default orientation
+		Matrix t = WorldOperations.viewTransform(from, to, up);
+		
+		// The default orientation is the matrix you get if your view parameters (from, to, and up) 
+		// don’t require anything to be scaled, rotated, or translated. 
+		// In other words, the default orientation is the identity matrix!
+		assertEquals(Factory.identityMatrix(), t, "Wrong Matrix retrieved!");		
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Turning around and looking in the positive z direction is like looking in a mirror: 
+	 * front and back are swapped, and left and right are swapped.
+	 */
+	@Test
+	@Order(10)
+	public void testMirrorTransformationMatrix() {
+		logger.info(Constants.SEPARATOR_JUNIT + "A view transformation matrix looking in positive z direction");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Tuple from = Factory.point(0, 0, 0);
+		Tuple to = Factory.point(0, 0, 1);
+		Tuple up = Factory.vector(0, 1, 0);
+		
+		// The view transformation in this case should be exactly the same as reflecting across the 
+		// z (front-to-back) and x (left-to-right) axes
+		Matrix t = WorldOperations.viewTransform(from, to, up);
+		
+		// Reflection is the same as scaling by a negative value, so you would expect the view 
+		// transformation here to be the same as scaling by (-1, 1, -1)
+		assertEquals(Factory.scalingMatrix(-1, 1, -1), t, "Wrong Matrix retrieved!");		
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Shows that the view transformation really does move the world and not the eye.
+	 */
+	@Test
+	@Order(11)
+	public void testMoveWorld() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The view transformation moves the world");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Tuple from = Factory.point(0, 0, 8);
+		Tuple to = Factory.point(0, 0, 0);
+		Tuple up = Factory.vector(0, 1, 0);
+		
+		// The test positions the eye at a point 8 units along the z axis, and points the eye back 
+		// at the origin
+		Matrix t = WorldOperations.viewTransform(from, to, up);
+		
+		// As you can see, the resulting translation moves everything backward 8 units along the z 
+		// axis, effectively pushing the world away from an eye positioned at the origin!
+		assertEquals(Factory.translationMatrix(0, 0, -8), t, "Wrong Matrix retrieved!");		
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * One more test for the view transformation, this time looking in some arbitrary direction. 
+	 * It should produce a matrix that is a combination of shearing, scaling, and translation.
+	 */
+	@Test
+	@Order(12)
+	public void testArbitraryTransformation() {
+		logger.info(Constants.SEPARATOR_JUNIT + "An arbitrary view transformation");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Tuple from = Factory.point(1, 3, 2);
+		Tuple to = Factory.point(4, -2, 8);
+		Tuple up = Factory.vector(1, 1, 0);
+		
+		// Get the view transformation
+		Matrix t = WorldOperations.viewTransform(from, to, up);
+		
+		double[][] values = {
+				{-0.50709, 0.50709, 0.67612, -2.36643},
+				{0.76772, 0.60609, 0.12122, -2.82843},
+				{-0.35857, 0.59761, -0.71714, 0},
+				{0, 0, 0, 1}
+		};
+		Matrix expectedResult = Factory.matrix(values);
+		
+		assertEquals(expectedResult, t, "Wrong Matrix retrieved!");	
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

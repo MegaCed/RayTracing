@@ -11,6 +11,7 @@ import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
+import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
@@ -132,6 +133,45 @@ public class WorldOperations {
 		Color result = shadeHit(aWorld, computations);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Color at the intersection = " + result);
+		return result;
+	}
+
+	/*
+	 * Pretends the eye moves instead of the world.
+	 * You specify where you want the eye to be in the scene (the from parameter), the point in the 
+	 * scene at which you want to look (the to parameter), and a vector indicating which direction 
+	 * is up.
+	 * The function then returns to you the corresponding transformation matrix.
+	 */
+	public static Matrix viewTransform(Tuple from, Tuple to, Tuple up) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Transforming view from: " + from + " - to: " + to + " - up: " + up);
+		
+		// Compute the forward vector by subtracting from from to. Normalize the result
+		Tuple vector = TupleOperations.sub(to, from);
+		Tuple forward = TupleOperations.normalize(vector);
+		
+		Tuple upNormalized = TupleOperations.normalize(up);
+		
+		// Compute the left vector by taking the cross product of forward and the normalized up 
+		// vector
+		Tuple left = TupleOperations.cross(forward, upNormalized);
+		
+		// Compute the trueUp vector by taking the cross product of left and forward.
+		// This allows your original up vector to be only approximately up, which makes framing 
+		// scenes a lot easier, since you don’t need to personally break out a calculator to figure 
+		// out the precise upward direction
+		Tuple trueUp = TupleOperations.cross(left, forward);
+		
+		// With these left, true_up, and forward vectors, you can now construct a matrix that 
+		// represents the orientation transformation
+		Matrix orientation = Factory.orientationMatrix(left, trueUp, forward);
+		
+		// All that’s left is to append a translation to that transformation to move the scene into 
+		// place before orienting it. Multiply orientation by 
+		// translation(-from.x, -from.y, -from.z), and you’re golden!
+		Matrix result = MatrixOperations.mul(orientation, Factory.translationMatrix(-from.getX(), -from.getY(), -from.getZ()));
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
 		return result;
 	}
 	
