@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.raytracer.engine.element.Camera;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
@@ -407,6 +408,17 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Computations: " + theComputations);
 		
 		return theComputations;
+	}
+	
+	/*
+	 * Creates a Camera object.
+	 */
+	public static Camera camera(double hSize, double vSize, double fieldOfView) {
+		Camera theCamera = new Camera(hSize, vSize, fieldOfView);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Camera: " + theCamera);
+		
+		return theCamera;
 	}
 	
 }
