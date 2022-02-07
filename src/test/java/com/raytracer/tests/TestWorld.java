@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Camera;
+import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
@@ -431,6 +433,32 @@ public class TestWorld {
 		Matrix expectedResult = Factory.matrix(values);
 		
 		assertEquals(expectedResult, t, "Wrong Matrix retrieved!");	
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Nonrigorous demonstration of how the render() function ought to work. 
+	 * It renders the default world with a camera and then makes sure that the pixel in the very 
+	 * middle of the resulting canvas is the expected color.
+	 */
+	@Test
+	@Order(12)
+	public void testRender() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Rendering a world with a camera");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		World theWorld = getDefaultWorld();
+		Camera aCamera = Factory.camera(11, 11, Math.PI / 2);
+		Tuple from = Factory.point(0, 0, -5);
+		Tuple to = Factory.point(0, 0, 0);
+		Tuple up = Factory.vector(0, 1, 0);
+		aCamera.setTransform(WorldOperations.viewTransform(from, to, up));
+		
+		// Render the image
+		Canvas image = WorldOperations.render(aCamera, theWorld);
+		
+		assertEquals(Factory.color(0.38066, 0.47583, 0.2855), image.pixelAt(5, 5));
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

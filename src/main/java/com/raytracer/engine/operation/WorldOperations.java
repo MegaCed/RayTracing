@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.element.Camera;
+import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.Intersection;
@@ -173,6 +175,32 @@ public class WorldOperations {
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
 		return result;
+	}
+	
+	/*
+	 * Uses the camera to render an image of the given world.
+	 * 
+	 * Creates a canvas and cast a ray through each of its pixels, coloring the pixels with the 
+	 * colors of the corresponding intersections.
+	 * That’s exactly what this function will do, except instead of computing the location of each 
+	 * pixel, you’ll let your new rayForPixel() function do the work.
+	 */
+	public static Canvas render(Camera aCamera, World theWorld) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Rendering image for: " + aCamera + " and: " + theWorld);
+		
+		Canvas image = Factory.canvas((int)aCamera.gethSize(), (int)aCamera.getvSize());
+		
+		for (int y = 0; y < aCamera.getvSize() -1; y++) {
+			for (int x = 0; x < aCamera.gethSize(); x++) {
+				Ray theRay = RayOperations.rayForPixel(aCamera, x, y);
+				Color theColor = colorAt(theWorld, theRay);
+				
+				image.writePixel(x, y, theColor);
+			}
+		}
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Rendered image = " + image);
+		return image;
 	}
 	
 }

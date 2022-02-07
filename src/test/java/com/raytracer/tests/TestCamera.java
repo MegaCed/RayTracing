@@ -11,8 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Camera;
+import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.misc.Constants;
+import com.raytracer.engine.operation.MatrixOperations;
 import com.raytracer.engine.operation.MiscOperations;
+import com.raytracer.engine.operation.RayOperations;
 
 /*
  * Testing Camera-related methods.
@@ -61,12 +65,53 @@ public class TestCamera {
 		// The pixel size for a horizontal canvas
 		Camera camera = Factory.camera(200, 125, Math.PI / 2);
 		
-		assertEquals(true, MiscOperations.equalsEpsilon(0.1, camera.getPixelSize()), "Wrong pixel size");
+		assertEquals(true, MiscOperations.equalsEpsilon(0.01, camera.getPixelSize()), "Wrong pixel size");
 		
 		// The pixel size for a vertical canvas
 		camera = Factory.camera(125, 200, Math.PI / 2);
 		
-		assertEquals(true, MiscOperations.equalsEpsilon(0.1, camera.getPixelSize()), "Wrong pixel size");
+		assertEquals(true, MiscOperations.equalsEpsilon(0.01, camera.getPixelSize()), "Wrong pixel size");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * The first two tests use an untransformed camera to cast rays through the center and corner of 
+	 * the canvas, and the third tries a ray with a camera that has been translated and rotated.
+	 */
+	@Test
+	@Order(3)
+	public void testCameraRay() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Constructing rays");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Camera camera = Factory.camera(201, 101, Math.PI / 2);
+		
+		// Constructing a ray through the center of the canvas
+		Ray theRay = RayOperations.rayForPixel(camera, 100, 50);
+		
+		assertEquals(Factory.point(0, 0, 0), theRay.getOrigin(), "Wrong origin!");
+		assertEquals(Factory.vector(0, 0, -1), theRay.getDirection(), "Wrong direction!");
+		
+		// Constructing a ray through a corner of the canvas
+		theRay = RayOperations.rayForPixel(camera, 0, 0);
+		
+		assertEquals(Factory.point(0, 0, 0), theRay.getOrigin(), "Wrong origin!");
+		assertEquals(Factory.vector(0.66519, 0.33259, -0.66851), theRay.getDirection(), "Wrong direction!");
+		
+		// Constructing a ray when the camera is transformed
+		Matrix transformation = MatrixOperations.mul(Factory.yRotationMatrix(Math.PI / 4), Factory.translationMatrix(0, -2, 5));
+		// Remember that the camera’s transformation describes how the world is moved relative to 
+		// the camera.
+		// Further, you’re transforming everything by the inverse of that transformation, so moving 
+		// the world (0, -2, 5) is effectively the same as moving the ray’s origin in the opposite 
+		// direction: (0, 2, -5).
+		camera.setTransform(transformation);
+		
+		theRay = RayOperations.rayForPixel(camera, 100, 50);
+		
+		assertEquals(Factory.point(0, 2, -5), theRay.getOrigin(), "Wrong origin!");
+		assertEquals(Factory.vector(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2), theRay.getDirection(), "Wrong direction!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
