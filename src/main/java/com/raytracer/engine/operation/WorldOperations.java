@@ -188,12 +188,16 @@ public class WorldOperations {
 	public static Canvas render(Camera aCamera, World theWorld) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Rendering image for: " + aCamera + " and: " + theWorld);
 		
+		// TODO: don't use casting!
 		Canvas image = Factory.canvas((int)aCamera.gethSize(), (int)aCamera.getvSize());
 		
 		for (int y = 0; y < aCamera.getvSize() -1; y++) {
-			for (int x = 0; x < aCamera.gethSize(); x++) {
+			for (int x = 0; x < aCamera.gethSize() -1; x++) {
 				Ray theRay = RayOperations.rayForPixel(aCamera, x, y);
 				Color theColor = colorAt(theWorld, theRay);
+				
+				// TODO: Something wrong here...
+				logger.info("" + theColor);
 				
 				image.writePixel(x, y, theColor);
 			}
