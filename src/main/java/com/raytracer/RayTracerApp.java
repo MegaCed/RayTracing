@@ -2,8 +2,10 @@ package com.raytracer;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -613,17 +615,20 @@ public class RayTracerApp {
 	 * and adding a few more spheres to make the scene more interesting.
 	 */
 	private static void basicScene() {
+		List objects = new ArrayList();
+		
 		// The floor is an extremely flattened sphere with a matte texture
-/*		Sphere floor = Factory.sphere();
+		Sphere floor = Factory.sphere();
 		floor.setTransform(Factory.scalingMatrix(10, 0.01, 10));
 		Material floorMaterial = Factory.material();
 		floorMaterial.setColor(Factory.color(1, 0.9, 0.9));
 		floorMaterial.setSpecular(0);
 		floor.setMaterial(floorMaterial);
-*/		
+		objects.add(floor);
+		
 		// The wall on the left has the same scale and color as the floor, but is also rotated and 
 		// translated into place
-/*		Sphere leftWall = Factory.sphere();
+		Sphere leftWall = Factory.sphere();
 		// Note the order in which the transformations are multiplied: the wall needs to be scaled, 
 		// then rotated in x, then rotated in y, and lastly translated, so the transformations are 
 		// multiplied in the reverse order!
@@ -632,48 +637,56 @@ public class RayTracerApp {
 		leftTransformation = MatrixOperations.mul(leftTransformation, Factory.scalingMatrix(10, 0.01, 10));
 		leftWall.setTransform(leftTransformation);
 		leftWall.setMaterial(floorMaterial);
-*/		
+		objects.add(leftWall);
+		
 		// The wall on the right is identical to the left wall, but is rotated the opposite 
 		// direction in y
-/*		Sphere rightWall = Factory.sphere();
+		Sphere rightWall = Factory.sphere();
 		Matrix rightTransformation = MatrixOperations.mul(Factory.translationMatrix(0, 0, 5), Factory.yRotationMatrix(Math.PI / 4));
 		rightTransformation = MatrixOperations.mul(rightTransformation, Factory.xRotationMatrix(Math.PI / 2));
 		rightTransformation = MatrixOperations.mul(rightTransformation, Factory.scalingMatrix(10, 0.01, 10));
 		rightWall.setTransform(rightTransformation);
 		rightWall.setMaterial(floorMaterial);
-*/		
+		objects.add(rightWall);
+		
 		// The large sphere in the middle is a unit sphere, translated upward slightly and colored 
 		// green
 		Sphere middle = Factory.sphere();
-//		middle.setTransform(Factory.translationMatrix(-0.5, 1, 0.5));
+		middle.setTransform(Factory.translationMatrix(-0.5, 1, 0.5));
 		Material middleMaterial = Factory.material();
 		middleMaterial.setColor(Factory.color(0.1, 1, 0.5));
 		middleMaterial.setDiffuse(0.7);
 		middleMaterial.setSpecular(0.3);
 		middle.setMaterial(middleMaterial);
+		objects.add(middle);
 		
 		// The smaller green sphere on the right is scaled in half
-/*		Sphere right = Factory.sphere();
+		Sphere right = Factory.sphere();
 		right.setTransform(MatrixOperations.mul(Factory.translationMatrix(1.5, 0.5, -0.5), Factory.scalingMatrix(0.5, 0.5, 0.5)));
 		Material rightMaterial = Factory.material();
 		rightMaterial.setColor(Factory.color(0.5, 1, 0.1));
 		rightMaterial.setDiffuse(0.7);
 		rightMaterial.setSpecular(0.3);
 		right.setMaterial(rightMaterial);
-*/		
+		objects.add(right);
+		
 		// The smallest sphere is scaled by a third, before being translated
-/*		Sphere left = Factory.sphere();
+		Sphere left = Factory.sphere();
 		left.setTransform(MatrixOperations.mul(Factory.translationMatrix(-1.5, 0.33, -0.75), Factory.scalingMatrix(0.33, 0.33, 0.33)));
 		Material leftMaterial = Factory.material();
 		leftMaterial.setColor(Factory.color(1, 0.8, 0.1));
 		leftMaterial.setDiffuse(0.7);
 		leftMaterial.setSpecular(0.3);
 		left.setMaterial(leftMaterial);
-*/		
+		objects.add(left);
+		
 		// The light source is white, shining from above and to the left
 		PointLight light = Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1));
 		World theWorld = Factory.world();
 		theWorld.setLight(light);
+		
+		// Add the objects to the world
+		theWorld.setObjects(objects);
 		
 		// And the camera is configured like so
 		Camera theCamera = Factory.camera(100, 50, Math.PI / 3);

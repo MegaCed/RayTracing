@@ -196,9 +196,6 @@ public class WorldOperations {
 				Ray theRay = RayOperations.rayForPixel(aCamera, x, y);
 				Color theColor = colorAt(theWorld, theRay);
 				
-				// TODO: Something wrong here...
-				logger.info("" + theColor);
-				
 				image.writePixel(x, y, theColor);
 			}
 		}
