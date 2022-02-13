@@ -27,6 +27,13 @@ public class World {
 		this.objects = new ArrayList();
 	}
 	
+	/*
+	 * Adds an object to this World.
+	 */
+	public void addObject(Object anObject) {
+		objects.add(anObject);
+	}
+	
 	public PointLight getLight() {
 		return light;
 	}

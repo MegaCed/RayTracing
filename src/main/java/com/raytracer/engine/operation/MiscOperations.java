@@ -13,7 +13,7 @@ public class MiscOperations {
 	private static Logger logger = LoggerFactory.getLogger(MiscOperations.class);
 	
 	// Acceptable error
-	private static final double EPSILON = 0.00001;
+	public static final double EPSILON = 0.00001;
 	
 	/*
 	 * Test for equality, using Epsilon as acceptable error.

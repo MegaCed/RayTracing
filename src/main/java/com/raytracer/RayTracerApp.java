@@ -463,7 +463,7 @@ public class RayTracerApp {
 					
 					// Finally, calculate the color with your lighting() function before applying it 
 					// to the canvas
-					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal, false);
 					
 					aCanvas.writePixel(x, y, theColor);
 				}
@@ -564,7 +564,7 @@ public class RayTracerApp {
 				
 				// Finally, calculate the color with your lighting() function before applying it 
 				// to the canvas
-				Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal);
+				Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal, false);
 				
 				synchronized(RayTracerApp.class) {
 					aCanvas.writePixel(x, y, theColor);
@@ -615,8 +615,6 @@ public class RayTracerApp {
 	 * and adding a few more spheres to make the scene more interesting.
 	 */
 	private static void basicScene() {
-		List objects = new ArrayList();
-		
 		// The floor is an extremely flattened sphere with a matte texture
 		Sphere floor = Factory.sphere();
 		floor.setTransform(Factory.scalingMatrix(10, 0.01, 10));
@@ -624,7 +622,6 @@ public class RayTracerApp {
 		floorMaterial.setColor(Factory.color(1, 0.9, 0.9));
 		floorMaterial.setSpecular(0);
 		floor.setMaterial(floorMaterial);
-		objects.add(floor);
 		
 		// The wall on the left has the same scale and color as the floor, but is also rotated and 
 		// translated into place
@@ -637,7 +634,6 @@ public class RayTracerApp {
 		leftTransformation = MatrixOperations.mul(leftTransformation, Factory.scalingMatrix(10, 0.01, 10));
 		leftWall.setTransform(leftTransformation);
 		leftWall.setMaterial(floorMaterial);
-		objects.add(leftWall);
 		
 		// The wall on the right is identical to the left wall, but is rotated the opposite 
 		// direction in y
@@ -647,7 +643,6 @@ public class RayTracerApp {
 		rightTransformation = MatrixOperations.mul(rightTransformation, Factory.scalingMatrix(10, 0.01, 10));
 		rightWall.setTransform(rightTransformation);
 		rightWall.setMaterial(floorMaterial);
-		objects.add(rightWall);
 		
 		// The large sphere in the middle is a unit sphere, translated upward slightly and colored 
 		// green
@@ -658,7 +653,6 @@ public class RayTracerApp {
 		middleMaterial.setDiffuse(0.7);
 		middleMaterial.setSpecular(0.3);
 		middle.setMaterial(middleMaterial);
-		objects.add(middle);
 		
 		// The smaller green sphere on the right is scaled in half
 		Sphere right = Factory.sphere();
@@ -668,7 +662,6 @@ public class RayTracerApp {
 		rightMaterial.setDiffuse(0.7);
 		rightMaterial.setSpecular(0.3);
 		right.setMaterial(rightMaterial);
-		objects.add(right);
 		
 		// The smallest sphere is scaled by a third, before being translated
 		Sphere left = Factory.sphere();
@@ -678,7 +671,6 @@ public class RayTracerApp {
 		leftMaterial.setDiffuse(0.7);
 		leftMaterial.setSpecular(0.3);
 		left.setMaterial(leftMaterial);
-		objects.add(left);
 		
 		// The light source is white, shining from above and to the left
 		PointLight light = Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1));
@@ -686,7 +678,12 @@ public class RayTracerApp {
 		theWorld.setLight(light);
 		
 		// Add the objects to the world
-		theWorld.setObjects(objects);
+		theWorld.addObject(floor);
+		theWorld.addObject(leftWall);
+		theWorld.addObject(rightWall);
+		theWorld.addObject(middle);
+		theWorld.addObject(right);
+		theWorld.addObject(left);
 		
 		// And the camera is configured like so
 		Camera theCamera = Factory.camera(100, 50, Math.PI / 3);

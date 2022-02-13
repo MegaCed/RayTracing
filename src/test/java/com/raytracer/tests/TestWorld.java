@@ -27,6 +27,7 @@ import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
+import com.raytracer.engine.operation.MiscOperations;
 import com.raytracer.engine.operation.WorldOperations;
 
 /*
@@ -317,10 +318,8 @@ public class TestWorld {
 		Sphere inner = Factory.sphere();
 		inner.setMaterial(material);
 		
-		List objects = new ArrayList();
-		objects.add(inner);
-		objects.add(outer);
-		theWorld.setObjects(objects);
+		theWorld.addObject(inner);
+		theWorld.addObject(outer);
 		
 		// Create a Ray
 		Ray theRay = Factory.ray(Factory.point(0, 0, 0.75), Factory.vector(0, 0, -1));
@@ -458,7 +457,131 @@ public class TestWorld {
 		// Render the image
 		Canvas image = WorldOperations.render(aCamera, theWorld);
 		
-		assertEquals(Factory.color(0.38066, 0.47583, 0.2855), image.pixelAt(5, 5));
+		assertEquals(Factory.color(0.38066, 0.47583, 0.2855), image.pixelAt(5, 5), "Wrong Color retrieved!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * A ray tracer computes shadows by casting a ray, called a shadow ray, from each point of 
+	 * intersection toward the light source. If something intersects that shadow ray between the 
+	 * point and the light source, then the point is considered to be in shadow.
+	 */
+	@Test
+	@Order(13)
+	public void testIsShadowed() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Points and shadows");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Get the default World
+		World theWorld = getDefaultWorld();
+		
+		// There is no shadow when nothing is collinear with point and light
+		Tuple aPoint = Factory.point(0, 10, 0);
+		
+		// Nothing at all lies along the line connecting the point and the light source, and the 
+		// point should therefore not be in shadow
+		boolean isShadowed = WorldOperations.isShadowed(theWorld, aPoint);
+		
+		assertEquals(false, isShadowed, "The point should not be shadowed!");
+		
+		// The shadow when an object is between the point and the light
+		aPoint = Factory.point(10, -10, 10);
+		
+		// The point is placed on the far side of the default world’s spheres, putting them between 
+		// it and the light source.
+		// The point should be in the shadow cast by the spheres
+		isShadowed = WorldOperations.isShadowed(theWorld, aPoint);
+		
+		assertEquals(true, isShadowed, "The point should be shadowed!");
+		
+		// There is no shadow when an object is behind the light
+		aPoint = Factory.point(-20, 20, -20);
+		
+		// The point so the light lies between it and the spheres.
+		// The point should not be in shadow, because nothing lies between the point and the light
+		isShadowed = WorldOperations.isShadowed(theWorld, aPoint);
+		
+		assertEquals(false, isShadowed, "The point should not be shadowed!");
+		
+		// There is no shadow when an object is behind the point
+		aPoint = Factory.point(-2, -2, -2);
+		
+		// The last test is similar, but it positions the point to lie between the light and the 
+		// spheres.
+		// Nothing lies between the light and the point, so the point is still not shadowed
+		isShadowed = WorldOperations.isShadowed(theWorld, aPoint);
+		
+		assertEquals(false, isShadowed, "The point should not be shadowed!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Demonstrate the case where some object is shadowing the point of intersection, it creates a 
+	 * world and two spheres, and positions a light so that the second sphere is in the shadow of 
+	 * the first. Then, a ray and an intersection are created such that the point of intersection is 
+	 * in the shadow. The shadeHit() function should return only the ambient color of the second 
+	 * sphere in this case.
+	 */
+	@Test
+	@Order(14)
+	public void testIsShadowed2() {
+		logger.info(Constants.SEPARATOR_JUNIT + "shadeHit() is given an intersection in shadow");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		World theWorld = Factory.world();
+		
+		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
+		theWorld.setLight(light);
+		
+		Sphere sphere1 = Factory.sphere();
+		theWorld.addObject(sphere1);
+		
+		Sphere sphere2 = Factory.sphere();
+		sphere2.setTransform(Factory.translationMatrix(0, 0, 10));
+		theWorld.addObject(sphere2);
+		
+		Ray aRay = Factory.ray(Factory.point(0, 0, 5), Factory.vector(0, 0, 1));
+		
+		Intersection intersection = Factory.intersection(4, sphere2);
+		
+		Computations computations = WorldOperations.prepareComputations(intersection, aRay);
+		
+		Color result = WorldOperations.shadeHit(theWorld, computations);
+		
+		assertEquals(Factory.color(0.1, 0.1, 0.1), result, "Wrong Color retrieved!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * sets up a sphere and an intersection such that the intersection occurs at z=0. After calling 
+	 * the prepareComputations(), there should be a new attribute, over_point, which will be almost 
+	 * identical to point, with the z component slightly less than z=0.
+	 */
+	@Test
+	@Order(15)
+	public void testIsShadowed3() {
+		logger.info(Constants.SEPARATOR_JUNIT + "The hit should offset the point");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Ray aRay = Factory.ray(Factory.point(0, 0, -5), Factory.vector(0, 0, 1));
+		
+		Sphere shape = Factory.sphere();
+		shape.setTransform(Factory.translationMatrix(0, 0, 1));
+		
+		Intersection intersection = Factory.intersection(5, shape);
+		
+		Computations computations = WorldOperations.prepareComputations(intersection, aRay);
+		
+		// Compares the over_point’s z component to half of -EPSILON to make sure the point has been 
+		// adjusted in the correct direction
+		boolean result = computations.getOverPoint().getZ() < -(MiscOperations.EPSILON / 2);
+		assertEquals(true, result, "Wrong overPoint retrieved!");
+		
+		result = computations.getPoint().getZ() > computations.getOverPoint().getZ();
+		assertEquals(true, result, "Wrong point retrieved!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

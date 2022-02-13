@@ -22,6 +22,9 @@ public class Computations {
 	
 	// Will be true if the hit occurs inside the object, and false otherwise
 	private boolean inside;
+	
+	// Almost identical to point, with the z component slightly less than z=0
+	private Tuple overPoint;
 
 	public double getT() {
 		return t;
@@ -69,6 +72,14 @@ public class Computations {
 
 	public void setInside(boolean inside) {
 		this.inside = inside;
+	}
+
+	public Tuple getOverPoint() {
+		return overPoint;
+	}
+
+	public void setOverPoint(Tuple overPoint) {
+		this.overPoint = overPoint;
 	}
 
 	@Override

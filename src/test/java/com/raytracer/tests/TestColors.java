@@ -198,7 +198,8 @@ public class TestColors {
 		Tuple eyeVector = Factory.vector(0, 0, -1);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
+		boolean inShadow = false;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1.9, 1.9, 1.9);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -228,7 +229,8 @@ public class TestColors {
 		Tuple eyeVector = Factory.vector(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
+		boolean inShadow = false;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1, 1, 1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -258,7 +260,8 @@ public class TestColors {
 		Tuple eyeVector = Factory.vector(0, 0, -1);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
+		boolean inShadow = false;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(0.7364, 0.7364, 0.7364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -288,7 +291,8 @@ public class TestColors {
 		Tuple eyeVector = Factory.vector(0, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
+		boolean inShadow = false;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1.6364, 1.6364, 1.6364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -316,12 +320,43 @@ public class TestColors {
 		Tuple eyeVector = Factory.vector(0, 0, -1);
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, 10), Factory.color(1, 1, 1));
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector);
+		boolean inShadow = false;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
-
+	
+	/*
+	 * It’s identical to the one titled “Lighting with the eye between the light and the surface”, 
+	 * where the specular and diffuse components were both at their maximum values, but this time 
+	 * you’re going to pass a new argument to the lighting() function indicating that the point is 
+	 * in shadow. It should cause the diffuse and specular components to be ignored, resulting in 
+	 * the ambient value alone contributing to the lighting.
+	 */
+	@Test
+	@Order(11)
+	public void testShadow() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Lighting with the surface in shadow");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Common information
+		Material material = Factory.material();
+		Tuple position = Factory.point(0, 0, 0);
+		
+		// Lighting with the eye between the light and the surface
+		Tuple eyeVector = Factory.vector(0, 0, -1);
+		Tuple normalVector = Factory.vector(0, 0, -1);
+		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
+		boolean inShadow = true;
+		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		
+		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
+		assertEquals(expectedResult, result, "Wrong color for this lighting!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+		
 }

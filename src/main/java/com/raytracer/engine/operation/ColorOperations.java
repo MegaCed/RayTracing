@@ -111,7 +111,7 @@ public class ColorOperations {
 	 *  In a nutshell, it will add together the material’s ambient, diffuse, and specular 
 	 *  components, weighted by the angles between the different vectors.
 	 */
-	public static Color lithting(Material aMaterial, PointLight lightSource, Tuple illluminatedPoint, Tuple eyeVector, Tuple normalVector) {
+	public static Color lithting(Material aMaterial, PointLight lightSource, Tuple illluminatedPoint, Tuple eyeVector, Tuple normalVector, boolean inShadow) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Lighting a point...");
 		logger.debug("Material: " + aMaterial);
 		logger.debug("Light source: " + lightSource);
@@ -134,32 +134,42 @@ public class ColorOperations {
 		
 		Color diffuse;
 		Color specular;
+		Color result;
 		
-		// A negative number means the light is on the other side of the surface
-		if (lightDotNormal < 0) {
-			diffuse = Constants.COLOR_BLACK;
-			specular = Constants.COLOR_BLACK;
-		} else {
-			// Compute the diffuse contribution
-			diffuse = ColorOperations.mul(ColorOperations.mul(effectiveColor, aMaterial.getDiffuse()), lightDotNormal);
-			
-			// reflectDotEye represents the cosine of the angle between the reflection vector and 
-			// the eye vector
-			Tuple reflectVector = TupleOperations.reflect(TupleOperations.neg(lightVector), normalVector);
-			double reflectDotEye = TupleOperations.dot(reflectVector, eyeVector);
-			
-			// A negative number means the light reflects away from the eye
-			if (reflectDotEye < 0) {
+		// ignore the specular and diffuse components when in_shadow is true
+		if (!inShadow) {
+			// A negative number means the light is on the other side of the surface
+			if (lightDotNormal < 0) {
+				diffuse = Constants.COLOR_BLACK;
 				specular = Constants.COLOR_BLACK;
 			} else {
-				// compute the specular contribution
-				double factor = Math.pow(reflectDotEye, aMaterial.getShininess());
-				specular = ColorOperations.mul(ColorOperations.mul(lightSource.getIntensity(), aMaterial.getSpecular()), factor);
+				// Compute the diffuse contribution
+				diffuse = ColorOperations.mul(ColorOperations.mul(effectiveColor, aMaterial.getDiffuse()), lightDotNormal);
+				
+				// reflectDotEye represents the cosine of the angle between the reflection vector and 
+				// the eye vector
+				Tuple reflectVector = TupleOperations.reflect(TupleOperations.neg(lightVector), normalVector);
+				double reflectDotEye = TupleOperations.dot(reflectVector, eyeVector);
+				
+				// A negative number means the light reflects away from the eye
+				if (reflectDotEye < 0) {
+					specular = Constants.COLOR_BLACK;
+				} else {
+					// compute the specular contribution
+					double factor = Math.pow(reflectDotEye, aMaterial.getShininess());
+					specular = ColorOperations.mul(ColorOperations.mul(lightSource.getIntensity(), aMaterial.getSpecular()), factor);
+				}
 			}
+			
+			// Add the three contributions together to get the final shading
+			result = ColorOperations.add(ColorOperations.add(ambient, diffuse), specular);
+		} else {
+			// The diffuse component relies on the vector to the light source, and the specular 
+			// component depends on the reflection vector.
+			// Since both components have a dependency on the light source, the lighting() function 
+			// should ignore them when the point is in shadow and use only the ambient component
+			result = ambient;
 		}
-		
-		// Add the three contributions together to get the final shading
-		Color result = ColorOperations.add(ColorOperations.add(ambient, diffuse), specular);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Result of lighting = " + result);
 		return result;

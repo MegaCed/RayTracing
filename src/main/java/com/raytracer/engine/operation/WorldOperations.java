@@ -86,6 +86,12 @@ public class WorldOperations {
 			result.setInside(false);
 		}
 		
+		// Compute the overPoint
+		// EPSILON is the tiny number discussed in Comparing Floating Point Numbers, and is used 
+		// here to bump the point just a bit in the direction of the normal
+		Tuple overPoint = TupleOperations.add(result.getPoint(), TupleOperations.mul(result.getNormalVector(), MiscOperations.EPSILON));
+		result.setOverPoint(overPoint);
+		
 		logger.debug(Constants.SEPARATOR_RESULT + "Computations created = " + result);
 		return result;
 	}
@@ -97,11 +103,15 @@ public class WorldOperations {
 	public static Color shadeHit(World aWorld, Computations computations) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Shading the color between: " + aWorld + " and: " + computations);
 		
+		// You need to check whether the point is in shadow or not
+		boolean inShadow = isShadowed(aWorld, computations.getOverPoint());
+		
 		Color result = ColorOperations.lithting(((Sphere)(computations.getObject())).getMaterial(), 
 				aWorld.getLight(), 
 				computations.getPoint(), 
 				computations.getEyeVector(), 
-				computations.getNormalVector());
+				computations.getNormalVector(),
+				inShadow);
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Shaded color = " + result);
 		return result;
@@ -202,6 +212,45 @@ public class WorldOperations {
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Rendered image = " + image);
 		return image;
+	}
+	
+	/*
+	 * A ray tracer computes shadows by casting a ray, called a shadow ray, from each point of 
+	 * intersection toward the light source. If something intersects that shadow ray between the 
+	 * point and the light source, then the point is considered to be in shadow.
+	 */
+	public static boolean isShadowed(World theWorld, Tuple aPoint) {
+		logger.debug(Constants.SEPARATOR_OPERATION + "Checks if the point: " + aPoint + " is shadowed for the world: " + theWorld);
+		
+		boolean result;
+		
+		// Measure the distance from point to the light source by subtracting point from the light 
+		// position, and taking the magnitude of the resulting vector.
+		// Call this distance
+		Tuple vector = TupleOperations.sub(theWorld.getLight().getPosition(), aPoint);
+		double distance = TupleOperations.magnitude(vector);
+		
+		// Create a ray from point toward the light source by normalizing the vector from step 1
+		Tuple direction = TupleOperations.normalize(vector);
+		Ray ray = Factory.ray(aPoint, direction);
+		
+		// Intersect the world with that ray
+		Intersections intersections = WorldOperations.intersectWorld(theWorld, ray);
+		
+		// Check to see if there was a hit, and if so, whether t is less than distance. If so, the 
+		// hit lies between the point and the light source, and the point is in shadow
+		Intersection hit = SphereOperations.hit(intersections);
+		
+		// The hit’s t will never be negative, so you don’t need to worry about checking for 
+		// intersections that occur behind the point
+		if (hit != null && hit.getT() < distance) {
+			result = true;
+		} else {
+			result = false;
+		}
+		
+		logger.debug(Constants.SEPARATOR_RESULT + "Is point shadowed = " + result);
+		return result;
 	}
 	
 }
