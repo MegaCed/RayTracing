@@ -36,8 +36,8 @@ public class TestCamera {
 		logger.info(Constants.SEPARATOR_JUNIT + "Constructing a camera");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		double hSize = 160;
-		double vSize = 120;
+		int hSize = 160;
+		int vSize = 120;
 		double fieldOfView = Math.PI / 2;
 		
 		Camera camera = Factory.camera(hSize, vSize, fieldOfView);

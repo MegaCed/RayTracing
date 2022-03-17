@@ -16,7 +16,7 @@ public class World {
 	private PointLight light;
 	
 	// The World's Objects
-	private List objects;
+	private List<Shape> objects;
 
 	/*
 	 * Constructor.
@@ -24,13 +24,13 @@ public class World {
 	public World() {
 		// The default Light for this World
 		this.light = Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1));
-		this.objects = new ArrayList();
+		this.objects = new ArrayList<Shape>();
 	}
 	
 	/*
 	 * Adds an object to this World.
 	 */
-	public void addObject(Object anObject) {
+	public void addObject(Shape anObject) {
 		objects.add(anObject);
 	}
 	
@@ -42,11 +42,11 @@ public class World {
 		this.light = light;
 	}
 
-	public List getObjects() {
+	public List<Shape> getObjects() {
 		return objects;
 	}
 
-	public void setObjects(List objects) {
+	public void setObjects(List<Shape> objects) {
 		this.objects = objects;
 	}
 	

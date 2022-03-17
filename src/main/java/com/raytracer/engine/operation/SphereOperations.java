@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Intersection;
-import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Ray;
+import com.raytracer.engine.element.Shape;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
@@ -17,19 +17,17 @@ import com.raytracer.engine.misc.Constants;
 /*
  * Performs various operations on Spheres.
  */
-public class SphereOperations {
+public class SphereOperations extends ShapeOperations {
 	
 	private static Logger logger = LoggerFactory.getLogger(SphereOperations.class);
 	
 	/*
-	 * Returns the collection of t values where the ray intersects the sphere.
+	 * See method in super class.
 	 */
-	public static List<Intersection> intersects(Sphere aSphere, Ray originalRay) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Computing intersections between: " + aSphere + " and " + originalRay);
-		
-		// You’ll need to make sure the ray passed to intersect is transformed by the inverse of the 
-		// sphere’s transformation matrix.
-		Ray aRay = RayOperations.transform(originalRay, MatrixOperations.inverse(aSphere.getTransform()));
+	@Override
+	public List<Intersection> localIntersect(Shape aShape, Ray aRay) {		
+		// Get real object's type
+		Sphere aSphere = (Sphere) aShape;
 		
 		// The vector from the sphere's center, to the ray origin
 		// Remember: the sphere is centered 
@@ -76,102 +74,20 @@ public class SphereOperations {
 			intersections.add(intersection2);
 		}
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Intersections = " + intersections);
 		return intersections;
 	}
 	
 	/*
-	 * This function returns the hit from a collection of intersection records.
-	 * 
-	 * You can ignore all intersections with negative t values when determining the hit. 
-	 * In fact, the hit will always be the intersection with the lowest nonnegative t value.
+	 * See method in super class.
 	 */
-	@Deprecated
-	public static Intersection hit(Intersection... intersections) {
-		// MAX_VALUE is the mathematical maximum value for doubles
-		double lowestT = Double.MAX_VALUE;
-		Intersection result = null;
-		
-		// Find the lowest non-negative t value
-		for (int i = 0; i < intersections.length; i++) {
-			Intersection anIntersection = intersections[i];
-			
-			if (0 <= anIntersection.getT() && lowestT > anIntersection.getT()) {
-				// This is the current lowest hit
-				lowestT = anIntersection.getT();
-				result = anIntersection;
-			}
-		}
-		
-		return result;
-	}
-	
-	/*
-	 * Enhanced version of the previous method, taking a sorted Intersections object.
-	 */
-	public static Intersection hit(Intersections intersections) {
-		Intersection result = null;
-		
-		// Return the first non-negative t value
-		for (Intersection anIntersection : intersections.getIntersections()) {
-			if (anIntersection.getT() >= 0) {
-				// This is the current lowest hit
-				result = anIntersection;
-				break;
-			}
-		}
-		
-		return result;
-	}
-	
-	/*
-	 * Return the normal on the given sphere, at the given point.
-	 * You may assume that the point will always be on the surface of the sphere.
-	 * 
-	 * A surface normal (or just normal) is a vector that points perpendicular to a surface at a 
-	 * given point.
-	 * 
-	 * Let’s say you want to find the normal at a point. Draw an arrow from the origin of the circle 
-	 * to that point. It turns out that this arrow—this vector!—is perpendicular to the surface of 
-	 * the circle at the point where it intersects. It’s the normal! 
-	 * Algorithmically speaking, you find the normal by taking the point in question and subtracting 
-	 * the origin of the sphere.
-	 */
-	public static Tuple normalAt(Sphere aSphere, Tuple worldPoint) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Computing normal for: " + aSphere + " and " + worldPoint);
-		
-		// You have a point in world space, and you want to know the normal on the corresponding 
-		// surface in object space. What to do? Well, first you have to convert the point from world 
-		// space to object space by multiplying the point by the inverse of the transformation 
-		// matrix
-		Tuple objectPoint = MatrixOperations.mul(MatrixOperations.inverse(aSphere.getTransform()), worldPoint);
-		
+	@Override
+	public Tuple localNormalAt(Shape aShape, Tuple objectPoint) {
 		// With that point now in object space, you can compute the normal as before, because in 
 		// object space, the sphere’s origin is at the world’s origin
 		Tuple sphereOrigin = Factory.point(0, 0, 0);
 		Tuple objectNormal = TupleOperations.normalize(TupleOperations.sub(objectPoint, sphereOrigin));
 		
-		// However! The normal vector you get will also be in object space... and to draw anything 
-		// useful with it you’re going to need to convert it back to world space.
-		// So how do you go about keeping the normals perpendicular to their surface? The answer is 
-		// to multiply the normal by the inverse transpose matrix instead. So you take your 
-		// transformation matrix, invert it, and then transpose the result. This is what you need to 
-		// multiply the normal by.
-		Tuple worldNormal = MatrixOperations.mul(MatrixOperations.transpose(MatrixOperations.inverse(aSphere.getTransform())), objectNormal);
-				
-		// Multiplying by its transpose will wind up mucking with the w coordinate in your vector, 
-		// which will wreak all kinds of havoc in later computations. But if you don’t mind a bit of 
-		// a hack, you can avoid all that by just setting world_normal.w to 0 after multiplying by 
-		// the 4x4 inverse transpose matrix
-		worldNormal.setW(0);
-		
-		// The inverse transpose matrix may change the length of your vector, so if you feed it a 
-		// vector of length 1 (a normalized vector), you may not get a normalized vector out! It’s 
-		// best to be safe, and always normalize the result
-		Tuple normal = TupleOperations.normalize(worldNormal);
-		
-		logger.debug(Constants.SEPARATOR_RESULT + "Normal = " + normal);
-		return normal;
+		return objectNormal;
 	}
-
+	
 }

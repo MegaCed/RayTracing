@@ -328,6 +328,7 @@ public class MatrixOperations {
 		// Fail if the Matrix is not invertible
 		double determinant = determinant(aMatrix);
 		if (determinant == 0) {
+			logger.error("ERROR: the Matrix is not invertible!!");
 			// An exception would be better...
 			return null;
 		}

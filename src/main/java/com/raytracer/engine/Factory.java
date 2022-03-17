@@ -13,6 +13,7 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
 import com.raytracer.engine.element.Sphere;
@@ -413,12 +414,23 @@ public class Factory {
 	/*
 	 * Creates a Camera object.
 	 */
-	public static Camera camera(double hSize, double vSize, double fieldOfView) {
+	public static Camera camera(int hSize, int vSize, double fieldOfView) {
 		Camera theCamera = new Camera(hSize, vSize, fieldOfView);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Camera: " + theCamera);
 		
 		return theCamera;
+	}
+	
+	/*
+	 * Creates a Plane object.
+	 */
+	public static Plane plane() {
+		Plane thePlane = new Plane();
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Plane: " + thePlane);
+		
+		return thePlane;
 	}
 	
 }

@@ -15,7 +15,7 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Ray;
-import com.raytracer.engine.element.Sphere;
+import com.raytracer.engine.element.Shape;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
@@ -39,9 +39,9 @@ public class WorldOperations {
 		List<Intersection> intersections = new ArrayList<Intersection>();
 		
 		// Iterate over the World's intersections
-		for (Object anObject: aWorld.getObjects()) {
+		for (Shape aShape: aWorld.getObjects()) {
 			// Add all the intersections to the List
-			intersections.addAll(SphereOperations.intersects((Sphere)anObject, aRay));
+			intersections.addAll(aShape.getOperations().intersects(aShape, aRay));
 		}
 		
 		Intersections result = Factory.intersections(intersections);
@@ -73,7 +73,8 @@ public class WorldOperations {
 		Tuple eyeVector = TupleOperations.neg(aRay.getDirection());
 		result.setEyeVector(eyeVector);
 		
-		Tuple normalVector = SphereOperations.normalAt((Sphere)result.getObject(), result.getPoint());
+		Shape aShape = (Shape)result.getObject();
+		Tuple normalVector = aShape.getOperations().normalAt(aShape, result.getPoint());
 		result.setNormalVector(normalVector);
 		
 		// How can you know — mathematically — if the normal points away from the eye vector? 
@@ -86,7 +87,11 @@ public class WorldOperations {
 			result.setInside(false);
 		}
 		
-		// Compute the overPoint
+		// Computers cannot represent floating point numbers very precisely. In general they do 
+		// okay, but because of rounding errors, it will be impossible to say exactly where a ray 
+		// intersectsa surface. The answer you get will be close—generally within a tiny margin
+		// of error—but that wiggle is sometimes just enough to cause the calculated point of 
+		// intersection to lie beneath the actual surface of the sphere.
 		// EPSILON is the tiny number discussed in Comparing Floating Point Numbers, and is used 
 		// here to bump the point just a bit in the direction of the normal
 		Tuple overPoint = TupleOperations.add(result.getPoint(), TupleOperations.mul(result.getNormalVector(), MiscOperations.EPSILON));
@@ -106,7 +111,7 @@ public class WorldOperations {
 		// You need to check whether the point is in shadow or not
 		boolean inShadow = isShadowed(aWorld, computations.getOverPoint());
 		
-		Color result = ColorOperations.lithting(((Sphere)(computations.getObject())).getMaterial(), 
+		Color result = ColorOperations.lithting(((Shape)(computations.getObject())).getMaterial(), 
 				aWorld.getLight(), 
 				computations.getPoint(), 
 				computations.getEyeVector(), 
@@ -130,10 +135,8 @@ public class WorldOperations {
 		Intersections intersections = intersectWorld(aWorld, aRay);
 		
 		// Find the hit from the resulting intersections
-		Intersection hit = null;
-		if (intersections.getIntersections().size() > 0) {
-			hit = intersections.getIntersections().get(0);
-		} else {
+		Intersection hit = ShapeOperations.hit(intersections);
+		if (hit == null) {
 			// Return the color black if there is no such intersection.
 			return Constants.COLOR_BLACK;
 		}
@@ -156,7 +159,7 @@ public class WorldOperations {
 	 * The function then returns to you the corresponding transformation matrix.
 	 */
 	public static Matrix viewTransform(Tuple from, Tuple to, Tuple up) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Transforming view from: " + from + " - to: " + to + " - up: " + up);
+		logger.info(Constants.SEPARATOR_OPERATION + "Transforming view from: " + from + " - to: " + to + " - up: " + up);
 		
 		// Compute the forward vector by subtracting from from to. Normalize the result
 		Tuple vector = TupleOperations.sub(to, from);
@@ -183,7 +186,7 @@ public class WorldOperations {
 		// translation(-from.x, -from.y, -from.z), and you’re golden!
 		Matrix result = MatrixOperations.mul(orientation, Factory.translationMatrix(-from.getX(), -from.getY(), -from.getZ()));
 		
-		logger.debug(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
+		logger.info(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
 		return result;
 	}
 	
@@ -198,12 +201,15 @@ public class WorldOperations {
 	public static Canvas render(Camera aCamera, World theWorld) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Rendering image for: " + aCamera + " and: " + theWorld);
 		
-		// TODO: don't use casting!
-		Canvas image = Factory.canvas((int)aCamera.gethSize(), (int)aCamera.getvSize());
+		Canvas image = Factory.canvas(aCamera.gethSize(), aCamera.getvSize());
 		
 		for (int y = 0; y < aCamera.getvSize() -1; y++) {
+			String percentage = String.format("%" + 2 + ".0f", (double)y/(double)aCamera.getvSize()*100);
+			logger.info("- Processing: " + percentage + " %");
+			
 			for (int x = 0; x < aCamera.gethSize() -1; x++) {
 				Ray theRay = RayOperations.rayForPixel(aCamera, x, y);
+				
 				Color theColor = colorAt(theWorld, theRay);
 				
 				image.writePixel(x, y, theColor);

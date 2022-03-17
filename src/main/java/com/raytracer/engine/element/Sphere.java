@@ -4,47 +4,28 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.raytracer.engine.Factory;
+import com.raytracer.engine.operation.SphereOperations;
 
 /*
  * Just a simple motherfucking Sphere...
  */
-public class Sphere {
+public class Sphere extends Shape {
 	
-	// Unique ID
-	private String id;
-	
-	// Transformation
-	private Matrix transform;
-	
-	// The Material
-	private Material material;
+	private static final String NAME = "Sphere";
 	
 	/*
 	 * Constructor.
 	 */
 	public Sphere() {
-		// Should return a unique value each time it is invoked
-		id = UUID.randomUUID().toString();
+		super();
 		
-		// A sphere has a default transformation
-		transform = Factory.identityMatrix();
+		// Set the shape's operations to be used
+		setOperations(new SphereOperations());
 		
-		// A sphere has a default material
-		material = Factory.material();
+		// Set the shape's name
+		setName(NAME);
 	}
 	
-	/*
-	 * Prints this Sphere.
-	 */
-	@Override
-	public String toString() {
-		String result = "Sphere (id = " + id + ")";
-		
-		// TODO: print the transform property??
-		
-		return result;
-	}
-
 	/*
 	 * Test the equality of 2 Spheres.
 	 */
@@ -67,26 +48,6 @@ public class Sphere {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, transform);
-	}
-
-	public Matrix getTransform() {
-		return transform;
-	}
-
-	public void setTransform(Matrix transform) {
-		this.transform = transform;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Material getMaterial() {
-		return material;
-	}
-
-	public void setMaterial(Material material) {
-		this.material = material;
 	}
 	
 }

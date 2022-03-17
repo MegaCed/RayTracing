@@ -39,5 +39,7 @@ public interface Constants {
 	public static final Color COLOR_BLACK = new Color(0, 0, 0);
 	public static final Color COLOR_WHITE = new Color(1, 1, 1);
 	public static final Color COLOR_RED = new Color(1, 0, 0);
+	public static final Color COLOR_GREEN = new Color(0, 1, 0);
+	public static final Color COLOR_BLUE = new Color(0, 0, 1);
 
 }

@@ -55,7 +55,7 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		assertEquals(2, theIntersections.size(), "Wrong interactions size!");
 		assertEquals(4, theIntersections.get(0).getT(), "Wrong 1st interaction!");
@@ -89,7 +89,7 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
@@ -125,7 +125,7 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		assertEquals(0, theIntersections.size(), "Wrong interactions size!");
 		
@@ -158,7 +158,7 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
@@ -192,7 +192,7 @@ public class TestSpheres {
 		Sphere aSphere = Factory.sphere();
 		
 		// Retrieve the interactions
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		// Even though it truly intersects at only a single point, for simplicity’s sake you’ll have 
 		// your code return two intersections, with the same point at each
@@ -368,7 +368,7 @@ public class TestSpheres {
 		aSphere.setTransform(Factory.scalingMatrix(2, 2, 2));
 		
 		// Intersecting a scaled sphere with a ray
-		List<Intersection> theIntersections = SphereOperations.intersects(aSphere, aRay);
+		List<Intersection> theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		assertEquals(2, theIntersections.size(), "Wrong intersections size!");
 		assertEquals(3, theIntersections.get(0).getT(), "Wrong 1st intersection!");
@@ -378,7 +378,7 @@ public class TestSpheres {
 		aSphere.setTransform(Factory.translationMatrix(5, 0, 0));
 		
 		// Intersecting a translated sphere with a ray
-		theIntersections = SphereOperations.intersects(aSphere, aRay);
+		theIntersections = aSphere.getOperations().intersects(aSphere, aRay);
 		
 		assertEquals(0, theIntersections.size(), "Wrong intersections size!");
 		
@@ -401,7 +401,7 @@ public class TestSpheres {
 		Tuple aPoint = Factory.point(1, 0, 0);
 		
 		// The normal on a sphere at a point on the x axis
-		Tuple normal = SphereOperations.normalAt(aSphere, aPoint);
+		Tuple normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		Tuple expectedResult = Factory.vector(1, 0, 0);
 		assertEquals(expectedResult, normal, "Wrong normal for the X axis!");
@@ -410,7 +410,7 @@ public class TestSpheres {
 		aPoint = Factory.point(0, 1, 0);
 		
 		// The normal on a sphere at a point on the y axis
-		normal = SphereOperations.normalAt(aSphere, aPoint);
+		normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		expectedResult = Factory.vector(0, 1, 0);
 		assertEquals(expectedResult, normal, "Wrong normal for the Y axis!");
@@ -419,7 +419,7 @@ public class TestSpheres {
 		aPoint = Factory.point(0, 0, 1);
 		
 		// The normal on a sphere at a point on the z axis
-		normal = SphereOperations.normalAt(aSphere, aPoint);
+		normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		expectedResult = Factory.vector(0, 0, 1);
 		assertEquals(expectedResult, normal, "Wrong normal for the Z axis!");
@@ -428,7 +428,7 @@ public class TestSpheres {
 		aPoint = Factory.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
 		
 		// The normal on a sphere at a nonaxial point
-		normal = SphereOperations.normalAt(aSphere, aPoint);
+		normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		expectedResult = Factory.vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
 		assertEquals(expectedResult, normal, "Wrong normal for the point!");
@@ -463,7 +463,7 @@ public class TestSpheres {
 		Tuple aPoint = Factory.point(0, 1.70711, -0.70711);
 		
 		// Computing the normal on a translated sphere
-		Tuple normal = SphereOperations.normalAt(aSphere, aPoint);
+		Tuple normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		Tuple expectedResult = Factory.vector(0, 0.70711, -0.70711);
 		assertEquals(expectedResult, normal, "Wrong normal for the translated Sphere!");
@@ -480,7 +480,7 @@ public class TestSpheres {
 		aPoint = Factory.point(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
 		
 		// Computing the normal on a transformed sphere
-		normal = SphereOperations.normalAt(aSphere, aPoint);
+		normal = aSphere.getOperations().normalAt(aSphere, aPoint);
 		
 		expectedResult = Factory.vector(0, 0.97014, -0.24254);
 		assertEquals(expectedResult, normal, "Wrong normal for the transformed Sphere!");

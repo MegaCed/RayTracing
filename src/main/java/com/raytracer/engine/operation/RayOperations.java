@@ -73,7 +73,7 @@ public class RayOperations {
 	 * Assuming two inputs, px (the x position of the pixel) and py (the y position of the pixel)
 	 */
 	public static Ray rayForPixel(Camera aCamera, double px, double py) {
-		logger.debug(Constants.SEPARATOR_OPERATION + "Finding Ray for the Camera: " + aCamera + " - px: " + px + " - py:" + py);
+		logger.info(Constants.SEPARATOR_OPERATION + "Finding Ray for the Camera: " + aCamera + " - px: " + px + " - py:" + py);
 		
 		// The offset from the edge of the canvas to the pixel's center
 		double xOffset = (px + 0.5) * aCamera.getPixelSize();

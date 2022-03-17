@@ -15,10 +15,10 @@ import com.raytracer.engine.Factory;
 public class Camera {
 	
 	// The horizontal size (in pixels) of the canvas that the picture will be rendered to
-	private double hSize;
+	private int hSize;
 	
 	// The canvas’s vertical size (in pixels)
-	private double vSize;
+	private int vSize;
 	
 	// is an angle that describes how much the camera can see. When the field of view is small, the 
 	// view will be “zoomed in,” magnifying a smaller area of the scene
@@ -40,7 +40,7 @@ public class Camera {
 	/*
 	 * Constructor.
 	 */
-	public Camera(double hSize, double vSize, double fieldOfView) {
+	public Camera(int hSize, int vSize, double fieldOfView) {
 		this.hSize = hSize;
 		this.vSize = vSize;
 		this.fieldOfView = fieldOfView;
@@ -60,7 +60,7 @@ public class Camera {
 		double halfView = Math.tan(fieldOfView / 2);
 		
 		// The aspect ratio is the ratio of the horizontal size of the canvas, to its vertical size
-		double aspect = hSize / vSize;
+		double aspect = (double)hSize / (double)vSize;
 		
 		if (aspect >= 1) {
 			// Now, if the horizontal size is greater than or equal to the vertical size 
@@ -78,7 +78,7 @@ public class Camera {
 		
 		// Finally, compute the size of a single pixel on the canvas by dividing the full width the 
 		// canvas (half_width × 2) by the horizontal size (in pixels) of the canvas (hsize).
-		pixelSize = (halfWidth * 2) / hSize; 
+		pixelSize = (halfWidth * 2) / (double)hSize; 
 	}
 	
 	/*
@@ -91,12 +91,12 @@ public class Camera {
 		return result;
 	}
 
-	public double gethSize() {
+	public int gethSize() {
 		return hSize;
 	}
 
 
-	public double getvSize() {
+	public int getvSize() {
 		return vSize;
 	}
 

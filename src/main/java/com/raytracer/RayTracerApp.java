@@ -2,16 +2,12 @@ package com.raytracer;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +20,7 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.PortablePixmap;
 import com.raytracer.engine.element.Ray;
@@ -84,7 +81,10 @@ public class RayTracerApp {
 		//multiThreading();
 		
 		// Complete scene
-		basicScene();
+		//basicScene();
+		
+		// More complete scene
+		smallScene();
 		
 		logger.info("Done!");
 		
@@ -395,7 +395,7 @@ public class RayTracerApp {
 				// shadow is cast, which you’ll mark with a colored pixel
 				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
 				Ray aRay = Factory.ray(rayOrigin, rayDirection);
-				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+				Intersections intersections = Factory.intersections(aSphere.getOperations().intersects(aSphere, aRay));
 				
 				if (SphereOperations.hit(intersections) != null) {
 					aCanvas.writePixel(x, y, red);
@@ -448,7 +448,7 @@ public class RayTracerApp {
 				
 				Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
 				Ray aRay = Factory.ray(rayOrigin, rayDirection);
-				Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+				Intersections intersections = Factory.intersections(aSphere.getOperations().intersects(aSphere, aRay));
 				
 				Intersection hit = SphereOperations.hit(intersections);
 				
@@ -458,7 +458,8 @@ public class RayTracerApp {
 					// intersection, find the normal vector at the hit (the closest intersection), 
 					// and calculate the eye vector
 					Tuple point = RayOperations.position(aRay, hit.getT());
-					Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+					Sphere theHit = (Sphere)hit.getObject();
+					Tuple normal = aSphere.getOperations().normalAt(theHit, point);
 					Tuple eye = TupleOperations.neg(aRay.getDirection());
 					
 					// Finally, calculate the color with your lighting() function before applying it 
@@ -549,7 +550,7 @@ public class RayTracerApp {
 			
 			Tuple rayDirection = TupleOperations.normalize(TupleOperations.sub(position, rayOrigin));
 			Ray aRay = Factory.ray(rayOrigin, rayDirection);
-			Intersections intersections = Factory.intersections(SphereOperations.intersects(aSphere, aRay));
+			Intersections intersections = Factory.intersections(aSphere.getOperations().intersects(aSphere, aRay));
 			
 			Intersection hit = SphereOperations.hit(intersections);
 			
@@ -559,7 +560,8 @@ public class RayTracerApp {
 				// intersection, find the normal vector at the hit (the closest intersection), 
 				// and calculate the eye vector
 				Tuple point = RayOperations.position(aRay, hit.getT());
-				Tuple normal = SphereOperations.normalAt((Sphere)hit.getObject(), point);
+				Sphere theHit = (Sphere)hit.getObject();
+				Tuple normal = theHit.getOperations().normalAt(theHit, point);
 				Tuple eye = TupleOperations.neg(aRay.getDirection());
 				
 				// Finally, calculate the color with your lighting() function before applying it 
@@ -693,6 +695,95 @@ public class RayTracerApp {
 		Canvas theCanvas = WorldOperations.render(theCamera, theWorld);
 		PortablePixmap ppmFile = theCanvas.canvasToPPM();
 		ppmFile.writeToFile(PATH_LAPTOP + "basicScene.ppm");
+	}
+	
+	/*
+	 * Chapter 8: Write a small scene consisting of a single plane as the floor, and a sphere or two 
+	 * sitting atop it.
+	 */
+	private static void smallScene() {
+		// The floor
+		Plane floor = Factory.plane();
+		Material floorMaterial = Factory.material();
+		floorMaterial.setColor(Factory.color(1, 0.9, 0.9));
+		floorMaterial.setSpecular(0);
+		floor.setMaterial(floorMaterial);
+		
+		// The large sphere in the middle
+		Sphere ball = Factory.sphere();
+		ball.setTransform(Factory.translationMatrix(-0.5, 1, 0.5));
+		Material middleMaterial = Factory.material();
+		middleMaterial.setColor(Factory.color(0.1, 1, 0.5));
+		middleMaterial.setDiffuse(0.7);
+		middleMaterial.setSpecular(0.3);
+		ball.setMaterial(middleMaterial);
+		
+		// The light source
+		PointLight light = Factory.pointLight(Factory.point(-10, 10, -10), Constants.COLOR_WHITE);
+//		PointLight light = Factory.pointLight(Factory.point(-5, 5, -5), Constants.COLOR_WHITE);
+		World theWorld = Factory.world();
+		theWorld.setLight(light);
+		
+		// Add a wall as a backdrop by rotating it π⁄2 radians around the x axis and translating it 
+		// a few units in the positive z direction
+		Plane wall = Factory.plane();
+		Material wallMaterial = Factory.material();
+		wallMaterial.setColor(Constants.COLOR_RED);
+		wallMaterial.setDiffuse(0.7);
+		wallMaterial.setSpecular(0.3);
+		wall.setMaterial(wallMaterial);
+		wall.setTransform(MatrixOperations.mul(Factory.translationMatrix(0, 0, 50), Factory.xRotationMatrix(Math.PI/2)));
+		
+		// Make a hexagonal-shaped room by carefully rotating and translating planes, and then 
+		// position the camera from above, looking down, so you can see the geometry in action
+//		Plane wall2 = Factory.plane();
+//		wall2.setMaterial(wallMaterial);
+//		Matrix wallMatrix = MatrixOperations.mul(Factory.translationMatrix(0, 0, 20), Factory.xRotationMatrix(Math.PI/2));
+//		wallMatrix = MatrixOperations.mul(wallMatrix, Factory.zRotationMatrix(Math.PI/3));
+//		wall2.setTransform(wallMatrix);
+		
+//		Plane wall3 = Factory.plane();
+//		wall3.setMaterial(wallMaterial);
+//		wallMatrix = MatrixOperations.mul(wallMatrix, Factory.zRotationMatrix(Math.PI/3));
+//		wall3.setTransform(wallMatrix);
+		
+//		Plane wall4 = Factory.plane();
+//		wall4.setMaterial(wallMaterial);
+//		Matrix wallMatrix2 = MatrixOperations.mul(Factory.translationMatrix(0, 0, -6), Factory.xRotationMatrix(Math.PI/2));
+//		wall4.setTransform(wallMatrix2);
+		
+		// Add a ceiling by translating another plane vertically, in y. (Be careful to position your 
+		// light source below the ceiling!)
+//		Plane ceiling = Factory.plane();
+//		Material ceilingMaterial = Factory.material();
+//		ceilingMaterial.setColor(Constants.COLOR_GREEN);
+//		ceilingMaterial.setDiffuse(0.7);
+//		ceilingMaterial.setSpecular(0.3);
+//		ceiling.setMaterial(ceilingMaterial);
+//		ceiling.setTransform(Factory.translationMatrix(0, 15, 0));
+		
+		// Instead of displaying an entire sphere atop the plane, translate the sphere so it is 
+		// partially embedded in the plane.
+		ball.setTransform(Factory.translationMatrix(0, -0.2, 0));
+		
+		// Add the objects to the world
+		theWorld.addObject(floor);
+		theWorld.addObject(ball);
+		theWorld.addObject(wall);
+//		theWorld.addObject(ceiling);
+//		theWorld.addObject(wall2);
+//		theWorld.addObject(wall3);
+//		theWorld.addObject(wall4);
+		
+		// The camera
+		Camera theCamera = Factory.camera(50, 50, Math.PI / 3);
+		theCamera.setTransform(WorldOperations.viewTransform(Factory.point(0, 1.5, -5), Factory.point(0, 1, 0), Factory.vector(0, 1, 0)));
+//		theCamera.setTransform(WorldOperations.viewTransform(Factory.point(0, 8, -2), Factory.point(0, 1, 0.1), Factory.vector(0, 1, 0)));
+		
+		// Render the result to a canvas
+		Canvas theCanvas = WorldOperations.render(theCamera, theWorld);
+		PortablePixmap ppmFile = theCanvas.canvasToPPM();
+		ppmFile.writeToFile(PATH_LAPTOP + "smallScene.ppm");
 	}
 	
 }
