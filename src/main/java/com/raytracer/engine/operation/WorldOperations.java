@@ -159,7 +159,7 @@ public class WorldOperations {
 	 * The function then returns to you the corresponding transformation matrix.
 	 */
 	public static Matrix viewTransform(Tuple from, Tuple to, Tuple up) {
-		logger.info(Constants.SEPARATOR_OPERATION + "Transforming view from: " + from + " - to: " + to + " - up: " + up);
+		logger.debug(Constants.SEPARATOR_OPERATION + "Transforming view from: " + from + " - to: " + to + " - up: " + up);
 		
 		// Compute the forward vector by subtracting from from to. Normalize the result
 		Tuple vector = TupleOperations.sub(to, from);
@@ -186,7 +186,7 @@ public class WorldOperations {
 		// translation(-from.x, -from.y, -from.z), and you’re golden!
 		Matrix result = MatrixOperations.mul(orientation, Factory.translationMatrix(-from.getX(), -from.getY(), -from.getZ()));
 		
-		logger.info(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
+		logger.debug(Constants.SEPARATOR_RESULT + "Transformation Matrix = " + result);
 		return result;
 	}
 	
