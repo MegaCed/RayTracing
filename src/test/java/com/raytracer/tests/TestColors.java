@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Material;
+import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
@@ -355,6 +356,42 @@ public class TestColors {
 		
 		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Test some colors for the given pattern and point.
+	 */
+	@Test
+	@Order(12)
+	public void testStripePAttern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Stripe patterns");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Creating a stripe pattern
+		Pattern aPattern = Factory.stripePattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		
+		assertEquals(Constants.COLOR_WHITE, aPattern.getA(), "Wrong color for this pattern!");
+		assertEquals(Constants.COLOR_BLACK, aPattern.getB(), "Wrong color for this pattern!");
+		
+		// A stripe pattern is constant in y
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 1, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 2, 0)), "Wrong color for this location!");
+		
+		// A stripe pattern is constant in z
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 0, 1)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 0, 2)), "Wrong color for this location!");
+		
+		// A stripe pattern alternates in x
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(0.9, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_BLACK, ColorOperations.stripeAt(aPattern, Factory.point(1, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_BLACK, ColorOperations.stripeAt(aPattern, Factory.point(-0.1, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_BLACK, ColorOperations.stripeAt(aPattern, Factory.point(-1, 0, 0)), "Wrong color for this location!");
+		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(-1.1, 0, 0)), "Wrong color for this location!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

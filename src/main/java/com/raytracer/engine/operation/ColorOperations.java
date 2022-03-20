@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Material;
+import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
@@ -173,6 +174,23 @@ public class ColorOperations {
 		
 		logger.debug(Constants.SEPARATOR_RESULT + "Result of lighting = " + result);
 		return result;
+	}
+	
+	/*
+	 * Function that chooses the color at a given point.
+	 */
+	public static Color stripeAt(Pattern aPattern, Tuple aPoint) {
+		// As the x coordinate changes, the pattern alternates between the two colors. The other two 
+		// dimensions, y and z, have no effect on it.
+		double x = aPoint.getX();
+
+		// That is to say, if the x coordinate is between 0 and 1, return the first color. If 
+		// between 1 and 2, return the second, and so forth, alternating between the two.
+		if (Math.floor(x) % 2 == 0) {
+			return aPattern.getA();
+		} else {
+			return aPattern.getB();
+		}
 	}
 	
 }

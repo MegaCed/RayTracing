@@ -13,6 +13,7 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
@@ -431,6 +432,17 @@ public class Factory {
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Plane: " + thePlane);
 		
 		return thePlane;
+	}
+	
+	/*
+	 * Creates a Pattern object.
+	 */
+	public static Pattern stripePattern(Color a, Color b) {
+		Pattern thePattern = new Pattern(a, b);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
+		
+		return thePattern;
 	}
 	
 }
