@@ -120,8 +120,16 @@ public class ColorOperations {
 		logger.debug("Eye vector: " + eyeVector);
 		logger.debug("Normal vector: " + normalVector);
 		
+		// Get the color from the pattern (via stripeAt()) if the material has a pattern set
+		Color theColor;
+		if (aMaterial.getPattern() != null) {
+			theColor = stripeAt(aMaterial.getPattern(), illluminatedPoint);
+		} else {
+			theColor = aMaterial.getColor();
+		}
+		
 		// Combine the surface color with the light's color/intensity
-		Color effectiveColor = ColorOperations.mul(aMaterial.getColor(), lightSource.getIntensity());
+		Color effectiveColor = ColorOperations.mul(theColor, lightSource.getIntensity());
 		
 		// Find the direction to the light source
 		Tuple lightVector = TupleOperations.normalize(TupleOperations.sub(lightSource.getPosition(), illluminatedPoint));

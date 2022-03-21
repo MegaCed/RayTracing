@@ -31,7 +31,7 @@ public class Pattern {
 	 */
 	@Override
 	public String toString() {
-		String result = "PAttern (A = " + a + ", B = " + b + ")";
+		String result = "Pattern (A = " + a + ", B = " + b + ")";
 		
 		return result;
 	}

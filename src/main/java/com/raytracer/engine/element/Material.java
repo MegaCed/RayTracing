@@ -38,6 +38,9 @@ public class Material {
 	// The higher the shininess, the smaller and tighter the specular highlight
 	private double shininess;
 	
+	// The Material's color Pattern
+	private Pattern pattern;
+	
 	/*
 	 * Constructor.
 	 */
@@ -111,30 +114,45 @@ public class Material {
 		}
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(ambient, color, diffuse, shininess, specular);
+	public Pattern getPattern() {
+		return pattern;
 	}
 
+	public void setPattern(Pattern pattern) {
+		this.pattern = pattern;
+	}
+	
 	/*
-	 * Test the equality of 2 Materials.
+	 * Prints this Material.
 	 */
+	@Override
+	public String toString() {
+		return "Material (color=" + color 
+				+ ", ambient=" + ambient 
+				+ ", diffuse=" + diffuse 
+				+ ", specular=" + specular
+				+ ", shininess=" + shininess 
+				+ ", pattern=" + pattern + ")";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ambient, color, diffuse, pattern, shininess, specular);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
 		if (obj == null)
 			return false;
-		
 		if (getClass() != obj.getClass())
 			return false;
-		
 		Material other = (Material) obj;
-		
 		return Double.doubleToLongBits(ambient) == Double.doubleToLongBits(other.ambient)
 				&& Objects.equals(color, other.color)
 				&& Double.doubleToLongBits(diffuse) == Double.doubleToLongBits(other.diffuse)
+				&& Objects.equals(pattern, other.pattern)
 				&& Double.doubleToLongBits(shininess) == Double.doubleToLongBits(other.shininess)
 				&& Double.doubleToLongBits(specular) == Double.doubleToLongBits(other.specular);
 	}

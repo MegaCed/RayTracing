@@ -365,7 +365,7 @@ public class TestColors {
 	 */
 	@Test
 	@Order(12)
-	public void testStripePAttern() {
+	public void testStripePattern() {
 		logger.info(Constants.SEPARATOR_JUNIT + "Stripe patterns");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
@@ -392,6 +392,41 @@ public class TestColors {
 		assertEquals(Constants.COLOR_BLACK, ColorOperations.stripeAt(aPattern, Factory.point(-0.1, 0, 0)), "Wrong color for this location!");
 		assertEquals(Constants.COLOR_BLACK, ColorOperations.stripeAt(aPattern, Factory.point(-1, 0, 0)), "Wrong color for this location!");
 		assertEquals(Constants.COLOR_WHITE, ColorOperations.stripeAt(aPattern, Factory.point(-1.1, 0, 0)), "Wrong color for this location!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Show that the lighting() function (from The Phong Reflection Model) returns the color from 
+	 * the pattern.
+	 */
+	@Test
+	@Order(13)
+	public void testLightningPattern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Lightning patterns");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Lighting with a pattern applied
+		Pattern pattern = Factory.stripePattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		
+		// the test uses a material with only ambient illumination. This is a handy trick for making 
+		// sure the lighting() function returns an easily predictable color, since the color won’t 
+		// be affected by angles, normals, or lights
+		Material material = Factory.material();
+		material.setPattern(pattern);
+		material.setAmbient(1);
+		material.setDiffuse(0);
+		material.setSpecular(0);
+		
+		Tuple eyeVector = Factory.vector(0, 0, -1);
+		Tuple normalVector = Factory.vector(0, 0, -1);
+		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Constants.COLOR_WHITE);
+		
+		Color color1 = ColorOperations.lithting(material, light, Factory.point(0.9, 0, 0), eyeVector, normalVector, false);
+		Color color2 = ColorOperations.lithting(material, light, Factory.point(1.1, 0, 0), eyeVector, normalVector, false);
+		
+		assertEquals(Constants.COLOR_WHITE, color1, "Wrong color for this light!");
+		assertEquals(Constants.COLOR_BLACK, color2, "Wrong color for this light!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
