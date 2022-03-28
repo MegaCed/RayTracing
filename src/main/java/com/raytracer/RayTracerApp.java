@@ -464,7 +464,7 @@ public class RayTracerApp {
 					
 					// Finally, calculate the color with your lighting() function before applying it 
 					// to the canvas
-					Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal, false);
+					Color theColor = ColorOperations.lithting(hit.getObject().getMaterial(), hit.getObject(), light, point, eye, normal, false);
 					
 					aCanvas.writePixel(x, y, theColor);
 				}
@@ -566,7 +566,7 @@ public class RayTracerApp {
 				
 				// Finally, calculate the color with your lighting() function before applying it 
 				// to the canvas
-				Color theColor = ColorOperations.lithting(((Sphere)hit.getObject()).getMaterial(), light, point, eye, normal, false);
+				Color theColor = ColorOperations.lithting(hit.getObject().getMaterial(), hit.getObject(), light, point, eye, normal, false);
 				
 				synchronized(RayTracerApp.class) {
 					aCanvas.writePixel(x, y, theColor);

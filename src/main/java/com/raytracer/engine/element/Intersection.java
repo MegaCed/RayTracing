@@ -15,12 +15,12 @@ public class Intersection {
 	private double t;
 	
 	// The intersected object
-	private Object object;
+	private Shape object;
 
 	/*
 	 * Constructor.
 	 */
-	public Intersection(double t, Object o) {
+	public Intersection(double t, Shape o) {
 		this.t = t;
 		this.object = o;
 	}
@@ -65,11 +65,11 @@ public class Intersection {
 		this.t = t;
 	}
 
-	public Object getObject() {
+	public Shape getObject() {
 		return object;
 	}
 
-	public void setObject(Object object) {
+	public void setObject(Shape object) {
 		this.object = object;
 	}
 	

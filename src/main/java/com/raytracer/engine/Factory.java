@@ -13,11 +13,12 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
-import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
+import com.raytracer.engine.element.Shape;
 import com.raytracer.engine.element.Sphere;
+import com.raytracer.engine.element.StripePattern;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.element.World;
 import com.raytracer.engine.misc.Constants;
@@ -349,7 +350,7 @@ public class Factory {
 	/*
 	 * Creates an Intersection.
 	 */
-	public static Intersection intersection(double t, Object o) {
+	public static Intersection intersection(double t, Shape o) {
 		Intersection anIntersection = new Intersection(t, o);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Intersection: " + anIntersection);
@@ -435,10 +436,10 @@ public class Factory {
 	}
 	
 	/*
-	 * Creates a Pattern object.
+	 * Creates a StripePattern object.
 	 */
-	public static Pattern stripePattern(Color a, Color b) {
-		Pattern thePattern = new Pattern(a, b);
+	public static StripePattern stripePattern(Color a, Color b) {
+		StripePattern thePattern = new StripePattern(a, b);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
 		

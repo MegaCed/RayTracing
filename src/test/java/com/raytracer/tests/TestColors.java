@@ -14,6 +14,8 @@ import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.PointLight;
+import com.raytracer.engine.element.Shape;
+import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 import com.raytracer.engine.operation.ColorOperations;
@@ -23,6 +25,14 @@ import com.raytracer.engine.operation.MiscOperations;
 public class TestColors {
 	
 	private static Logger logger = LoggerFactory.getLogger(TestColors.class);
+	
+	/*
+	 * This function's job will be to help you test the behaviors of the abstract pattern superclass 
+	 * by returning a special implementation used only for the tests.
+	 */
+	private Pattern getTestPattern() {
+		return Factory.stripePattern(Constants.COLOR_BLACK, Constants.COLOR_WHITE);
+	}
 	
 	/*
 	 * Test the creation of a new Color.
@@ -200,7 +210,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
 		boolean inShadow = false;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1.9, 1.9, 1.9);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -231,7 +242,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
 		boolean inShadow = false;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1, 1, 1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -262,7 +274,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
 		boolean inShadow = false;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(0.7364, 0.7364, 0.7364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -293,7 +306,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 10, -10), Factory.color(1, 1, 1));
 		boolean inShadow = false;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(1.6364, 1.6364, 1.6364);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -322,7 +336,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, 10), Factory.color(1, 1, 1));
 		boolean inShadow = false;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -352,7 +367,8 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Factory.color(1, 1, 1));
 		boolean inShadow = true;
-		Color result = ColorOperations.lithting(material, light, position, eyeVector, normalVector, inShadow);
+		Shape aShape = Factory.sphere();
+		Color result = ColorOperations.lithting(material, aShape, light, position, eyeVector, normalVector, inShadow);
 		
 		Color expectedResult = Factory.color(0.1, 0.1, 0.1);
 		assertEquals(expectedResult, result, "Wrong color for this lighting!");
@@ -422,11 +438,122 @@ public class TestColors {
 		Tuple normalVector = Factory.vector(0, 0, -1);
 		PointLight light = Factory.pointLight(Factory.point(0, 0, -10), Constants.COLOR_WHITE);
 		
-		Color color1 = ColorOperations.lithting(material, light, Factory.point(0.9, 0, 0), eyeVector, normalVector, false);
-		Color color2 = ColorOperations.lithting(material, light, Factory.point(1.1, 0, 0), eyeVector, normalVector, false);
+		Shape aShape = Factory.sphere();
+		
+		Color color1 = ColorOperations.lithting(material, aShape, light, Factory.point(0.9, 0, 0), eyeVector, normalVector, false);
+		Color color2 = ColorOperations.lithting(material, aShape, light, Factory.point(1.1, 0, 0), eyeVector, normalVector, false);
 		
 		assertEquals(Constants.COLOR_WHITE, color1, "Wrong color for this light!");
 		assertEquals(Constants.COLOR_BLACK, color2, "Wrong color for this light!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Test the Patterns transformations.
+	 */
+	@Test
+	@Order(14)
+	public void testPatternTransformations() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Stripes patterns");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Stripes with an object transformation
+		Sphere sphere1 = Factory.sphere();
+		sphere1.setTransform(Factory.scalingMatrix(2, 2, 2));
+		
+		Pattern pattern = Factory.stripePattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		
+		Color stripeAtObject = ColorOperations.stripeAtObject(pattern, sphere1, Factory.point(1.5, 0, 0));
+		
+		assertEquals(Constants.COLOR_WHITE, stripeAtObject, "Wrong color for this object!");
+		
+		// Stripes with a pattern transformation
+		Sphere sphere2 = Factory.sphere();
+		
+		Pattern pattern2 = Factory.stripePattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		pattern2.setTransform(Factory.scalingMatrix(2, 2, 2));
+		
+		Color stripeAtObject2 = ColorOperations.stripeAtObject(pattern2, sphere2, Factory.point(1.5, 0, 0));
+		
+		assertEquals(Constants.COLOR_WHITE, stripeAtObject2, "Wrong color for this object!");
+		
+		// Stripes with both an object and a pattern transformation
+		Sphere sphere3 = Factory.sphere();
+		sphere3.setTransform(Factory.scalingMatrix(2, 2, 2));
+		
+		Pattern pattern3 = Factory.stripePattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		pattern3.setTransform(Factory.translationMatrix(0.5, 0, 0));
+		
+		Color stripeAtObject3 = ColorOperations.stripeAtObject(pattern3, sphere3, Factory.point(2.5, 0, 0));
+		
+		assertEquals(Constants.COLOR_WHITE, stripeAtObject3, "Wrong color for this object!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * Basic tests on abstract Patterns.
+	 */
+	@Test
+	@Order(15)
+	public void testPattern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Test patterns");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// The default pattern transformation
+		Pattern aPattern = getTestPattern();
+		
+		assertEquals(Factory.identityMatrix(), aPattern.getTransform(), "Wrong transformation matrix for this pattern!");
+		
+		// Next, show that the pattern’s transformation can be assigned
+		aPattern.setTransform(Factory.translationMatrix(1, 2, 3));
+		
+		assertEquals(Factory.translationMatrix(1, 2, 3), aPattern.getTransform(), "Wrong translation matrix for this pattern!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * The following tests replace the ones you wrote earlier in the chapter, testing the stripe 
+	 * pattern’s transformations.
+	 */
+	@Test
+	@Order(16)
+	public void testPatternTransformations2() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Patterns transformations");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		// Test the patternAtShape() function to see that it correctly transforms the points before 
+		// calling the concrete function
+		
+		// A pattern with an object transformation
+		Shape shape = Factory.sphere();
+		shape.setTransform(Factory.scalingMatrix(2, 2, 2));
+		Pattern pattern = getTestPattern();
+		
+		Color color = pattern.getOperations().patternAtShape(pattern, shape, Factory.point(2, 3, 4));
+		
+		assertEquals(Factory.color(1, 1.5, 2), color, "Wrong color for this shape!");
+		
+		// A pattern with a pattern transformation
+		Shape shape2 = Factory.sphere();
+		Pattern pattern2 = getTestPattern();
+		pattern2.setTransform(Factory.scalingMatrix(2, 2, 2));
+		
+		Color color2 = pattern.getOperations().patternAtShape(pattern2, shape2, Factory.point(2, 3, 4));
+		
+		assertEquals(Factory.color(1, 1.5, 2), color2, "Wrong color for this shape!");
+		
+		// A pattern with both an object and a pattern transformation
+		Shape shape3 = Factory.sphere();
+		shape3.setTransform(Factory.scalingMatrix(2, 2, 2));
+		Pattern pattern3 = getTestPattern();
+		pattern3.setTransform(Factory.translationMatrix(0.5, 1, 1.5));
+		
+		Color color3 = pattern3.getOperations().patternAtShape(pattern3, shape3, Factory.point(2.5, 3, 3.5));
+		
+		assertEquals(Factory.color(0.75, 0.5, 0.25), color3, "Wrong color for this shape!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

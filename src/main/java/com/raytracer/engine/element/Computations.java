@@ -9,7 +9,7 @@ public class Computations {
 	private double t;
 	
 	// The object
-	private Object object;
+	private Shape object;
 	
 	// The point (in world space) where the intersection occurred
 	private Tuple point;
@@ -34,11 +34,11 @@ public class Computations {
 		this.t = t;
 	}
 
-	public Object getObject() {
+	public Shape getObject() {
 		return object;
 	}
 
-	public void setObject(Object object) {
+	public void setObject(Shape object) {
 		this.object = object;
 	}
 

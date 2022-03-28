@@ -111,7 +111,9 @@ public class WorldOperations {
 		// You need to check whether the point is in shadow or not
 		boolean inShadow = isShadowed(aWorld, computations.getOverPoint());
 		
-		Color result = ColorOperations.lithting(((Shape)(computations.getObject())).getMaterial(), 
+		Color result = ColorOperations.lithting(
+				computations.getObject().getMaterial(), 
+				computations.getObject(),
 				aWorld.getLight(), 
 				computations.getPoint(), 
 				computations.getEyeVector(), 

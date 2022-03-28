@@ -1,9 +1,7 @@
 package com.raytracer.engine.element;
 
 import java.util.Objects;
-import java.util.UUID;
 
-import com.raytracer.engine.Factory;
 import com.raytracer.engine.operation.SphereOperations;
 
 /*

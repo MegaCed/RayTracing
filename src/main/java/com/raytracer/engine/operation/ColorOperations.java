@@ -7,6 +7,7 @@ import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.PointLight;
+import com.raytracer.engine.element.Shape;
 import com.raytracer.engine.element.Tuple;
 import com.raytracer.engine.misc.Constants;
 
@@ -112,9 +113,10 @@ public class ColorOperations {
 	 *  In a nutshell, it will add together the material’s ambient, diffuse, and specular 
 	 *  components, weighted by the angles between the different vectors.
 	 */
-	public static Color lithting(Material aMaterial, PointLight lightSource, Tuple illluminatedPoint, Tuple eyeVector, Tuple normalVector, boolean inShadow) {
+	public static Color lithting(Material aMaterial, Shape anObject, PointLight lightSource, Tuple illluminatedPoint, Tuple eyeVector, Tuple normalVector, boolean inShadow) {
 		logger.debug(Constants.SEPARATOR_OPERATION + "Lighting a point...");
 		logger.debug("Material: " + aMaterial);
+		logger.debug("Shape: " + anObject);
 		logger.debug("Light source: " + lightSource);
 		logger.debug("Illuminated point: " + illluminatedPoint);
 		logger.debug("Eye vector: " + eyeVector);
@@ -123,7 +125,8 @@ public class ColorOperations {
 		// Get the color from the pattern (via stripeAt()) if the material has a pattern set
 		Color theColor;
 		if (aMaterial.getPattern() != null) {
-			theColor = stripeAt(aMaterial.getPattern(), illluminatedPoint);
+//			theColor = stripeAtObject(aMaterial.getPattern(), anObject, illluminatedPoint);
+			theColor = aMaterial.getPattern().getOperations().patternAtShape(aMaterial.getPattern(), anObject, illluminatedPoint);
 		} else {
 			theColor = aMaterial.getColor();
 		}
@@ -187,6 +190,7 @@ public class ColorOperations {
 	/*
 	 * Function that chooses the color at a given point.
 	 */
+	@Deprecated
 	public static Color stripeAt(Pattern aPattern, Tuple aPoint) {
 		// As the x coordinate changes, the pattern alternates between the two colors. The other two 
 		// dimensions, y and z, have no effect on it.
@@ -199,6 +203,25 @@ public class ColorOperations {
 		} else {
 			return aPattern.getB();
 		}
+	}
+	
+	/*
+	 * It should return the color for the given pattern, on the given object, at the given 
+	 * world-space point, and it should respect the transformations on both the pattern and the 
+	 * object while doing so.
+	 */
+	@Deprecated
+	public static Color stripeAtObject(Pattern aPattern, Shape aShape, Tuple worldPoint) {
+		// Multiply the given world-space point by the inverse of the object’s transformation 
+		// matrix, to convert the point to object space
+		Tuple objectPoint = MatrixOperations.mul(MatrixOperations.inverse(aShape.getTransform()), worldPoint);
+		
+		// Then, multiply the object-space point by the inverse of the pattern’s transformation 
+		// matrix to convert that point to pattern space
+		Tuple patterntPoint = MatrixOperations.mul(MatrixOperations.inverse(aPattern.getTransform()), objectPoint);
+		
+		// Pass the resulting point to your original stripeAt() function, and return the result
+		return stripeAt(aPattern, patterntPoint);
 	}
 	
 }
