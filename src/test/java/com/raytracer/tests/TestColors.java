@@ -518,42 +518,94 @@ public class TestColors {
 	 * The following tests replace the ones you wrote earlier in the chapter, testing the stripe 
 	 * pattern’s transformations.
 	 */
+//	@Deprecated
+//	@Order(16)
+//	public void testPatternTransformations2() {
+//		logger.info(Constants.SEPARATOR_JUNIT + "Patterns transformations");
+//		logger.info(Constants.SEPARATOR_JUNIT);
+//		
+//		// Test the patternAtShape() function to see that it correctly transforms the points before 
+//		// calling the concrete function
+//		
+//		// A pattern with an object transformation
+//		Shape shape = Factory.sphere();
+//		shape.setTransform(Factory.scalingMatrix(2, 2, 2));
+//		Pattern pattern = getTestPattern();
+//		
+//		Color color = pattern.getOperations().patternAtShape(pattern, shape, Factory.point(2, 3, 4));
+//		
+//		assertEquals(Factory.color(1, 1.5, 2), color, "Wrong color for this shape!");
+//		
+//		// A pattern with a pattern transformation
+//		Shape shape2 = Factory.sphere();
+//		Pattern pattern2 = getTestPattern();
+//		pattern2.setTransform(Factory.scalingMatrix(2, 2, 2));
+//		
+//		Color color2 = pattern.getOperations().patternAtShape(pattern2, shape2, Factory.point(2, 3, 4));
+//		
+//		assertEquals(Factory.color(1, 1.5, 2), color2, "Wrong color for this shape!");
+//		
+//		// A pattern with both an object and a pattern transformation
+//		Shape shape3 = Factory.sphere();
+//		shape3.setTransform(Factory.scalingMatrix(2, 2, 2));
+//		Pattern pattern3 = getTestPattern();
+//		pattern3.setTransform(Factory.translationMatrix(0.5, 1, 1.5));
+//		
+//		Color color3 = pattern3.getOperations().patternAtShape(pattern3, shape3, Factory.point(2.5, 3, 3.5));
+//		
+//		assertEquals(Factory.color(0.75, 0.5, 0.25), color3, "Wrong color for this shape!");
+//		
+//		logger.info(Constants.SEPARATOR_JUNIT);
+//	}
+	
+	/*
+	 * The following test show how a basic linear gradient pattern ought to work.
+	 */
 	@Test
-	@Order(16)
-	public void testPatternTransformations2() {
-		logger.info(Constants.SEPARATOR_JUNIT + "Patterns transformations");
+	@Order(17)
+	public void testGradientPattern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "A gradient linearly interpolates between colors");
 		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		// Test the patternAtShape() function to see that it correctly transforms the points before 
-		// calling the concrete function
+		Pattern gradientPattern = Factory.gradientPattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
 		
-		// A pattern with an object transformation
-		Shape shape = Factory.sphere();
-		shape.setTransform(Factory.scalingMatrix(2, 2, 2));
-		Pattern pattern = getTestPattern();
+		Color result = gradientPattern.getOperations().patternAt(gradientPattern, Factory.point(0, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
 		
-		Color color = pattern.getOperations().patternAtShape(pattern, shape, Factory.point(2, 3, 4));
+		result = gradientPattern.getOperations().patternAt(gradientPattern, Factory.point(0.25, 0, 0));
+		assertEquals(Factory.color(0.75, 0.75, 0.75), result, "Wrong color for this Pattern!");
 		
-		assertEquals(Factory.color(1, 1.5, 2), color, "Wrong color for this shape!");
+		result = gradientPattern.getOperations().patternAt(gradientPattern, Factory.point(0.5, 0, 0));
+		assertEquals(Factory.color(0.5, 0.5, 0.5), result, "Wrong color for this Pattern!");
 		
-		// A pattern with a pattern transformation
-		Shape shape2 = Factory.sphere();
-		Pattern pattern2 = getTestPattern();
-		pattern2.setTransform(Factory.scalingMatrix(2, 2, 2));
+		result = gradientPattern.getOperations().patternAt(gradientPattern, Factory.point(0.75, 0, 0));
+		assertEquals(Factory.color(0.25, 0.25, 0.25), result, "Wrong color for this Pattern!");
 		
-		Color color2 = pattern.getOperations().patternAtShape(pattern2, shape2, Factory.point(2, 3, 4));
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
+	
+	/*
+	 * You’re checking to make sure that these rings extend in both x and z.
+	 */
+	@Test
+	@Order(18)
+	public void testRingPattern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "A ring should extend in both x and z");
+		logger.info(Constants.SEPARATOR_JUNIT);
 		
-		assertEquals(Factory.color(1, 1.5, 2), color2, "Wrong color for this shape!");
+		Pattern ringPattern = Factory.ringPattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
 		
-		// A pattern with both an object and a pattern transformation
-		Shape shape3 = Factory.sphere();
-		shape3.setTransform(Factory.scalingMatrix(2, 2, 2));
-		Pattern pattern3 = getTestPattern();
-		pattern3.setTransform(Factory.translationMatrix(0.5, 1, 1.5));
+		Color result = ringPattern.getOperations().patternAt(ringPattern, Factory.point(0, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
 		
-		Color color3 = pattern3.getOperations().patternAtShape(pattern3, shape3, Factory.point(2.5, 3, 3.5));
+		result = ringPattern.getOperations().patternAt(ringPattern, Factory.point(1, 0, 0));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
 		
-		assertEquals(Factory.color(0.75, 0.5, 0.25), color3, "Wrong color for this shape!");
+		result = ringPattern.getOperations().patternAt(ringPattern, Factory.point(0, 0, 1));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
+		
+		result = ringPattern.getOperations().patternAt(ringPattern, Factory.point(0.708, 0, 0.708));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}

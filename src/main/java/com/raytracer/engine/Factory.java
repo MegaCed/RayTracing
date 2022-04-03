@@ -9,6 +9,7 @@ import com.raytracer.engine.element.Camera;
 import com.raytracer.engine.element.Canvas;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
+import com.raytracer.engine.element.GradientPattern;
 import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
@@ -16,6 +17,7 @@ import com.raytracer.engine.element.Matrix;
 import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.Ray;
+import com.raytracer.engine.element.RingPattern;
 import com.raytracer.engine.element.Shape;
 import com.raytracer.engine.element.Sphere;
 import com.raytracer.engine.element.StripePattern;
@@ -440,6 +442,28 @@ public class Factory {
 	 */
 	public static StripePattern stripePattern(Color a, Color b) {
 		StripePattern thePattern = new StripePattern(a, b);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
+		
+		return thePattern;
+	}
+	
+	/*
+	 * Creates a GradientPattern object.
+	 */
+	public static GradientPattern gradientPattern(Color a, Color b) {
+		GradientPattern thePattern = new GradientPattern(a, b);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
+		
+		return thePattern;
+	}
+	
+	/*
+	 * Creates a RingPattern object.
+	 */
+	public static RingPattern ringPattern(Color a, Color b) {
+		RingPattern thePattern = new RingPattern(a, b);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
 		

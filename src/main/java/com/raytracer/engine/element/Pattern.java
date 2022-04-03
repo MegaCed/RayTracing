@@ -13,6 +13,9 @@ public abstract class Pattern {
 	private Color a;
 	private Color b;
 	
+	// The Shape's name
+	protected String name;
+	
 	// Every pattern will have a transformation matrix, and every pattern will need to use it to 
 	// help transform a given point from world space to pattern space before producing a color
 	private Matrix transform;
@@ -38,6 +41,14 @@ public abstract class Pattern {
 
 	public Color getB() {
 		return b;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Matrix getTransform() {

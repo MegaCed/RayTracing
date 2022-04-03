@@ -1,12 +1,11 @@
 package com.raytracer.engine.operation;
 
-import com.raytracer.engine.Factory;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.Tuple;
 
 /*
- * 
+ * Operations for Stripe Patterns.
  */
 public class StripePatternOperations extends PatternOperations {
 	
@@ -17,9 +16,6 @@ public class StripePatternOperations extends PatternOperations {
 	 */
 	@Override
 	public Color patternAt(Pattern aPattern, Tuple aPoint) {
-		// TODO: Temporary implementation!
-//		return Factory.color(aPoint.getX(), aPoint.getY(), aPoint.getZ());
-		
 		// As the x coordinate changes, the pattern alternates between the two colors. The other two 
 		// dimensions, y and z, have no effect on it.
 		double x = aPoint.getX();
