@@ -20,6 +20,7 @@ import com.raytracer.engine.element.Intersection;
 import com.raytracer.engine.element.Intersections;
 import com.raytracer.engine.element.Material;
 import com.raytracer.engine.element.Matrix;
+import com.raytracer.engine.element.Pattern;
 import com.raytracer.engine.element.Plane;
 import com.raytracer.engine.element.PointLight;
 import com.raytracer.engine.element.PortablePixmap;
@@ -84,7 +85,10 @@ public class RayTracerApp {
 		//basicScene();
 		
 		// More complete scene
-		smallScene();
+		//smallScene();
+		
+		// Testing Patterns
+		patternsScene();
 		
 		logger.info("Done!");
 		
@@ -698,7 +702,7 @@ public class RayTracerApp {
 	}
 	
 	/*
-	 * Chapter 8: Write a small scene consisting of a single plane as the floor, and a sphere or two 
+	 * Chapter 9: Write a small scene consisting of a single plane as the floor, and a sphere or two 
 	 * sitting atop it.
 	 */
 	private static void smallScene() {
@@ -784,6 +788,40 @@ public class RayTracerApp {
 		Canvas theCanvas = WorldOperations.render(theCamera, theWorld);
 		PortablePixmap ppmFile = theCanvas.canvasToPPM();
 		ppmFile.writeToFile(PATH_LAPTOP + "smallScene.ppm");
+	}
+	
+	/*
+	 * Chapter 10: Okay! You have working implementations of four different patterns: stripes, 
+	 * gradients, rings, and checkers. Your first order of business, then, should be to take them 
+	 * all for a spin! Try them each on planes and spheres, scale them, rotate them, experiment with 
+	 * different colors, and get a feel for how these patterns behave in practice.
+	 */
+	private static void patternsScene() {
+		// The Pattern
+		Pattern aPattern = Factory.checkerPattern(Constants.COLOR_BLACK, Constants.COLOR_WHITE);
+		Material aMaterial = Factory.material();
+		aMaterial.setPattern(aPattern);
+		
+		// A floor
+		Plane floor = Factory.plane();
+		floor.setMaterial(aMaterial);
+		
+		// The light source
+		PointLight light = Factory.pointLight(Factory.point(-10, 10, -10), Factory.color(1, 1, 1));
+		World theWorld = Factory.world();
+		theWorld.setLight(light);
+		
+		// Add the objects to the world
+		theWorld.addObject(floor);
+		
+		// And the camera is configured like so
+		Camera theCamera = Factory.camera(100, 50, Math.PI / 3);
+		theCamera.setTransform(WorldOperations.viewTransform(Factory.point(0, 1.5, -5), Factory.point(0, 1, 0), Factory.vector(0, 1, 0)));
+		
+		// Render the result to a canvas
+		Canvas theCanvas = WorldOperations.render(theCamera, theWorld);
+		PortablePixmap ppmFile = theCanvas.canvasToPPM();
+		ppmFile.writeToFile(PATH_LAPTOP + "patternsScene.ppm");
 	}
 	
 }

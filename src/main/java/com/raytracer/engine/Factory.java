@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.raytracer.engine.element.Camera;
 import com.raytracer.engine.element.Canvas;
+import com.raytracer.engine.element.CheckerPattern;
 import com.raytracer.engine.element.Color;
 import com.raytracer.engine.element.Computations;
 import com.raytracer.engine.element.GradientPattern;
@@ -464,6 +465,17 @@ public class Factory {
 	 */
 	public static RingPattern ringPattern(Color a, Color b) {
 		RingPattern thePattern = new RingPattern(a, b);
+		
+		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
+		
+		return thePattern;
+	}
+	
+	/*
+	 * Creates a CheckerPattern object.
+	 */
+	public static CheckerPattern checkerPattern(Color a, Color b) {
+		CheckerPattern thePattern = new CheckerPattern(a, b);
 		
 		logger.debug(Constants.SEPARATOR_CREATION + "Creating new Pattern: " + thePattern);
 		

@@ -609,5 +609,50 @@ public class TestColors {
 		
 		logger.info(Constants.SEPARATOR_JUNIT);
 	}
+	
+	/*
+	 * The following tests for the 3D checkers, shows that the pattern does indeed repeat in all 
+	 * three dimensions.
+	 */
+	@Test
+	@Order(19)
+	public void testCheckerPattern() {
+		logger.info(Constants.SEPARATOR_JUNIT + "Testing 3d Checker Patterns");
+		logger.info(Constants.SEPARATOR_JUNIT);
+		
+		Pattern checkerPattern = Factory.checkerPattern(Constants.COLOR_WHITE, Constants.COLOR_BLACK);
+		
+		// Checkers should repeat in x
+		Color result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0.99, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(1.01, 0, 0));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
+		
+		// Checkers should repeat in y
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0.99, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 1.01, 0));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
+		
+		// Checkers should repeat in z
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0, 0));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0, 0.99));
+		assertEquals(Constants.COLOR_WHITE, result, "Wrong color for this Pattern!");
+		
+		result = checkerPattern.getOperations().patternAt(checkerPattern, Factory.point(0, 0, 1.01));
+		assertEquals(Constants.COLOR_BLACK, result, "Wrong color for this Pattern!");
+		
+		logger.info(Constants.SEPARATOR_JUNIT);
+	}
 		
 }
